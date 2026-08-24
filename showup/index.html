@@ -12,7 +12,6 @@
 
 <title>SHOWUP</title>
 
-
 <style>
 
 /* =====================================================
@@ -41,11 +40,6 @@ body {
         sans-serif;
 
 }
-
-
-/* =====================================================
-   PAGE
-   ===================================================== */
 
 body {
 
@@ -96,24 +90,8 @@ body {
 }
 
 
-/*
-   遊戲區內：
-   隱藏瀏覽器原生游標。
-
-   但只有 game 裡面會隱藏，
-   離開 game 後正常滑鼠會恢復。
-*/
-
-body.gameCursorActive,
-body.gameCursorActive * {
-
-    cursor: none !important;
-
-}
-
-
 /* =====================================================
-   SITE FOOTER
+   OFFICIAL WEBSITE
    ===================================================== */
 
 #siteFooter {
@@ -128,7 +106,6 @@ body.gameCursorActive * {
 
 }
 
-
 #siteFooter a {
 
     color: #555555;
@@ -138,7 +115,6 @@ body.gameCursorActive * {
     font-weight: bold;
 
 }
-
 
 #siteFooter a:hover {
 
@@ -153,9 +129,14 @@ body.gameCursorActive * {
    CUSTOM CURSOR
    ===================================================== */
 
+/*
+   只在遊戲區使用。
+   離開遊戲區後恢復正常瀏覽器游標。
+*/
+
 #customCursor {
 
-    position: fixed;
+    position: absolute;
 
     left: 0;
     top: 0;
@@ -163,26 +144,19 @@ body.gameCursorActive * {
     width: 0;
     height: 0;
 
+    display: none;
+
     pointer-events: none;
 
     z-index: 99999;
 
-    display: none;
-
 }
 
 
-/*
-   這兩個尺寸不是直接固定成螢幕 px。
-
-   JS 會依照 #game 的縮放比例更新：
-
-   25 logical px
-   ↓
-   實際螢幕顯示大小
-
-   因此一定會跟 Canvas 裡的 25×25 筆刷一致。
-*/
+/* -----------------------------------------------------
+   ① 筆刷範圍的視覺框
+   實際大小由 JS 依照遊戲縮放比例設定
+   ----------------------------------------------------- */
 
 #customCursorBox {
 
@@ -192,7 +166,6 @@ body.gameCursorActive * {
     top: 0;
 
     width: var(--brush-size);
-
     height: var(--brush-size);
 
     border: 2px solid white;
@@ -206,6 +179,10 @@ body.gameCursorActive * {
 }
 
 
+/* -----------------------------------------------------
+   ② 十字準心
+   ----------------------------------------------------- */
+
 #customCursorCross {
 
     position: absolute;
@@ -214,7 +191,6 @@ body.gameCursorActive * {
     top: 0;
 
     width: var(--crosshair-size);
-
     height: var(--crosshair-size);
 
     transform:
@@ -222,6 +198,8 @@ body.gameCursorActive * {
 
 }
 
+
+/* 橫線 */
 
 #customCursorCross::before {
 
@@ -233,7 +211,6 @@ body.gameCursorActive * {
     top: 50%;
 
     width: var(--crosshair-size);
-
     height: 2px;
 
     background: white;
@@ -247,6 +224,8 @@ body.gameCursorActive * {
 }
 
 
+/* 直線 */
+
 #customCursorCross::after {
 
     content: "";
@@ -257,7 +236,6 @@ body.gameCursorActive * {
     top: 0;
 
     width: 2px;
-
     height: var(--crosshair-size);
 
     background: white;
@@ -296,7 +274,6 @@ canvas {
     position: absolute;
 
     top: 14px;
-
     left: 18px;
 
     z-index: 20;
@@ -315,7 +292,6 @@ canvas {
 
 }
 
-
 #levelText {
 
     margin-right: 22px;
@@ -324,7 +300,7 @@ canvas {
 
 
 /* =====================================================
-   GAME MESSAGE
+   MESSAGE
    ===================================================== */
 
 #message {
@@ -358,7 +334,6 @@ canvas {
     pointer-events: none;
 
 }
-
 
 #message small {
 
@@ -400,7 +375,6 @@ canvas {
 
 }
 
-
 #startTitle {
 
     margin-bottom: 12px;
@@ -416,7 +390,6 @@ canvas {
 
 }
 
-
 #startNote {
 
     margin-bottom: 24px;
@@ -429,7 +402,6 @@ canvas {
         0 2px 6px #000000;
 
 }
-
 
 #startButton {
 
@@ -449,7 +421,6 @@ canvas {
 
 }
 
-
 #startButton:hover {
 
     background: white;
@@ -460,7 +431,7 @@ canvas {
 
 
 /* =====================================================
-   BONUS IMAGE
+   BONUS
    ===================================================== */
 
 #bonus {
@@ -477,7 +448,6 @@ canvas {
 
 }
 
-
 #bonus img {
 
     width: 100%;
@@ -489,13 +459,11 @@ canvas {
 
 }
 
-
 #bonusTitle {
 
     position: absolute;
 
     top: 18px;
-
     left: 50%;
 
     transform:
@@ -537,13 +505,11 @@ canvas {
 
 }
 
-
 #galleryHeader {
 
     position: absolute;
 
     top: 14px;
-
     left: 50%;
 
     transform:
@@ -562,20 +528,17 @@ canvas {
 
 }
 
-
 #galleryGrid {
 
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     transform:
         translate(-50%, -50%);
 
     width: 88%;
-
     height: 76%;
 
     display: grid;
@@ -589,7 +552,6 @@ canvas {
     gap: 14px;
 
 }
-
 
 .galleryThumb {
 
@@ -605,13 +567,11 @@ canvas {
 
 }
 
-
 .galleryThumb:hover {
 
     border-color: white;
 
 }
-
 
 .galleryThumb img {
 
@@ -624,13 +584,11 @@ canvas {
 
 }
 
-
 .galleryNumber {
 
     position: absolute;
 
     left: 8px;
-
     top: 6px;
 
     padding: 3px 8px;
@@ -665,33 +623,28 @@ canvas {
 
 }
 
-
 #galleryViewer img {
 
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     transform:
         translate(-50%, -50%);
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
 
 }
 
-
 #galleryCounter {
 
     position: absolute;
 
     top: 16px;
-
     left: 50%;
 
     transform:
@@ -710,7 +663,6 @@ canvas {
 
 }
 
-
 .galleryNav {
 
     position: absolute;
@@ -723,7 +675,6 @@ canvas {
     z-index: 310;
 
     width: 52px;
-
     height: 70px;
 
     border: 2px solid white;
@@ -739,7 +690,6 @@ canvas {
 
 }
 
-
 .galleryNav:hover {
 
     background: white;
@@ -748,13 +698,11 @@ canvas {
 
 }
 
-
 #galleryPrev {
 
     left: 18px;
 
 }
-
 
 #galleryNext {
 
@@ -762,13 +710,11 @@ canvas {
 
 }
 
-
 #galleryClose {
 
     position: absolute;
 
     right: 18px;
-
     top: 14px;
 
     z-index: 310;
@@ -790,7 +736,6 @@ canvas {
 
 }
 
-
 #galleryClose:hover {
 
     background: white;
@@ -799,13 +744,11 @@ canvas {
 
 }
 
-
 #galleryFooter {
 
     position: absolute;
 
     left: 50%;
-
     bottom: 28px;
 
     transform:
@@ -818,7 +761,6 @@ canvas {
     gap: 12px;
 
 }
-
 
 .galleryButton {
 
@@ -836,7 +778,6 @@ canvas {
     cursor: pointer;
 
 }
-
 
 .galleryButton:hover {
 
@@ -875,7 +816,6 @@ canvas {
 
 }
 
-
 #finalScreen h1 {
 
     margin: 0 0 16px 0;
@@ -886,7 +826,6 @@ canvas {
 
 }
 
-
 #finalScreen p {
 
     margin: 5px 0;
@@ -896,7 +835,6 @@ canvas {
     line-height: 1.7;
 
 }
-
 
 .finalButton {
 
@@ -920,7 +858,6 @@ canvas {
 
 }
 
-
 .finalButton:hover {
 
     background: white;
@@ -929,7 +866,6 @@ canvas {
 
 }
 
-
 </style>
 
 </head>
@@ -937,10 +873,6 @@ canvas {
 
 <body>
 
-
-<!-- =====================================================
-     GAME
-     ===================================================== -->
 
 <div id="game">
 
@@ -968,7 +900,6 @@ canvas {
             SHOWUP
         </div>
 
-
         <div id="startNote">
 
             Move the mouse to reveal the image.<br>
@@ -981,7 +912,6 @@ canvas {
 
         </div>
 
-
         <button id="startButton">
             PLAY SHOWUP
         </button>
@@ -990,7 +920,7 @@ canvas {
 
 
     <!-- =================================================
-         GAME CANVAS
+         CANVAS
          ================================================= -->
 
     <canvas id="canvas"></canvas>
@@ -1005,7 +935,6 @@ canvas {
         <span id="levelText">
             LEVEL 1 / 5
         </span>
-
 
         <span id="revealText">
             REVEAL 0%
@@ -1031,7 +960,6 @@ canvas {
             BONUS IMAGE UNLOCKED
         </div>
 
-
         <img
             id="bonusImage"
             src="secret/6.jpg"
@@ -1051,9 +979,7 @@ canvas {
             UNLOCKED GALLERY
         </div>
 
-
         <div id="galleryGrid"></div>
-
 
         <div id="galleryViewer">
 
@@ -1063,11 +989,9 @@ canvas {
                 alt="Gallery Image"
             >
 
-
             <div id="galleryCounter">
                 1 / 6
             </div>
-
 
             <button
                 id="galleryPrev"
@@ -1076,7 +1000,6 @@ canvas {
                 ‹
             </button>
 
-
             <button
                 id="galleryNext"
                 class="galleryNav"
@@ -1084,11 +1007,9 @@ canvas {
                 ›
             </button>
 
-
             <button id="galleryClose">
                 CLOSE
             </button>
-
 
             <div id="galleryFooter">
 
@@ -1116,16 +1037,13 @@ canvas {
             THANKS FOR PLAYING
         </h1>
 
-
         <p>
             SHOWUP COMPLETE
         </p>
 
-
         <p>
             All six images have been unlocked.
         </p>
-
 
         <button
             id="openGalleryButton"
@@ -1133,7 +1051,6 @@ canvas {
         >
             OPEN GALLERY
         </button>
-
 
         <a
             class="finalButton"
@@ -1150,7 +1067,7 @@ canvas {
 
 
 <!-- =====================================================
-     WEBSITE FOOTER
+     OFFICIAL WEBSITE
      ===================================================== -->
 
 <div id="siteFooter">
@@ -1166,291 +1083,229 @@ canvas {
 </div>
 
 
-
 <script>
 
-
-// =====================================================
-// DOM
-// =====================================================
+/* =====================================================
+   DOM
+   ===================================================== */
 
 const game =
     document.getElementById("game");
 
-
 const canvas =
     document.getElementById("canvas");
-
 
 const ctx =
     canvas.getContext("2d");
 
-
 const levelText =
     document.getElementById("levelText");
-
 
 const revealText =
     document.getElementById("revealText");
 
-
 const message =
     document.getElementById("message");
-
 
 const startScreen =
     document.getElementById("startScreen");
 
-
 const startButton =
     document.getElementById("startButton");
-
 
 const bonus =
     document.getElementById("bonus");
 
-
 const bonusImage =
     document.getElementById("bonusImage");
-
 
 const gallery =
     document.getElementById("gallery");
 
-
 const galleryGrid =
     document.getElementById("galleryGrid");
-
 
 const galleryViewer =
     document.getElementById("galleryViewer");
 
-
 const galleryImage =
     document.getElementById("galleryImage");
-
 
 const galleryCounter =
     document.getElementById("galleryCounter");
 
-
 const galleryPrev =
     document.getElementById("galleryPrev");
-
 
 const galleryNext =
     document.getElementById("galleryNext");
 
-
 const galleryClose =
     document.getElementById("galleryClose");
-
 
 const galleryBack =
     document.getElementById("galleryBack");
 
-
 const finalScreen =
     document.getElementById("finalScreen");
 
-
 const openGalleryButton =
     document.getElementById("openGalleryButton");
-
 
 const customCursor =
     document.getElementById("customCursor");
 
 
-
-// =====================================================
-// CANVAS
-// =====================================================
+/* =====================================================
+   CANVAS
+   ===================================================== */
 
 const WIDTH = 1280;
-
 const HEIGHT = 720;
 
 canvas.width = WIDTH;
-
 canvas.height = HEIGHT;
 
 
+/* =====================================================
+   ★★★ 三個完全獨立的尺寸 ★★★
+   ===================================================== */
 
-// =====================================================
-// GAME SETTINGS
-//
-// ★ 這裡就是最容易調整的地方
-//
-// BRUSH_SIZE
-// = 實際擦除 / 碰撞範圍
-//
-// CROSSHAIR_SIZE
-// = 十字準心大小
-//
-// 目前兩個都是 25。
-// =====================================================
+/*
+   ① 筆刷範圍
+   實際擦除圖片的大小。
+*/
+const BRUSH_SIZE = 50;
 
-const BRUSH_SIZE = 25;
 
+/*
+   ② 十字準心
+   玩家眼睛看到的十字大小。
+*/
 const CROSSHAIR_SIZE = 25;
 
 
-const BULLET_WIDTH = 190;
+/*
+   ③ 碰撞箱
+   彈幕真正判定 HIT 的大小。
+*/
+const COLLISION_SIZE = 25;
 
+
+/*
+   十字線粗細。
+*/
+const CROSSHAIR_THICKNESS = 2;
+
+
+const BULLET_WIDTH = 190;
 const BULLET_HEIGHT = 42;
 
 
+/* =====================================================
+   CURSOR SCALE
+   ===================================================== */
 
-// =====================================================
-// CURSOR SCALING
-//
-// ★ 不直接寫死 25px。
-//
-// Canvas 是 1280×720。
-// 如果畫面縮小成 640px 寬，
-// 25 logical px 就應該顯示成 12.5px。
-//
-// 因此這裡會自動換算。
-// =====================================================
+/*
+   Canvas 使用 1280×720 邏輯座標。
+
+   實際顯示如果縮小，
+   客製游標也跟著縮小。
+
+   注意：
+   這裡只控制「游標的視覺大小」，
+   不控制筆刷與碰撞邏輯。
+*/
 
 function updateCursorSize() {
 
     const rect =
         game.getBoundingClientRect();
 
-
     const scale =
         rect.width / WIDTH;
 
-
     customCursor.style.setProperty(
-
         "--brush-size",
-
         `${BRUSH_SIZE * scale}px`
-
     );
 
-
     customCursor.style.setProperty(
-
         "--crosshair-size",
-
         `${CROSSHAIR_SIZE * scale}px`
-
     );
 
 }
 
 
-
-// =====================================================
-// CUSTOM CURSOR SHOW / HIDE
-//
-// ★ 只有在遊戲區內隱藏系統游標。
-//
-// ★ Gallery 仍然位於 game 裡，
-//   所以 Gallery 也會使用客製游標。
-//
-// ★ 一離開 game，
-//   原生游標立即恢復。
-// =====================================================
+/* =====================================================
+   CUSTOM CURSOR SHOW / HIDE
+   ===================================================== */
 
 game.addEventListener(
-
     "mouseenter",
-
     () => {
-
-        document.body.classList.add(
-            "gameCursorActive"
-        );
-
 
         customCursor.style.display =
             "block";
 
-
         updateCursorSize();
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mouseleave",
-
     () => {
-
-        document.body.classList.remove(
-            "gameCursorActive"
-        );
-
 
         customCursor.style.display =
             "none";
 
     }
-
 );
 
 
-document.addEventListener(
+/*
+   游標位置。
 
+   注意：
+   customCursor 是 game 的子元素，
+   所以這裡使用 game 內的局部座標。
+*/
+
+game.addEventListener(
     "mousemove",
-
     event => {
 
-        if (
-            !document.body.classList.contains(
-                "gameCursorActive"
-            )
-        ) {
-
-            return;
-
-        }
-
+        const rect =
+            game.getBoundingClientRect();
 
         customCursor.style.left =
-            event.clientX + "px";
-
+            `${event.clientX - rect.left}px`;
 
         customCursor.style.top =
-            event.clientY + "px";
-
-
-        updateCursorSize();
+            `${event.clientY - rect.top}px`;
 
     }
-
 );
 
 
 window.addEventListener(
-
     "resize",
-
     updateCursorSize
-
 );
 
 
-
-// =====================================================
-// LEVELS
-// =====================================================
+/* =====================================================
+   LEVELS
+   ===================================================== */
 
 const levels = [
 
-
-    // =================================================
-    // LEVEL 1
-    // 蒼
-    // =================================================
+    /* -------------------------------------------------
+       1 蒼
+       ------------------------------------------------- */
 
     {
 
@@ -1474,10 +1329,9 @@ const levels = [
     },
 
 
-    // =================================================
-    // LEVEL 2
-    // 金
-    // =================================================
+    /* -------------------------------------------------
+       2 金
+       ------------------------------------------------- */
 
     {
 
@@ -1501,10 +1355,9 @@ const levels = [
     },
 
 
-    // =================================================
-    // LEVEL 3
-    // 紅
-    // =================================================
+    /* -------------------------------------------------
+       3 紅
+       ------------------------------------------------- */
 
     {
 
@@ -1528,10 +1381,9 @@ const levels = [
     },
 
 
-    // =================================================
-    // LEVEL 4
-    // 白
-    // =================================================
+    /* -------------------------------------------------
+       4 白
+       ------------------------------------------------- */
 
     {
 
@@ -1557,19 +1409,12 @@ const levels = [
     },
 
 
-    // =================================================
-    // LEVEL 5
-    //
-    // ★ 放水版
-    //
-    // 原本：
-    // 20 bullets / speed 4.3
-    //
-    // 現在：
-    // 12 bullets / speed 3.0
-    //
-    // 讓玩家正常玩就能比較舒服地過關。
-    // =================================================
+    /* -------------------------------------------------
+       5 四姊妹
+       
+       這裡稍微放水，
+       不改遊戲規則，只降低壓力。
+       ------------------------------------------------- */
 
     {
 
@@ -1602,18 +1447,15 @@ const levels = [
 ];
 
 
-
-// =====================================================
-// LEVEL -1
-//
-// ★ 黑偷偷加碼
-//
-// 背景直接是 6.jpg
-//
-// GAME OVER = 真正破關
-// =====================================================
+/* =====================================================
+   LEVEL -1
+   ===================================================== */
 
 const hiddenLevel = {
+
+    /*
+       黑偷偷把最終福利圖放進背景。
+    */
 
     image: "secret/6.jpg",
 
@@ -1641,38 +1483,31 @@ const hiddenLevel = {
 };
 
 
-
-// =====================================================
-// MASK
-// =====================================================
+/* =====================================================
+   MASK
+   ===================================================== */
 
 const maskCanvas =
     document.createElement("canvas");
 
-
 maskCanvas.width =
     WIDTH;
 
-
 maskCanvas.height =
     HEIGHT;
-
 
 const mask =
     maskCanvas.getContext("2d");
 
 
-
-// =====================================================
-// IMAGE
-// =====================================================
+/* =====================================================
+   IMAGE
+   ===================================================== */
 
 const image =
     new Image();
 
-
 let imageReady = false;
-
 
 image.onload = () => {
 
@@ -1680,11 +1515,9 @@ image.onload = () => {
 
 };
 
-
 image.onerror = () => {
 
     imageReady = false;
-
 
     message.innerHTML =
 
@@ -1692,49 +1525,35 @@ image.onerror = () => {
 
         +
 
-        "<small>"
-
-        +
-
-        "找不到圖片"
-
-        +
-
-        "</small>";
+        "<small>找不到圖片</small>";
 
 };
 
 
-
-// =====================================================
-// MOUSE
-// =====================================================
+/* =====================================================
+   MOUSE GAME STATE
+   ===================================================== */
 
 const mouse = {
 
     x: WIDTH / 2,
-
     y: HEIGHT / 2
 
 };
-
 
 const lastMouse = {
 
     x: WIDTH / 2,
-
     y: HEIGHT / 2
 
 };
 
-
 let mouseInside = false;
 
 
-
-// =====================================================
-// STATE
-// =====================================================
+/* =====================================================
+   GAME STATE
+   ===================================================== */
 
 let currentLevel = 0;
 
@@ -1747,10 +1566,9 @@ let bonusUnlocked = false;
 let bullets = [];
 
 
-
-// =====================================================
-// GALLERY STATE
-// =====================================================
+/* =====================================================
+   GALLERY STATE
+   ===================================================== */
 
 const galleryImages = [
 
@@ -1763,24 +1581,19 @@ const galleryImages = [
 
 ];
 
-
 let galleryIndex = 0;
 
 
-
-// =====================================================
-// MOUSE MOVE
-// =====================================================
+/* =====================================================
+   GAME MOUSE MOVE
+   ===================================================== */
 
 game.addEventListener(
-
     "mousemove",
-
     event => {
 
         const rect =
             game.getBoundingClientRect();
-
 
         const newX =
 
@@ -1788,15 +1601,10 @@ game.addEventListener(
                 event.clientX -
                 rect.left
             )
-
             /
-
             rect.width
-
             *
-
             WIDTH;
-
 
         const newY =
 
@@ -1804,22 +1612,15 @@ game.addEventListener(
                 event.clientY -
                 rect.top
             )
-
             /
-
             rect.height
-
             *
-
             HEIGHT;
 
 
         if (
-
             running &&
-
             mouseInside
-
         ) {
 
             eraseBetween(
@@ -1836,49 +1637,42 @@ game.addEventListener(
 
 
         mouse.x = newX;
-
         mouse.y = newY;
 
-
         lastMouse.x = newX;
-
         lastMouse.y = newY;
-
 
         mouseInside = true;
 
     }
-
 );
 
 
 game.addEventListener(
+    "mouseenter",
+    () => {
 
+        mouseInside = true;
+
+    }
+);
+
+
+game.addEventListener(
     "mouseleave",
-
     () => {
 
         mouseInside = false;
 
     }
-
 );
 
 
-
-// =====================================================
-// RETRY
-//
-// R / LEFT CLICK
-// =====================================================
+/* =====================================================
+   RETRY
+   ===================================================== */
 
 function retryLevel() {
-
-
-    /*
-       已經解鎖 Bonus 後，
-       不再重新進遊戲。
-    */
 
     if (bonusUnlocked) {
 
@@ -1886,13 +1680,11 @@ function retryLevel() {
 
     }
 
-
     if (running) {
 
         return;
 
     }
-
 
     message.innerHTML = "";
 
@@ -1902,10 +1694,11 @@ function retryLevel() {
         enterHiddenLevel();
 
     }
-
     else {
 
-        loadLevel(currentLevel);
+        loadLevel(
+            currentLevel
+        );
 
         running = true;
 
@@ -1914,16 +1707,29 @@ function retryLevel() {
 }
 
 
-
-// =====================================================
-// LEFT CLICK RETRY
-// =====================================================
+/* =====================================================
+   LEFT CLICK RETRY
+   ===================================================== */
 
 game.addEventListener(
-
     "mousedown",
-
     event => {
+
+        /*
+           如果使用者正在點真正的 UI，
+           不要把它當 Retry。
+        */
+
+        if (
+            event.target.closest(
+                "button, a, .galleryThumb"
+            )
+        ) {
+
+            return;
+
+        }
+
 
         if (
             event.button !== 0
@@ -1934,28 +1740,7 @@ game.addEventListener(
         }
 
 
-        /*
-           如果點的是開始按鈕，
-           交給 startButton 自己處理。
-        */
-
-        if (
-            event.target === startButton
-        ) {
-
-            return;
-
-        }
-
-
-        /*
-           Gallery / Final / Bonus
-           不觸發 Retry。
-        */
-
-        if (
-            bonusUnlocked
-        ) {
+        if (bonusUnlocked) {
 
             return;
 
@@ -1965,33 +1750,29 @@ game.addEventListener(
         retryLevel();
 
     }
-
 );
 
 
+/* =====================================================
+   ERASE
+   ===================================================== */
 
-// =====================================================
-// ERASE
-//
-// 25×25 square brush
-// =====================================================
+/*
+   ★ 筆刷範圍永遠由 BRUSH_SIZE 控制。
+   ★ 跟 CROSSHAIR_SIZE / COLLISION_SIZE 無關。
+*/
 
 function eraseBetween(
-
     x1,
     y1,
-
     x2,
     y2
-
 ) {
 
     mask.save();
 
-
     mask.globalCompositeOperation =
         "destination-out";
-
 
     mask.fillStyle =
         "#ffffff";
@@ -2000,18 +1781,14 @@ function eraseBetween(
     const dx =
         x2 - x1;
 
-
     const dy =
         y2 - y1;
 
 
     const distance =
-
         Math.sqrt(
-
             dx * dx +
             dy * dy
-
         );
 
 
@@ -2019,26 +1796,18 @@ function eraseBetween(
 
 
     const steps =
-
         Math.max(
-
             1,
-
             Math.ceil(
                 distance / step
             )
-
         );
 
 
     for (
-
         let i = 0;
-
         i <= steps;
-
         i++
-
     ) {
 
         const t =
@@ -2048,21 +1817,16 @@ function eraseBetween(
         const x =
             x1 + dx * t;
 
-
         const y =
             y1 + dy * t;
 
 
         mask.fillRect(
 
-            x -
-            BRUSH_SIZE / 2,
-
-            y -
-            BRUSH_SIZE / 2,
+            x - BRUSH_SIZE / 2,
+            y - BRUSH_SIZE / 2,
 
             BRUSH_SIZE,
-
             BRUSH_SIZE
 
         );
@@ -2075,26 +1839,22 @@ function eraseBetween(
 }
 
 
-
-// =====================================================
-// RESET MASK
-// =====================================================
+/* =====================================================
+   RESET MASK
+   ===================================================== */
 
 function resetMask() {
 
     mask.globalCompositeOperation =
         "source-over";
 
-
     mask.fillStyle =
         "#000000";
-
 
     mask.fillRect(
 
         0,
         0,
-
         WIDTH,
         HEIGHT
 
@@ -2103,10 +1863,9 @@ function resetMask() {
 }
 
 
-
-// =====================================================
-// CREATE BULLET
-// =====================================================
+/* =====================================================
+   CREATE BULLET
+   ===================================================== */
 
 function createBullet() {
 
@@ -2118,7 +1877,6 @@ function createBullet() {
 
 
     const side =
-
         Math.floor(
             Math.random() * 4
         );
@@ -2139,21 +1897,16 @@ function createBullet() {
         x =
             -BULLET_WIDTH;
 
-
         y =
             Math.random() *
             HEIGHT;
 
-
         vx =
             speed;
 
-
         vy =
-
             (
-                Math.random() -
-                0.5
+                Math.random() - 0.5
             ) * speed;
 
     }
@@ -2163,21 +1916,16 @@ function createBullet() {
         x =
             WIDTH;
 
-
         y =
             Math.random() *
             HEIGHT;
 
-
         vx =
             -speed;
 
-
         vy =
-
             (
-                Math.random() -
-                0.5
+                Math.random() - 0.5
             ) * speed;
 
     }
@@ -2185,22 +1933,16 @@ function createBullet() {
     else if (side === 2) {
 
         x =
-
             Math.random() *
             WIDTH;
-
 
         y =
             -BULLET_HEIGHT;
 
-
         vx =
-
             (
-                Math.random() -
-                0.5
+                Math.random() - 0.5
             ) * speed;
-
 
         vy =
             speed;
@@ -2210,22 +1952,16 @@ function createBullet() {
     else {
 
         x =
-
             Math.random() *
             WIDTH;
-
 
         y =
             HEIGHT;
 
-
         vx =
-
             (
-                Math.random() -
-                0.5
+                Math.random() - 0.5
             ) * speed;
-
 
         vy =
             -speed;
@@ -2236,39 +1972,29 @@ function createBullet() {
     const color =
 
         level.colors[
-
             Math.floor(
-
                 Math.random() *
                 level.colors.length
-
             )
-
         ];
 
 
     const text =
 
         level.messages[
-
             Math.floor(
-
                 Math.random() *
                 level.messages.length
-
             )
-
         ];
 
 
     bullets.push({
 
         x: x,
-
         y: y,
 
         vx: vx,
-
         vy: vy,
 
         width:
@@ -2290,10 +2016,8 @@ function createBullet() {
                 ? "#696969"
 
                 : (
-
                     level.textColor ||
                     "white"
-
                 )
 
     });
@@ -2301,51 +2025,37 @@ function createBullet() {
 }
 
 
-
-// =====================================================
-// REVEAL
-// =====================================================
+/* =====================================================
+   REVEAL
+   ===================================================== */
 
 function calculateReveal() {
 
     const data =
         mask.getImageData(
-
             0,
             0,
-
             WIDTH,
             HEIGHT
-
         ).data;
 
 
     let revealed = 0;
-
     let total = 0;
-
 
     const step = 20;
 
 
     for (
-
         let y = 0;
-
         y < HEIGHT;
-
         y += step
-
     ) {
 
         for (
-
             let x = 0;
-
             x < WIDTH;
-
             x += step
-
         ) {
 
             const index =
@@ -2360,10 +2070,7 @@ function calculateReveal() {
 
 
             if (
-
-                data[index + 3] <
-                30
-
+                data[index + 3] < 30
             ) {
 
                 revealed++;
@@ -2385,62 +2092,125 @@ function calculateReveal() {
 
 
     return (
-
         revealed /
         total *
         100
-
     );
 
 }
 
 
+/* =====================================================
+   COLLISION
+   ===================================================== */
 
-// =====================================================
-// COLLISION
-//
-// ★ 現在就是 25×25
-//
-// ★ 已完全移除 SHIFT 無敵作弊。
-// =====================================================
+/*
+   ★★★ 重要 ★★★
+
+   這裡完全不使用 BRUSH_SIZE。
+
+   也不使用 CROSSHAIR_SIZE。
+
+   只使用 COLLISION_SIZE。
+
+   三者真正獨立。
+*/
+
+/*
+   碰撞形狀：
+
+            │
+            │
+       ─────┼─────
+            │
+            │
+
+   中心十字的大小由 COLLISION_SIZE 決定。
+
+   CROSSHAIR_SIZE 只負責「看起來多大」。
+*/
 
 function checkCollision(bullet) {
 
     const half =
-        BRUSH_SIZE / 2;
+        COLLISION_SIZE / 2;
 
 
-    return (
+    /*
+       碰撞十字的線寬。
+       只用很細的中央線，
+       避免變成一整個正方形。
+    */
+
+    const thickness =
+        2;
+
+
+    /*
+       水平線碰撞
+    */
+
+    const horizontalHit =
 
         mouse.x + half >
-        bullet.x
+            bullet.x
 
         &&
 
         mouse.x - half <
-        bullet.x +
-        bullet.width
+            bullet.x +
+            bullet.width
+
+        &&
+
+        mouse.y + thickness / 2 >
+            bullet.y
+
+        &&
+
+        mouse.y - thickness / 2 <
+            bullet.y +
+            bullet.height;
+
+
+    /*
+       垂直線碰撞
+    */
+
+    const verticalHit =
+
+        mouse.x + thickness / 2 >
+            bullet.x
+
+        &&
+
+        mouse.x - thickness / 2 <
+            bullet.x +
+            bullet.width
 
         &&
 
         mouse.y + half >
-        bullet.y
+            bullet.y
 
         &&
 
         mouse.y - half <
-        bullet.y +
-        bullet.height
+            bullet.y +
+            bullet.height;
 
+
+    return (
+        horizontalHit ||
+        verticalHit
     );
 
 }
 
 
-
-// =====================================================
-// LOAD NORMAL LEVEL
-// =====================================================
+/* =====================================================
+   LOAD NORMAL LEVEL
+   ===================================================== */
 
 function loadLevel(index) {
 
@@ -2454,10 +2224,7 @@ function loadLevel(index) {
 
 
     levelText.textContent =
-
-        `LEVEL ${
-            index + 1
-        } / 5`;
+        `LEVEL ${index + 1} / 5`;
 
 
     revealText.textContent =
@@ -2466,25 +2233,19 @@ function loadLevel(index) {
 
     imageReady = false;
 
-
     image.src =
         level.image;
 
 
     bullets = [];
 
-
     resetMask();
 
 
     for (
-
         let i = 0;
-
         i < level.bullets;
-
         i++
-
     ) {
 
         createBullet();
@@ -2494,10 +2255,9 @@ function loadLevel(index) {
 }
 
 
-
-// =====================================================
-// LOAD LEVEL -1
-// =====================================================
+/* =====================================================
+   LOAD LEVEL -1
+   ===================================================== */
 
 function enterHiddenLevel() {
 
@@ -2523,18 +2283,13 @@ function enterHiddenLevel() {
 
     bullets = [];
 
-
     resetMask();
 
 
     for (
-
         let i = 0;
-
         i < hiddenLevel.bullets;
-
         i++
-
     ) {
 
         createBullet();
@@ -2547,10 +2302,9 @@ function enterHiddenLevel() {
 }
 
 
-
-// =====================================================
-// UPDATE
-// =====================================================
+/* =====================================================
+   UPDATE
+   ===================================================== */
 
 function update() {
 
@@ -2562,17 +2316,12 @@ function update() {
 
 
     for (
-
         const bullet of bullets
-
     ) {
 
-        bullet.x +=
-            bullet.vx;
+        bullet.x += bullet.vx;
 
-
-        bullet.y +=
-            bullet.vy;
+        bullet.y += bullet.vy;
 
 
         if (
@@ -2584,13 +2333,11 @@ function update() {
                 hiddenGameOver();
 
             }
-
             else {
 
                 normalGameOver();
 
             }
-
 
             return;
 
@@ -2600,7 +2347,6 @@ function update() {
 
 
     bullets =
-
         bullets.filter(
 
             bullet =>
@@ -2629,17 +2375,13 @@ function update() {
     const target =
 
         hiddenMode
-
             ? hiddenLevel.bullets
-
             : levels[currentLevel].bullets;
 
 
     while (
-
         bullets.length <
         target
-
     ) {
 
         createBullet();
@@ -2652,22 +2394,18 @@ function update() {
 
 
     revealText.textContent =
-
         `REVEAL ${
             Math.floor(reveal)
         }%`;
 
 
     /*
-       正式關卡超過 80% 過關。
+       超過 80% 才過關。
     */
 
     if (
-
         !hiddenMode &&
-
         reveal > 80
-
     ) {
 
         clearLevel();
@@ -2677,10 +2415,9 @@ function update() {
 }
 
 
-
-// =====================================================
-// DRAW BULLET
-// =====================================================
+/* =====================================================
+   DRAW BULLET
+   ===================================================== */
 
 function drawBullet(bullet) {
 
@@ -2730,21 +2467,27 @@ function drawBullet(bullet) {
 }
 
 
+/* =====================================================
+   DRAW
+   ===================================================== */
 
-// =====================================================
-// DRAW
-// =====================================================
+/*
+   Canvas 只負責：
+   - 圖片
+   - 遮罩
+   - 彈幕
+
+   客製游標完全交給 HTML，
+   所以 Gallery / Bonus / Thanks 都不會消失。
+*/
 
 function draw() {
 
     ctx.clearRect(
-
         0,
         0,
-
         WIDTH,
         HEIGHT
-
     );
 
 
@@ -2753,10 +2496,8 @@ function draw() {
         ctx.drawImage(
 
             image,
-
             0,
             0,
-
             WIDTH,
             HEIGHT
 
@@ -2765,53 +2506,27 @@ function draw() {
     }
 
 
-    /*
-       黑色遮罩
-    */
-
     ctx.drawImage(
-
         maskCanvas,
-
         0,
         0
-
     );
 
 
-    /*
-       彈幕
-    */
-
     for (
-
         const bullet of bullets
-
     ) {
 
         drawBullet(bullet);
 
     }
 
-
-    /*
-       Canvas 裡不再另外畫十字。
-       十字與方框完全交給客製游標。
-
-       這樣就不會出現：
-
-       Canvas 框 ≠ CSS 框
-
-       的縮放誤差。
-    */
-
 }
 
 
-
-// =====================================================
-// NORMAL GAME OVER
-// =====================================================
+/* =====================================================
+   NORMAL GAME OVER
+   ===================================================== */
 
 function normalGameOver() {
 
@@ -2819,45 +2534,29 @@ function normalGameOver() {
 
 
     message.innerHTML =
-
         "HIT!"
-
         +
-
         "<small>"
-
         +
-
         "Press R or click to retry"
-
         +
-
         "</small>";
 
 }
 
 
-
-// =====================================================
-// CLEAR LEVEL
-// =====================================================
+/* =====================================================
+   CLEAR LEVEL
+   ===================================================== */
 
 function clearLevel() {
 
     running = false;
 
 
-    /*
-       第五關完成
-       ↓
-       LEVEL -1
-    */
-
     if (
-
         currentLevel ===
         levels.length - 1
-
     ) {
 
         message.innerHTML =
@@ -2865,23 +2564,18 @@ function clearLevel() {
             "LEVEL 5 CLEAR!"
 
             +
-
             "<small>...</small>";
 
 
         setTimeout(
-
             () => {
 
                 message.innerHTML = "";
 
-
                 enterHiddenLevel();
 
             },
-
             1200
-
         );
 
 
@@ -2898,41 +2592,30 @@ function clearLevel() {
 
 
     setTimeout(
-
         () => {
 
             message.innerHTML = "";
 
-
             loadLevel(
-
                 currentLevel + 1
-
             );
-
 
             running = true;
 
         },
-
         1200
-
     );
 
 }
 
 
-
-// =====================================================
-// LEVEL -1 GAME OVER
-//
-// ★ GAME OVER = 真正破關
-// =====================================================
+/* =====================================================
+   LEVEL -1 GAME OVER
+   ===================================================== */
 
 function hiddenGameOver() {
 
     running = false;
-
 
     bonusUnlocked = true;
 
@@ -2942,31 +2625,22 @@ function hiddenGameOver() {
 
 
     setTimeout(
-
         () => {
 
             message.innerHTML = "";
 
-
             showBonus();
 
         },
-
         1200
-
     );
 
 }
 
 
-
-// =====================================================
-// SHOW BONUS
-//
-// ★ 顯示 6.jpg
-//
-// ★ 1.8 秒後自動進 Gallery
-// =====================================================
+/* =====================================================
+   BONUS
+   ===================================================== */
 
 function showBonus() {
 
@@ -2979,24 +2653,20 @@ function showBonus() {
 
 
     setTimeout(
-
         () => {
 
             openGallery();
 
         },
-
         1800
-
     );
 
 }
 
 
-
-// =====================================================
-// BUILD GALLERY
-// =====================================================
+/* =====================================================
+   BUILD GALLERY
+   ===================================================== */
 
 function buildGallery() {
 
@@ -3004,7 +2674,6 @@ function buildGallery() {
 
 
     galleryImages.forEach(
-
         (src, index) => {
 
             const item =
@@ -3051,9 +2720,7 @@ function buildGallery() {
 
 
             item.addEventListener(
-
                 "click",
-
                 () => {
 
                     openGalleryImage(
@@ -3061,7 +2728,6 @@ function buildGallery() {
                     );
 
                 }
-
             );
 
 
@@ -3070,16 +2736,14 @@ function buildGallery() {
             );
 
         }
-
     );
 
 }
 
 
-
-// =====================================================
-// OPEN GALLERY
-// =====================================================
+/* =====================================================
+   OPEN GALLERY
+   ===================================================== */
 
 function openGallery() {
 
@@ -3111,10 +2775,9 @@ function openGallery() {
 }
 
 
-
-// =====================================================
-// CLOSE GALLERY
-// =====================================================
+/* =====================================================
+   CLOSE GALLERY
+   ===================================================== */
 
 function closeGallery() {
 
@@ -3132,10 +2795,9 @@ function closeGallery() {
 }
 
 
-
-// =====================================================
-// OPEN GALLERY IMAGE
-// =====================================================
+/* =====================================================
+   OPEN IMAGE
+   ===================================================== */
 
 function openGalleryImage(index) {
 
@@ -3152,15 +2814,16 @@ function openGalleryImage(index) {
 }
 
 
-
-// =====================================================
-// UPDATE GALLERY IMAGE
-// =====================================================
+/* =====================================================
+   UPDATE IMAGE
+   ===================================================== */
 
 function updateGalleryImage() {
 
     galleryImage.src =
-        galleryImages[galleryIndex];
+        galleryImages[
+            galleryIndex
+        ];
 
 
     galleryCounter.textContent =
@@ -3172,10 +2835,9 @@ function updateGalleryImage() {
 }
 
 
-
-// =====================================================
-// PREVIOUS
-// =====================================================
+/* =====================================================
+   PREVIOUS
+   ===================================================== */
 
 function previousGalleryImage() {
 
@@ -3197,10 +2859,9 @@ function previousGalleryImage() {
 }
 
 
-
-// =====================================================
-// NEXT
-// =====================================================
+/* =====================================================
+   NEXT
+   ===================================================== */
 
 function nextGalleryImage() {
 
@@ -3208,10 +2869,8 @@ function nextGalleryImage() {
 
 
     if (
-
         galleryIndex >=
         galleryImages.length
-
     ) {
 
         galleryIndex = 0;
@@ -3224,10 +2883,9 @@ function nextGalleryImage() {
 }
 
 
-
-// =====================================================
-// CLOSE VIEWER
-// =====================================================
+/* =====================================================
+   CLOSE VIEWER
+   ===================================================== */
 
 function closeGalleryViewer() {
 
@@ -3237,16 +2895,18 @@ function closeGalleryViewer() {
 }
 
 
-
-// =====================================================
-// START
-// =====================================================
+/* =====================================================
+   START
+   ===================================================== */
 
 startButton.addEventListener(
-
     "click",
-
     event => {
+
+        /*
+           阻止外層 mousedown
+           把開始按鈕也當成 Retry。
+        */
 
         event.stopPropagation();
 
@@ -3272,7 +2932,6 @@ startButton.addEventListener(
 
         bonusUnlocked = false;
 
-
         hiddenMode = false;
 
 
@@ -3282,89 +2941,69 @@ startButton.addEventListener(
         running = true;
 
     }
-
 );
 
 
-
-// =====================================================
-// GALLERY BUTTONS
-// =====================================================
+/* =====================================================
+   GALLERY BUTTONS
+   ===================================================== */
 
 openGalleryButton.addEventListener(
-
     "click",
-
     () => {
 
         openGallery();
 
     }
-
 );
 
 
 galleryClose.addEventListener(
-
     "click",
-
     () => {
 
         closeGallery();
 
     }
-
 );
 
 
 galleryBack.addEventListener(
-
     "click",
-
     () => {
 
         closeGalleryViewer();
 
     }
-
 );
 
 
 galleryPrev.addEventListener(
-
     "click",
-
     () => {
 
         previousGalleryImage();
 
     }
-
 );
 
 
 galleryNext.addEventListener(
-
     "click",
-
     () => {
 
         nextGalleryImage();
 
     }
-
 );
 
 
-
-// =====================================================
-// KEYBOARD
-// =====================================================
+/* =====================================================
+   KEYBOARD
+   ===================================================== */
 
 document.addEventListener(
-
     "keydown",
-
     event => {
 
         const key =
@@ -3376,11 +3015,8 @@ document.addEventListener(
         */
 
         if (
-
             key === "r" &&
-
             !event.repeat
-
         ) {
 
             retryLevel();
@@ -3393,11 +3029,8 @@ document.addEventListener(
         */
 
         if (
-
             key === "b" &&
-
             bonusUnlocked
-
         ) {
 
             openGallery();
@@ -3410,10 +3043,7 @@ document.addEventListener(
         */
 
         if (
-
-            event.key ===
-            "Escape"
-
+            event.key === "Escape"
         ) {
 
 
@@ -3422,10 +3052,8 @@ document.addEventListener(
             */
 
             if (
-
                 galleryViewer.style.display ===
                 "block"
-
             ) {
 
                 closeGalleryViewer();
@@ -3440,10 +3068,8 @@ document.addEventListener(
             */
 
             if (
-
                 gallery.style.display ===
                 "block"
-
             ) {
 
                 closeGallery();
@@ -3458,10 +3084,8 @@ document.addEventListener(
             */
 
             if (
-
                 bonus.style.display ===
                 "block"
-
             ) {
 
                 openGallery();
@@ -3478,17 +3102,13 @@ document.addEventListener(
         */
 
         if (
-
             galleryViewer.style.display ===
             "block"
-
         ) {
 
             if (
-
                 event.key ===
                 "ArrowLeft"
-
             ) {
 
                 previousGalleryImage();
@@ -3497,10 +3117,8 @@ document.addEventListener(
 
 
             if (
-
                 event.key ===
                 "ArrowRight"
-
             ) {
 
                 nextGalleryImage();
@@ -3510,24 +3128,21 @@ document.addEventListener(
         }
 
     }
-
 );
 
 
-
-// =====================================================
-// INIT
-// =====================================================
+/* =====================================================
+   INIT
+   ===================================================== */
 
 resetMask();
 
 updateCursorSize();
 
 
-
-// =====================================================
-// MAIN LOOP
-// =====================================================
+/* =====================================================
+   MAIN LOOP
+   ===================================================== */
 
 function loop() {
 
@@ -3543,7 +3158,6 @@ function loop() {
 
 
 loop();
-
 
 </script>
 
