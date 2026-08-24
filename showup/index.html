@@ -1171,98 +1171,44 @@ function createBullet() {
 
 function calculateReveal() {
 
+    const data = mask.getImageData(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    ).data;
 
-    const data =
+    let revealed = 0;
+    let total = 0;
 
-        mask.getImageData(
-
-            0,
-
-            0,
-
-            WIDTH,
-
-            HEIGHT
-
-        ).data;
-
-
-    let revealed =
-        0;
-
-
-    let total =
-        0;
-
-
-    const step =
-        20;
-
+    const step = 20;
 
     for (
-
         let y = 0;
-
         y < HEIGHT;
-
         y += step
-
     ) {
 
-
         for (
-
             let x = 0;
-
             x < WIDTH;
-
             x += step
-
         ) {
 
-
             const index =
-
-                (
-
-                    y * WIDTH +
-
-                    x
-
-                )
-
-                *
-
-                4;
-
+                (y * WIDTH + x) * 4;
 
             total++;
 
-
-            if (
-
-                data[index + 3]
-                < 30
-
-            ) {
-
+            if (data[index + 3] < 30) {
                 revealed++;
-
             }
-
         }
-
     }
 
-
-    return
-
-        revealed /
-
-        total *
-
-        100;
-
+    return (
+        revealed / total * 100
+    );
 }
 
 
