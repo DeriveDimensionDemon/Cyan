@@ -75,11 +75,6 @@ body {
     box-shadow:
         0 4px 18px rgba(0, 0, 0, 0.28);
 
-    /*
-       不再隱藏系統游標。
-       crosshair 會配合 50x50 擦除框。
-    */
-
     cursor: crosshair;
 
     user-select: none;
@@ -745,6 +740,50 @@ canvas {
 
 }
 
+
+/* =====================================================
+   OFFICIAL WEBSITE
+   ===================================================== */
+
+.siteFooter {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 6px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 1000;
+
+    font-size: 12px;
+
+    color: #666666;
+
+    white-space: nowrap;
+
+}
+
+
+.siteFooter a {
+
+    color: #555555;
+
+    text-decoration: none;
+
+}
+
+
+.siteFooter a:hover {
+
+    color: #000000;
+
+    text-decoration: underline;
+
+}
+
 </style>
 
 </head>
@@ -941,6 +980,25 @@ canvas {
 </div>
 
 
+<!-- =====================================================
+     OFFICIAL WEBSITE
+     ===================================================== -->
+
+<div class="siteFooter">
+
+    © 2026 Derive Dimension Demon ·
+
+    <a
+        href="https://derivedimensiondemon.wordpress.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Official Website
+    </a>
+
+</div>
+
+
 <script>
 
 
@@ -1034,51 +1092,6 @@ const BRUSH_SIZE = 50;
 const BULLET_WIDTH = 190;
 
 const BULLET_HEIGHT = 42;
-
-
-// =====================================================
-// ★ CHEAT MODE
-//
-// SHIFT 無敵
-//
-// 若日後正式發布想移除：
-//
-// 1. 刪除 shiftInvincible
-// 2. 刪除下面兩個 key listener
-// 3. 刪除 checkCollision() 裡的
-//    shiftInvincible 判定
-//
-// =====================================================
-
-let shiftInvincible = false;
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (event.key === "Shift") {
-
-            shiftInvincible = true;
-
-        }
-
-    }
-);
-
-
-document.addEventListener(
-    "keyup",
-    event => {
-
-        if (event.key === "Shift") {
-
-            shiftInvincible = false;
-
-        }
-
-    }
-);
 
 
 // =====================================================
@@ -1231,11 +1244,9 @@ const levels = [
 // =====================================================
 // LEVEL -1
 //
-// ★ 這裡改成 6.jpg ★
-//
 // 黑偷偷加碼的隱藏關。
-// 表面上是「LEVEL -1」
-// 實際上背景已經是最終福利圖。
+// 背景直接使用第六張福利圖。
+// GAME OVER = 真正破關。
 // =====================================================
 
 const hiddenLevel = {
@@ -1891,20 +1902,6 @@ function calculateReveal() {
 
 function checkCollision(bullet) {
 
-
-    // =================================================
-    // ★ SHIFT INVINCIBILITY
-    //
-    // 這裡就是作弊功能的核心。
-    // =================================================
-
-    if (shiftInvincible) {
-
-        return false;
-
-    }
-
-
     const half =
         BRUSH_SIZE / 2;
 
@@ -2005,10 +2002,6 @@ function enterHiddenLevel() {
 
     imageReady = false;
 
-
-    /*
-       ★ 這裡現在就是 6.jpg
-    */
 
     image.src =
         hiddenLevel.image;
