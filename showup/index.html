@@ -12,7 +12,6 @@
 
 <title>SHOWUP</title>
 
-
 <style>
 
 /* =====================================================
@@ -41,7 +40,6 @@ body {
         sans-serif;
 
 }
-
 
 body {
 
@@ -110,7 +108,6 @@ body {
 
 }
 
-
 #siteFooter a {
 
     color: #555555;
@@ -120,7 +117,6 @@ body {
     font-weight: bold;
 
 }
-
 
 #siteFooter a:hover {
 
@@ -134,19 +130,6 @@ body {
 /* =====================================================
    CUSTOM CURSOR
    ===================================================== */
-
-/*
-   客製游標只在遊戲區使用。
-
-   遊戲區：
-   → 隱藏系統游標
-   → 顯示方框 + 十字
-
-   離開遊戲區：
-   → 客製游標消失
-   → 系統游標恢復
-*/
-
 
 #customCursor {
 
@@ -167,11 +150,6 @@ body {
 }
 
 
-/* -----------------------------------------------------
-   ① 筆刷方框
-   尺寸由 BRUSH_SIZE 控制
-   ----------------------------------------------------- */
-
 #customCursorBox {
 
     position: absolute;
@@ -180,11 +158,9 @@ body {
     top: 0;
 
     width: var(--brush-size);
-
     height: var(--brush-size);
 
-    border:
-        2px solid white;
+    border: 2px solid white;
 
     transform:
         translate(-50%, -50%);
@@ -195,11 +171,6 @@ body {
 }
 
 
-/* -----------------------------------------------------
-   ② 十字準心
-   尺寸由 CROSSHAIR_SIZE 控制
-   ----------------------------------------------------- */
-
 #customCursorCross {
 
     position: absolute;
@@ -208,7 +179,6 @@ body {
     top: 0;
 
     width: var(--crosshair-size);
-
     height: var(--crosshair-size);
 
     transform:
@@ -216,8 +186,6 @@ body {
 
 }
 
-
-/* 橫線 */
 
 #customCursorCross::before {
 
@@ -228,9 +196,7 @@ body {
     left: 0;
     top: 50%;
 
-    width:
-        var(--crosshair-size);
-
+    width: var(--crosshair-size);
     height: 2px;
 
     background: white;
@@ -244,8 +210,6 @@ body {
 }
 
 
-/* 直線 */
-
 #customCursorCross::after {
 
     content: "";
@@ -256,9 +220,7 @@ body {
     top: 0;
 
     width: 2px;
-
-    height:
-        var(--crosshair-size);
+    height: var(--crosshair-size);
 
     background: white;
 
@@ -282,7 +244,6 @@ canvas {
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
 }
@@ -297,7 +258,6 @@ canvas {
     position: absolute;
 
     top: 14px;
-
     left: 18px;
 
     z-index: 20;
@@ -315,7 +275,6 @@ canvas {
     pointer-events: none;
 
 }
-
 
 #levelText {
 
@@ -360,7 +319,6 @@ canvas {
 
 }
 
-
 #message small {
 
     margin-top: 14px;
@@ -373,7 +331,7 @@ canvas {
 
 
 /* =====================================================
-   START SCREEN
+   START
    ===================================================== */
 
 #startScreen {
@@ -401,7 +359,6 @@ canvas {
 
 }
 
-
 #startTitle {
 
     margin-bottom: 12px;
@@ -417,7 +374,6 @@ canvas {
 
 }
 
-
 #startNote {
 
     margin-bottom: 24px;
@@ -430,7 +386,6 @@ canvas {
         0 2px 6px #000000;
 
 }
-
 
 #startButton {
 
@@ -449,7 +404,6 @@ canvas {
     cursor: pointer;
 
 }
-
 
 #startButton:hover {
 
@@ -478,11 +432,9 @@ canvas {
 
 }
 
-
 #bonus img {
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
@@ -491,13 +443,11 @@ canvas {
 
 }
 
-
 #bonusTitle {
 
     position: absolute;
 
     top: 18px;
-
     left: 50%;
 
     transform:
@@ -539,13 +489,11 @@ canvas {
 
 }
 
-
 #galleryHeader {
 
     position: absolute;
 
     top: 14px;
-
     left: 50%;
 
     transform:
@@ -564,20 +512,17 @@ canvas {
 
 }
 
-
 #galleryGrid {
 
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     transform:
         translate(-50%, -50%);
 
     width: 88%;
-
     height: 76%;
 
     display: grid;
@@ -591,7 +536,6 @@ canvas {
     gap: 14px;
 
 }
-
 
 .galleryThumb {
 
@@ -607,18 +551,15 @@ canvas {
 
 }
 
-
 .galleryThumb:hover {
 
     border-color: white;
 
 }
 
-
 .galleryThumb img {
 
     width: 100%;
-
     height: 100%;
 
     object-fit: cover;
@@ -627,13 +568,11 @@ canvas {
 
 }
 
-
 .galleryNumber {
 
     position: absolute;
 
     left: 8px;
-
     top: 6px;
 
     padding: 3px 8px;
@@ -668,33 +607,28 @@ canvas {
 
 }
 
-
 #galleryViewer img {
 
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     transform:
         translate(-50%, -50%);
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
 
 }
 
-
 #galleryCounter {
 
     position: absolute;
 
     top: 16px;
-
     left: 50%;
 
     transform:
@@ -713,7 +647,6 @@ canvas {
 
 }
 
-
 .galleryNav {
 
     position: absolute;
@@ -726,7 +659,6 @@ canvas {
     z-index: 310;
 
     width: 52px;
-
     height: 70px;
 
     border: 2px solid white;
@@ -742,7 +674,6 @@ canvas {
 
 }
 
-
 .galleryNav:hover {
 
     background: white;
@@ -751,13 +682,11 @@ canvas {
 
 }
 
-
 #galleryPrev {
 
     left: 18px;
 
 }
-
 
 #galleryNext {
 
@@ -765,13 +694,11 @@ canvas {
 
 }
 
-
 #galleryClose {
 
     position: absolute;
 
     right: 18px;
-
     top: 14px;
 
     z-index: 310;
@@ -793,7 +720,6 @@ canvas {
 
 }
 
-
 #galleryClose:hover {
 
     background: white;
@@ -802,13 +728,11 @@ canvas {
 
 }
 
-
 #galleryFooter {
 
     position: absolute;
 
     left: 50%;
-
     bottom: 28px;
 
     transform:
@@ -821,7 +745,6 @@ canvas {
     gap: 12px;
 
 }
-
 
 .galleryButton {
 
@@ -840,7 +763,6 @@ canvas {
 
 }
 
-
 .galleryButton:hover {
 
     background: white;
@@ -851,7 +773,7 @@ canvas {
 
 
 /* =====================================================
-   FINAL SCREEN
+   FINAL
    ===================================================== */
 
 #finalScreen {
@@ -878,7 +800,6 @@ canvas {
 
 }
 
-
 #finalScreen h1 {
 
     margin: 0 0 16px 0;
@@ -889,7 +810,6 @@ canvas {
 
 }
 
-
 #finalScreen p {
 
     margin: 5px 0;
@@ -899,7 +819,6 @@ canvas {
     line-height: 1.7;
 
 }
-
 
 .finalButton {
 
@@ -923,7 +842,6 @@ canvas {
 
 }
 
-
 .finalButton:hover {
 
     background: white;
@@ -943,10 +861,6 @@ canvas {
 <div id="game">
 
 
-    <!-- =================================================
-         CUSTOM CURSOR
-         ================================================= -->
-
     <div id="customCursor">
 
         <div id="customCursorBox"></div>
@@ -955,10 +869,6 @@ canvas {
 
     </div>
 
-
-    <!-- =================================================
-         START
-         ================================================= -->
 
     <div id="startScreen">
 
@@ -985,16 +895,8 @@ canvas {
     </div>
 
 
-    <!-- =================================================
-         CANVAS
-         ================================================= -->
-
     <canvas id="canvas"></canvas>
 
-
-    <!-- =================================================
-         UI
-         ================================================= -->
 
     <div id="ui">
 
@@ -1009,16 +911,8 @@ canvas {
     </div>
 
 
-    <!-- =================================================
-         MESSAGE
-         ================================================= -->
-
     <div id="message"></div>
 
-
-    <!-- =================================================
-         BONUS
-         ================================================= -->
 
     <div id="bonus">
 
@@ -1028,16 +922,11 @@ canvas {
 
         <img
             id="bonusImage"
-            src="secret/6.jpg"
             alt="Bonus"
         >
 
     </div>
 
-
-    <!-- =================================================
-         GALLERY
-         ================================================= -->
 
     <div id="gallery">
 
@@ -1051,7 +940,6 @@ canvas {
 
             <img
                 id="galleryImage"
-                src=""
                 alt="Gallery Image"
             >
 
@@ -1093,10 +981,6 @@ canvas {
     </div>
 
 
-    <!-- =================================================
-         FINAL
-         ================================================= -->
-
     <div id="finalScreen">
 
         <h1>
@@ -1120,7 +1004,7 @@ canvas {
 
         <a
             class="finalButton"
-            href="secret/ddd-showup-bonus.zip"
+            href="./secret/ddd-showup-bonus.zip"
             download
         >
             DOWNLOAD REWARD PACK
@@ -1131,10 +1015,6 @@ canvas {
 
 </div>
 
-
-<!-- =====================================================
-     OFFICIAL WEBSITE
-     ===================================================== -->
 
 <div id="siteFooter">
 
@@ -1229,56 +1109,67 @@ const customCursor =
    ===================================================== */
 
 const WIDTH = 1280;
-
 const HEIGHT = 720;
 
-canvas.width =
-    WIDTH;
-
-canvas.height =
-    HEIGHT;
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
 
 /* =====================================================
-   ★★★ THREE INDEPENDENT SIZES ★★★
+   THREE INDEPENDENT SETTINGS
+   ===================================================== */
+
+const BRUSH_SIZE = 50;
+
+const CROSSHAIR_SIZE = 25;
+
+const COLLISION_SIZE = 25;
+
+const CROSSHAIR_THICKNESS = 2;
+
+const BULLET_WIDTH = 190;
+
+const BULLET_HEIGHT = 42;
+
+
+/* =====================================================
+   IMAGE PATH
    ===================================================== */
 
 /*
-   ① 筆刷範圍
-   真正擦除圖片的大小。
+   ★ 重要 ★
+
+   所有 secret 圖片都從「目前 index.html 所在位置」
+   組出完整 URL。
+
+   所以即使 Showup 位於：
+
+   /Cyan/showup/
+
+   也會正確得到：
+
+   /Cyan/showup/secret/1.jpg
 */
-const BRUSH_SIZE = 50;
+
+const SECRET_BASE =
+    new URL(
+        "./secret/",
+        document.baseURI
+    );
 
 
-/*
-   ② 十字準心
-   玩家看到的十字大小。
-*/
-const CROSSHAIR_SIZE = 25;
+function IMG(filename) {
 
+    return new URL(
+        filename,
+        SECRET_BASE
+    ).href;
 
-/*
-   ③ 碰撞箱
-   真正 HIT 的十字判定大小。
-*/
-const COLLISION_SIZE = 25;
-
-
-/*
-   十字線視覺粗細。
-*/
-const CROSSHAIR_THICKNESS = 2;
-
-
-const BULLET_WIDTH =
-    190;
-
-const BULLET_HEIGHT =
-    42;
+}
 
 
 /* =====================================================
-   CURSOR SCALING
+   CURSOR SIZE
    ===================================================== */
 
 function updateCursorSize() {
@@ -1286,39 +1177,28 @@ function updateCursorSize() {
     const rect =
         game.getBoundingClientRect();
 
-
     const scale =
         rect.width / WIDTH;
 
-
     customCursor.style.setProperty(
-
         "--brush-size",
-
         `${BRUSH_SIZE * scale}px`
-
     );
 
-
     customCursor.style.setProperty(
-
         "--crosshair-size",
-
         `${CROSSHAIR_SIZE * scale}px`
-
     );
 
 }
 
 
 /* =====================================================
-   CUSTOM CURSOR EVENTS
+   CURSOR
    ===================================================== */
 
 game.addEventListener(
-
     "mouseenter",
-
     () => {
 
         customCursor.style.display =
@@ -1327,54 +1207,40 @@ game.addEventListener(
         updateCursorSize();
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mouseleave",
-
     () => {
 
         customCursor.style.display =
             "none";
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mousemove",
-
     event => {
 
         const rect =
             game.getBoundingClientRect();
 
-
         customCursor.style.left =
-
             `${event.clientX - rect.left}px`;
 
-
         customCursor.style.top =
-
             `${event.clientY - rect.top}px`;
 
     }
-
 );
 
 
 window.addEventListener(
-
     "resize",
-
     updateCursorSize
-
 );
 
 
@@ -1384,182 +1250,113 @@ window.addEventListener(
 
 const levels = [
 
-    /* -------------------------------------------------
-       LEVEL 1 — 蒼
-       ------------------------------------------------- */
-
     {
+        image: IMG("1.jpg"),
 
-        image:
-            "secret/1.jpg",
+        colors: [
+            "cyan"
+        ],
 
-        colors:
-            ["cyan"],
+        bullets: 10,
 
-        bullets:
-            10,
-
-        speed:
-            3.0,
+        speed: 3.0,
 
         messages: [
-
             "♡ 我愛妳",
-
             "♡ 多留一下嘛",
-
             "♡ 晚上要做什麼？",
-
             "♡ 有空嗎？"
-
         ]
-
     },
 
 
-    /* -------------------------------------------------
-       LEVEL 2 — 金
-       ------------------------------------------------- */
-
     {
+        image: IMG("2.jpg"),
 
-        image:
-            "secret/2.jpg",
+        colors: [
+            "orange"
+        ],
 
-        colors:
-            ["orange"],
+        bullets: 12,
 
-        bullets:
-            12,
-
-        speed:
-            3.3,
+        speed: 3.3,
 
         messages: [
-
             "♡ 要我陪妳？",
-
             "♡ 晚..晚餐吃了嗎？",
-
             "♡ 哼！",
-
             "♡ 知道啦！"
-
         ]
-
     },
 
 
-    /* -------------------------------------------------
-       LEVEL 3 — 紅
-       ------------------------------------------------- */
-
     {
+        image: IMG("3.jpg"),
 
-        image:
-            "secret/3.jpg",
+        colors: [
+            "red"
+        ],
 
-        colors:
-            ["red"],
+        bullets: 14,
 
-        bullets:
-            14,
-
-        speed:
-            3.6,
+        speed: 3.6,
 
         messages: [
-
             "♡ 妳被擊中的機率計算中",
-
             "♡ 嗯？剛剛說什麼？",
-
             "♡ 別碰那裡...！",
-
             "♡ 誰設計這款遊戲的？！"
-
         ]
-
     },
 
 
-    /* -------------------------------------------------
-       LEVEL 4 — 白
-       ------------------------------------------------- */
-
     {
+        image: IMG("4.jpg"),
 
-        image:
-            "secret/4.jpg",
+        colors: [
+            "white"
+        ],
 
-        colors:
-            ["white"],
+        bullets: 16,
 
-        bullets:
-            16,
-
-        speed:
-            3.9,
+        speed: 3.9,
 
         textColor:
             "#696969",
 
         messages: [
-
             "♡ 妳有看到蒼嗎？",
-
             "♡ ．．．",
-
             "♡ 沒事。",
-
             "♡ 呃？"
-
         ]
-
     },
 
 
-    /* -------------------------------------------------
-       LEVEL 5 — 四姊妹
-       
-       ★ 放水版
-       ------------------------------------------------- */
-
     {
-
-        image:
-            "secret/5.jpg",
+        image: IMG("5.jpg"),
 
         colors: [
-
             "cyan",
-
             "orange",
-
             "red",
-
             "white"
-
         ],
 
-        bullets:
-            12,
+        /*
+           第五關放水。
+        */
 
-        speed:
-            3.0,
+        bullets: 12,
+
+        speed: 3.0,
 
         messages: [
-
             "♡ 我們都在喔",
-
             "♡ 一起來嘛",
-
             "♡ 找到妳了",
-
             "♡ 不要走呀"
-
         ]
-
     }
 
 ];
@@ -1571,19 +1368,11 @@ const levels = [
 
 const hiddenLevel = {
 
-    /*
-       黑偷偷加碼：
-
-       第六張福利圖直接當背景。
-    */
-
     image:
-        "secret/6.jpg",
+        IMG("6.jpg"),
 
     colors: [
-
         "#201933"
-
     ],
 
     bullets:
@@ -1596,15 +1385,10 @@ const hiddenLevel = {
         "white",
 
     messages: [
-
         "⁇ 還要繼續玩嗎？",
-
         "⁇ 哼哼...",
-
         "⁇ 已經玩到這兒了呢...",
-
         "⁇ 不夠滿意嗎？"
-
     ]
 
 };
@@ -1614,27 +1398,17 @@ const hiddenLevel = {
    IMAGE CACHE
    ===================================================== */
 
-/*
-   ★ 這次特別重做圖片載入。
-
-   每張圖片只載入一次，
-   而且一定確認 onload 後，
-   才開始該關卡。
-
-   這就是修第二關圖片消失的核心。
-*/
-
-const imageCache =
+const loadedImages =
     new Map();
 
 
 function loadImage(src) {
 
     if (
-        imageCache.has(src)
+        loadedImages.has(src)
     ) {
 
-        return imageCache.get(src);
+        return loadedImages.get(src);
 
     }
 
@@ -1647,32 +1421,39 @@ function loadImage(src) {
                     new Image();
 
 
-                img.onload = () => {
-
-                    resolve(img);
-
-                };
+                img.decoding =
+                    "async";
 
 
-                img.onerror = () => {
+                img.onload =
+                    () => {
 
-                    reject(
-                        new Error(
-                            "Failed to load: " +
-                            src
-                        )
-                    );
+                        resolve(img);
 
-                };
+                    };
 
 
-                img.src = src;
+                img.onerror =
+                    () => {
+
+                        reject(
+                            new Error(
+                                "Unable to load: " +
+                                src
+                            )
+                        );
+
+                    };
+
+
+                img.src =
+                    src;
 
             }
         );
 
 
-    imageCache.set(
+    loadedImages.set(
         src,
         promise
     );
@@ -1684,23 +1465,24 @@ function loadImage(src) {
 
 
 /* =====================================================
-   PREFETCH ALL IMAGES
+   PRELOAD
    ===================================================== */
 
 [
-    "secret/1.jpg",
-    "secret/2.jpg",
-    "secret/3.jpg",
-    "secret/4.jpg",
-    "secret/5.jpg",
-    "secret/6.jpg"
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg"
 ].forEach(
-    src => {
+    filename => {
 
-        loadImage(src)
-            .catch(
-                () => {}
-            );
+        loadImage(
+            IMG(filename)
+        ).catch(
+            () => {}
+        );
 
     }
 );
@@ -1723,14 +1505,11 @@ const maskCanvas =
         "canvas"
     );
 
-
 maskCanvas.width =
     WIDTH;
 
-
 maskCanvas.height =
     HEIGHT;
-
 
 const mask =
     maskCanvas.getContext(
@@ -1739,7 +1518,7 @@ const mask =
 
 
 /* =====================================================
-   MOUSE GAME STATE
+   MOUSE STATE
    ===================================================== */
 
 const mouse = {
@@ -1775,48 +1554,31 @@ let mouseInside =
 let currentLevel =
     0;
 
-
 let running =
     false;
-
 
 let hiddenMode =
     false;
 
-
 let bonusUnlocked =
     false;
-
 
 let bullets =
     [];
 
 
-/*
-   防止舊的關卡載入完成後
-   又把新關卡覆蓋掉。
-*/
-let levelGeneration =
-    0;
-
-
 /* =====================================================
-   GALLERY STATE
+   GALLERY
    ===================================================== */
 
 const galleryImages = [
 
-    "secret/1.jpg",
-
-    "secret/2.jpg",
-
-    "secret/3.jpg",
-
-    "secret/4.jpg",
-
-    "secret/5.jpg",
-
-    "secret/6.jpg"
+    IMG("1.jpg"),
+    IMG("2.jpg"),
+    IMG("3.jpg"),
+    IMG("4.jpg"),
+    IMG("5.jpg"),
+    IMG("6.jpg")
 
 ];
 
@@ -1826,13 +1588,128 @@ let galleryIndex =
 
 
 /* =====================================================
+   LEVEL GENERATION TOKEN
+   ===================================================== */
+
+let levelGeneration =
+    0;
+
+
+/* =====================================================
+   MASK RESET
+   ===================================================== */
+
+function resetMask() {
+
+    mask.globalCompositeOperation =
+        "source-over";
+
+    mask.fillStyle =
+        "#000000";
+
+    mask.fillRect(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+}
+
+
+/* =====================================================
+   ERASE
+   ===================================================== */
+
+function eraseBetween(
+    x1,
+    y1,
+    x2,
+    y2
+) {
+
+    mask.save();
+
+    mask.globalCompositeOperation =
+        "destination-out";
+
+    mask.fillStyle =
+        "#ffffff";
+
+
+    const dx =
+        x2 - x1;
+
+    const dy =
+        y2 - y1;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    const step =
+        4;
+
+
+    const steps =
+        Math.max(
+            1,
+            Math.ceil(
+                distance /
+                step
+            )
+        );
+
+
+    for (
+        let i = 0;
+        i <= steps;
+        i++
+    ) {
+
+        const t =
+            i / steps;
+
+
+        const x =
+            x1 + dx * t;
+
+        const y =
+            y1 + dy * t;
+
+
+        mask.fillRect(
+
+            x -
+                BRUSH_SIZE / 2,
+
+            y -
+                BRUSH_SIZE / 2,
+
+            BRUSH_SIZE,
+
+            BRUSH_SIZE
+
+        );
+
+    }
+
+
+    mask.restore();
+
+}
+
+
+/* =====================================================
    GAME MOUSE MOVE
    ===================================================== */
 
 game.addEventListener(
-
     "mousemove",
-
     event => {
 
         const rect =
@@ -1845,13 +1722,9 @@ game.addEventListener(
                 event.clientX -
                 rect.left
             )
-
             /
-
             rect.width
-
             *
-
             WIDTH;
 
 
@@ -1861,22 +1734,15 @@ game.addEventListener(
                 event.clientY -
                 rect.top
             )
-
             /
-
             rect.height
-
             *
-
             HEIGHT;
 
 
         if (
-
             running &&
-
             mouseInside
-
         ) {
 
             eraseBetween(
@@ -1910,172 +1776,29 @@ game.addEventListener(
             true;
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mouseenter",
-
     () => {
 
         mouseInside =
             true;
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mouseleave",
-
     () => {
 
         mouseInside =
             false;
 
     }
-
 );
-
-
-/* =====================================================
-   RESET MASK
-   ===================================================== */
-
-function resetMask() {
-
-    mask.globalCompositeOperation =
-        "source-over";
-
-
-    mask.fillStyle =
-        "#000000";
-
-
-    mask.fillRect(
-
-        0,
-        0,
-
-        WIDTH,
-        HEIGHT
-
-    );
-
-}
-
-
-/* =====================================================
-   ERASE
-   ===================================================== */
-
-/*
-   ★ 只使用 BRUSH_SIZE。
-*/
-
-function eraseBetween(
-
-    x1,
-    y1,
-
-    x2,
-    y2
-
-) {
-
-    mask.save();
-
-
-    mask.globalCompositeOperation =
-        "destination-out";
-
-
-    mask.fillStyle =
-        "#ffffff";
-
-
-    const dx =
-        x2 - x1;
-
-
-    const dy =
-        y2 - y1;
-
-
-    const distance =
-
-        Math.sqrt(
-
-            dx * dx +
-            dy * dy
-
-        );
-
-
-    const step =
-        4;
-
-
-    const steps =
-
-        Math.max(
-
-            1,
-
-            Math.ceil(
-                distance /
-                step
-            )
-
-        );
-
-
-    for (
-
-        let i = 0;
-
-        i <= steps;
-
-        i++
-
-    ) {
-
-        const t =
-            i / steps;
-
-
-        const x =
-            x1 + dx * t;
-
-
-        const y =
-            y1 + dy * t;
-
-
-        mask.fillRect(
-
-            x -
-            BRUSH_SIZE / 2,
-
-            y -
-            BRUSH_SIZE / 2,
-
-            BRUSH_SIZE,
-
-            BRUSH_SIZE
-
-        );
-
-    }
-
-
-    mask.restore();
-
-}
 
 
 /* =====================================================
@@ -2087,10 +1810,8 @@ function createBullet(
 ) {
 
     const side =
-
         Math.floor(
-            Math.random() *
-            4
+            Math.random() * 4
         );
 
 
@@ -2123,9 +1844,11 @@ function createBullet(
             (
                 Math.random() -
                 0.5
-            ) * speed;
+            ) *
+            speed;
 
     }
+
 
     else if (
         side === 1
@@ -2146,9 +1869,11 @@ function createBullet(
             (
                 Math.random() -
                 0.5
-            ) * speed;
+            ) *
+            speed;
 
     }
+
 
     else if (
         side === 2
@@ -2166,12 +1891,14 @@ function createBullet(
             (
                 Math.random() -
                 0.5
-            ) * speed;
+            ) *
+            speed;
 
         vy =
             speed;
 
     }
+
 
     else {
 
@@ -2187,7 +1914,8 @@ function createBullet(
             (
                 Math.random() -
                 0.5
-            ) * speed;
+            ) *
+            speed;
 
         vy =
             -speed;
@@ -2243,8 +1971,7 @@ function createBullet(
 
         textColor:
 
-            color ===
-            "white"
+            color === "white"
 
                 ? "#696969"
 
@@ -2259,18 +1986,12 @@ function createBullet(
 
 
 /* =====================================================
-   LOAD LEVEL
+   START NORMAL LEVEL
    ===================================================== */
 
 async function loadLevel(
     index
 ) {
-
-    /*
-       新增 generation。
-       舊載入完成時如果已經不是目前關卡，
-       就直接丟掉。
-    */
 
     const generation =
         ++levelGeneration;
@@ -2292,17 +2013,15 @@ async function loadLevel(
         [];
 
 
-    message.innerHTML =
-        "";
+    currentImage =
+        null;
 
 
     resetMask();
 
 
     levelText.textContent =
-        `LEVEL ${
-            index + 1
-        } / 5`;
+        `LEVEL ${index + 1} / 5`;
 
 
     revealText.textContent =
@@ -2315,6 +2034,10 @@ async function loadLevel(
 
     try {
 
+        /*
+           ★ 確認圖片成功載入。
+        */
+
         const img =
             await loadImage(
                 level.image
@@ -2322,8 +2045,8 @@ async function loadLevel(
 
 
         /*
-           如果這已經不是最新關卡，
-           不再繼續。
+           如果期間又切換關卡，
+           舊載入結果直接作廢。
         */
 
         if (
@@ -2341,8 +2064,8 @@ async function loadLevel(
 
 
         /*
-           確定圖片真的載入完成
-           後才建立彈幕。
+           圖片載入完成後，
+           才建立彈幕。
         */
 
         for (
@@ -2381,12 +2104,12 @@ async function loadLevel(
         }
 
 
-        currentImage =
-            null;
-
-
         running =
             false;
+
+
+        currentImage =
+            null;
 
 
         message.innerHTML =
@@ -2399,11 +2122,7 @@ async function loadLevel(
 
             +
 
-            "Unable to load "
-
-            +
-
-            level.image
+            "Unable to load image"
 
             +
 
@@ -2415,7 +2134,7 @@ async function loadLevel(
 
 
 /* =====================================================
-   LOAD LEVEL -1
+   START LEVEL -1
    ===================================================== */
 
 async function enterHiddenLevel() {
@@ -2434,6 +2153,10 @@ async function enterHiddenLevel() {
 
     bullets =
         [];
+
+
+    currentImage =
+        null;
 
 
     resetMask();
@@ -2477,8 +2200,7 @@ async function enterHiddenLevel() {
 
             let i = 0;
 
-            i <
-            hiddenLevel.bullets;
+            i < hiddenLevel.bullets;
 
             i++
 
@@ -2500,22 +2222,12 @@ async function enterHiddenLevel() {
         error
     ) {
 
-        if (
-            generation !==
-            levelGeneration
-        ) {
-
-            return;
-
-        }
+        running =
+            false;
 
 
         currentImage =
             null;
-
-
-        running =
-            false;
 
 
         message.innerHTML =
@@ -2528,11 +2240,7 @@ async function enterHiddenLevel() {
 
             +
 
-            "Unable to load "
-
-            +
-
-            hiddenLevel.image
+            "Unable to load image"
 
             +
 
@@ -2551,13 +2259,10 @@ function calculateReveal() {
 
     const data =
         mask.getImageData(
-
             0,
             0,
-
             WIDTH,
             HEIGHT
-
         ).data;
 
 
@@ -2629,11 +2334,9 @@ function calculateReveal() {
 
 
     return (
-
         revealed /
         total *
         100
-
     );
 
 }
@@ -2642,16 +2345,6 @@ function calculateReveal() {
 /* =====================================================
    COLLISION
    ===================================================== */
-
-/*
-   ★ 只使用 COLLISION_SIZE。
-
-   ★ 不使用 BRUSH_SIZE。
-
-   ★ 不使用 CROSSHAIR_SIZE。
-
-   碰撞本身也是十字。
-*/
 
 function checkCollision(
     bullet
@@ -2667,7 +2360,7 @@ function checkCollision(
 
 
     /*
-       水平線
+       水平碰撞
     */
 
     const horizontalHit =
@@ -2696,7 +2389,7 @@ function checkCollision(
 
 
     /*
-       垂直線
+       垂直碰撞
     */
 
     const verticalHit =
@@ -2784,9 +2477,7 @@ function retryLevel() {
    ===================================================== */
 
 game.addEventListener(
-
     "mousedown",
-
     event => {
 
         if (
@@ -2797,10 +2488,6 @@ game.addEventListener(
 
         }
 
-
-        /*
-           不干涉真正的 UI。
-        */
 
         if (
             event.target.closest(
@@ -2825,7 +2512,6 @@ game.addEventListener(
         retryLevel();
 
     }
-
 );
 
 
@@ -2886,7 +2572,6 @@ function update() {
 
     bullets =
         bullets.filter(
-
             bullet =>
 
                 bullet.x >
@@ -2906,34 +2591,22 @@ function update() {
 
                 bullet.y <
                 HEIGHT + 100
-
         );
 
 
-    const target =
+    const level =
 
         hiddenMode
-
-            ? hiddenLevel.bullets
-
+            ? hiddenLevel
             : levels[
                 currentLevel
-            ].bullets;
+            ];
 
 
     while (
         bullets.length <
-        target
+        level.bullets
     ) {
-
-        const level =
-
-            hiddenMode
-                ? hiddenLevel
-                : levels[
-                    currentLevel
-                ];
-
 
         createBullet(
             level
@@ -2955,17 +2628,9 @@ function update() {
         }%`;
 
 
-    /*
-       正式關卡：
-       > 80% 才過關
-    */
-
     if (
-
         !hiddenMode &&
-
         reveal > 80
-
     ) {
 
         clearLevel();
@@ -3033,28 +2698,20 @@ function drawBullet(
    DRAW
    ===================================================== */
 
-/*
-   Canvas 只畫：
-
-   ① 圖片
-   ② 遮罩
-   ③ 彈幕
-
-   客製游標完全由 HTML 元素負責。
-*/
-
 function draw() {
 
     ctx.clearRect(
-
         0,
         0,
-
         WIDTH,
         HEIGHT
-
     );
 
+
+    /*
+       真正載入完成的 currentImage
+       才畫出來。
+    */
 
     if (
         currentImage
@@ -3075,15 +2732,20 @@ function draw() {
     }
 
 
+    /*
+       黑色遮罩
+    */
+
     ctx.drawImage(
-
         maskCanvas,
-
         0,
         0
-
     );
 
+
+    /*
+       彈幕
+    */
 
     for (
         const bullet of bullets
@@ -3159,15 +2821,12 @@ function clearLevel() {
 
 
         setTimeout(
-
             () => {
 
                 enterHiddenLevel();
 
             },
-
             1200
-
         );
 
 
@@ -3184,7 +2843,6 @@ function clearLevel() {
 
 
     setTimeout(
-
         () => {
 
             loadLevel(
@@ -3192,9 +2850,7 @@ function clearLevel() {
             );
 
         },
-
         1200
-
     );
 
 }
@@ -3219,22 +2875,19 @@ function hiddenGameOver() {
 
 
     setTimeout(
-
         () => {
 
             showBonus();
 
         },
-
         1200
-
     );
 
 }
 
 
 /* =====================================================
-   SHOW BONUS
+   BONUS
    ===================================================== */
 
 function showBonus() {
@@ -3244,30 +2897,23 @@ function showBonus() {
 
 
     bonusImage.src =
-        "secret/6.jpg";
+        IMG("6.jpg");
 
-
-    /*
-       1.8 秒後自動進 Gallery。
-    */
 
     setTimeout(
-
         () => {
 
             openGallery();
 
         },
-
         1800
-
     );
 
 }
 
 
 /* =====================================================
-   BUILD GALLERY
+   GALLERY
    ===================================================== */
 
 function buildGallery() {
@@ -3277,7 +2923,6 @@ function buildGallery() {
 
 
     galleryImages.forEach(
-
         (src, index) => {
 
             const item =
@@ -3301,9 +2946,7 @@ function buildGallery() {
 
 
             img.alt =
-                `Gallery ${
-                    index + 1
-                }`;
+                `Gallery ${index + 1}`;
 
 
             const number =
@@ -3331,9 +2974,7 @@ function buildGallery() {
 
 
             item.addEventListener(
-
                 "click",
-
                 () => {
 
                     openGalleryImage(
@@ -3341,7 +2982,6 @@ function buildGallery() {
                     );
 
                 }
-
             );
 
 
@@ -3350,15 +2990,10 @@ function buildGallery() {
             );
 
         }
-
     );
 
 }
 
-
-/* =====================================================
-   OPEN GALLERY
-   ===================================================== */
 
 function openGallery() {
 
@@ -3392,10 +3027,6 @@ function openGallery() {
 }
 
 
-/* =====================================================
-   CLOSE GALLERY
-   ===================================================== */
-
 function closeGallery() {
 
     gallery.style.display =
@@ -3411,10 +3042,6 @@ function closeGallery() {
 
 }
 
-
-/* =====================================================
-   OPEN IMAGE
-   ===================================================== */
 
 function openGalleryImage(
     index
@@ -3433,10 +3060,6 @@ function openGalleryImage(
 }
 
 
-/* =====================================================
-   UPDATE IMAGE
-   ===================================================== */
-
 function updateGalleryImage() {
 
     galleryImage.src =
@@ -3453,10 +3076,6 @@ function updateGalleryImage() {
 
 }
 
-
-/* =====================================================
-   PREVIOUS
-   ===================================================== */
 
 function previousGalleryImage() {
 
@@ -3478,20 +3097,14 @@ function previousGalleryImage() {
 }
 
 
-/* =====================================================
-   NEXT
-   ===================================================== */
-
 function nextGalleryImage() {
 
     galleryIndex++;
 
 
     if (
-
         galleryIndex >=
         galleryImages.length
-
     ) {
 
         galleryIndex =
@@ -3505,10 +3118,6 @@ function nextGalleryImage() {
 }
 
 
-/* =====================================================
-   CLOSE VIEWER
-   ===================================================== */
-
 function closeGalleryViewer() {
 
     galleryViewer.style.display =
@@ -3518,13 +3127,11 @@ function closeGalleryViewer() {
 
 
 /* =====================================================
-   START
+   START GAME
    ===================================================== */
 
 startButton.addEventListener(
-
     "click",
-
     event => {
 
         event.stopPropagation();
@@ -3561,12 +3168,9 @@ startButton.addEventListener(
         levelGeneration++;
 
 
-        loadLevel(
-            0
-        );
+        loadLevel(0);
 
     }
-
 );
 
 
@@ -3575,67 +3179,32 @@ startButton.addEventListener(
    ===================================================== */
 
 openGalleryButton.addEventListener(
-
     "click",
-
-    () => {
-
-        openGallery();
-
-    }
-
+    openGallery
 );
 
 
 galleryClose.addEventListener(
-
     "click",
-
-    () => {
-
-        closeGallery();
-
-    }
-
+    closeGallery
 );
 
 
 galleryBack.addEventListener(
-
     "click",
-
-    () => {
-
-        closeGalleryViewer();
-
-    }
-
+    closeGalleryViewer
 );
 
 
 galleryPrev.addEventListener(
-
     "click",
-
-    () => {
-
-        previousGalleryImage();
-
-    }
-
+    previousGalleryImage
 );
 
 
 galleryNext.addEventListener(
-
     "click",
-
-    () => {
-
-        nextGalleryImage();
-
-    }
-
+    nextGalleryImage
 );
 
 
@@ -3644,9 +3213,7 @@ galleryNext.addEventListener(
    ===================================================== */
 
 document.addEventListener(
-
     "keydown",
-
     event => {
 
         const key =
@@ -3658,11 +3225,8 @@ document.addEventListener(
         */
 
         if (
-
             key === "r" &&
-
             !event.repeat
-
         ) {
 
             retryLevel();
@@ -3675,11 +3239,8 @@ document.addEventListener(
         */
 
         if (
-
             key === "b" &&
-
             bonusUnlocked
-
         ) {
 
             openGallery();
@@ -3692,20 +3253,12 @@ document.addEventListener(
         */
 
         if (
-            event.key ===
-            "Escape"
+            event.key === "Escape"
         ) {
 
-
-            /*
-               Viewer → Gallery
-            */
-
             if (
-
                 galleryViewer.style.display ===
                 "block"
-
             ) {
 
                 closeGalleryViewer();
@@ -3715,15 +3268,9 @@ document.addEventListener(
             }
 
 
-            /*
-               Gallery → Thanks
-            */
-
             if (
-
                 gallery.style.display ===
                 "block"
-
             ) {
 
                 closeGallery();
@@ -3733,15 +3280,9 @@ document.addEventListener(
             }
 
 
-            /*
-               Bonus → Gallery
-            */
-
             if (
-
                 bonus.style.display ===
                 "block"
-
             ) {
 
                 openGallery();
@@ -3758,10 +3299,8 @@ document.addEventListener(
         */
 
         if (
-
             galleryViewer.style.display ===
             "block"
-
         ) {
 
             if (
@@ -3786,7 +3325,6 @@ document.addEventListener(
         }
 
     }
-
 );
 
 
