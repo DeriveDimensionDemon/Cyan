@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHOWUP</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game {
+    position: relative;
+    width: min(100vw, 1280px);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+    cursor: none;
+    user-select: none;
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#ui {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    z-index: 10;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    text-shadow:
+        0 2px 4px #000,
+        0 0 8px #000;
+
+    pointer-events: none;
+}
+
+#levelText {
+    margin-right: 20px;
+}
+
+#message {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+
+    text-shadow:
+        0 3px 8px #000,
+        0 0 15px #000;
+
+    pointer-events: none;
+}
+
+#message small {
+    margin-top: 12px;
+    font-size: 20px;
+}
+
+#startButton {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 30;
+
+    padding: 14px 32px;
+
+    border: 2px solid white;
+    background: #111;
+    color: white;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#startButton:hover {
+    background: white;
+    color: black;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+    <canvas id="canvas"></canvas>
+
+    <div id="ui">
+        <span id="levelText">LEVEL 1 / 5</span>
+        <span id="revealText">REVEAL 0%</span>
+    </div>
+
+    <div id="message"></div>
+
+    <button id="startButton">
+        START SHOWUP
+    </button>
+
+</div>
+
+
+<script>
+
+// ======================================================
+// 基本設定
+// ======================================================
+
+const game = document.getElementById("game");
+const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d");
+
+const levelText =
+    document.getElementById("levelText");
+
+const revealText =
+    document.getElementById("revealText");
+
+const message =
+    document.getElementById("message");
+
+const startButton =
+    document.getElementById("startButton");
+
+
+const WIDTH = 1280;
+const HEIGHT = 720;
+
+
+// 20 × 20 方形畫筆
+const BRUSH_SIZE = 20;
+
+
+// ======================================================
+// 五個關卡
+// ======================================================
+
+const levels = [
+
+    {
+        image: "secret/1.jpg",
+        colors: ["cyan"],
+        bullets: 10,
+        speed: 3.0
+    },
+
+    {
+        image: "secret/2.jpg",
+        colors: ["yellow"],
+        bullets: 12,
+        speed: 3.3
+    },
+
+    {
+        image: "secret/3.jpg",
+        colors: ["red"],
+        bullets: 14,
+        speed: 3.6
+    },
+
+    {
+        image: "secret/4.jpg",
+        colors: ["white"],
+        bullets: 16,
+        speed: 3.9
+    },
+
+    {
+        image: "secret/5.jpg",
+        colors: [
+            "cyan",
+            "yellow",
+            "red",
+            "white"
+        ],
+        bullets: 20,
+        speed: 4.3
+    }
+
+];
+
+
+// ======================================================
+// Canvas
+// ======================================================
+
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
+
+
+// ======================================================
+// 底圖
+// ======================================================
+
+const image = new Image();
+
+let imageReady = false;
+
+image.onload = () => {
+    imageReady = true;
+};
+
+image.onerror = () => {
+    message.innerHTML =
+        "IMAGE ERROR<small>找不到 secret/ 圖片</small>";
+};
+
+
+
+// ======================================================
+// 遮罩 Canvas
+// ======================================================
+
+const maskCanvas =
+    document.createElement("canvas");
+
+maskCanvas.width = WIDTH;
+maskCanvas.height = HEIGHT;
+
+const mask =
+    maskCanvas.getContext("2d");
+
+
+// ======================================================
+// 滑鼠
+// ======================================================
+
+const mouse = {
+    x: WIDTH / 2,
+    y: HEIGHT / 2
+};
+
+
+let mouseInside = false;
+
+
+game.addEventListener("mousemove", event => {
+
+    const rect =
+        game.getBoundingClientRect();
+
+    mouse.x =
+        (event.clientX - rect.left)
+        / rect.width * WIDTH;
+
+    mouse.y =
+        (event.clientY - rect.top)
+        / rect.height * HEIGHT;
+
+    mouseInside = true;
+
+    if (running) {
+        eraseMask();
+    }
+
+});
+
+
+game.addEventListener("mouseleave", () => {
+    mouseInside = false;
+});
+
+
+// ======================================================
+// 彈幕
+// ======================================================
+
+let bullets = [];
+
+
+// ======================================================
+// 遊戲狀態
+// ======================================================
+
+let currentLevel = 0;
+
+let running = false;
+
+let gameFinished = false;
+
+
+// ======================================================
+// 載入關卡
+// ======================================================
+
+function loadLevel(index) {
+
+    currentLevel = index;
+
+    const level =
+        levels[currentLevel];
+
+    levelText.textContent =
+        `LEVEL ${currentLevel + 1} / 5`;
+
+    revealText.textContent =
+        "REVEAL 0%";
+
+    imageReady = false;
+
+    image.src = level.image;
+
+    bullets = [];
+
+    resetMask();
+
+    for (
+        let i = 0;
+        i < level.bullets;
+        i++
+    ) {
+        createBullet();
+    }
+
+}
+
+
+// ======================================================
+// 建立彈幕
+// ======================================================
+
+function createBullet() {
+
+    const level =
+        levels[currentLevel];
+
+    const side =
+        Math.floor(Math.random() * 4);
+
+    let x;
+    let y;
+    let vx;
+    let vy;
+
+
+    const speed =
+        level.speed;
+
+
+    if (side === 0) {
+
+        x = -20;
+
+        y =
+            Math.random() * HEIGHT;
+
+        vx = speed;
+
+        vy =
+            (Math.random() - 0.5)
+            * speed;
+
+    }
+
+
+    else if (side === 1) {
+
+        x = WIDTH + 20;
+
+        y =
+            Math.random() * HEIGHT;
+
+        vx = -speed;
+
+        vy =
+            (Math.random() - 0.5)
+            * speed;
+
+    }
+
+
+    else if (side === 2) {
+
+        x =
+            Math.random() * WIDTH;
+
+        y = -20;
+
+        vx =
+            (Math.random() - 0.5)
+            * speed;
+
+        vy = speed;
+
+    }
+
+
+    else {
+
+        x =
+            Math.random() * WIDTH;
+
+        y = HEIGHT + 20;
+
+        vx =
+            (Math.random() - 0.5)
+            * speed;
+
+        vy = -speed;
+
+    }
+
+
+    const colors =
+        level.colors;
+
+
+    const color =
+        colors[
+            Math.floor(
+                Math.random() * colors.length
+            )
+        ];
+
+
+    bullets.push({
+
+        x: x,
+        y: y,
+
+        vx: vx,
+        vy: vy,
+
+        radius: 8,
+
+        color: color
+
+    });
+
+}
+
+
+// ======================================================
+// 重置遮罩
+// ======================================================
+
+function resetMask() {
+
+    mask.globalCompositeOperation =
+        "source-over";
+
+    mask.fillStyle = "#000";
+
+    mask.fillRect(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+}
+
+
+// ======================================================
+// 擦除遮罩
+// ======================================================
+
+function eraseMask() {
+
+    mask.save();
+
+    mask.globalCompositeOperation =
+        "destination-out";
+
+
+    mask.fillStyle = "#fff";
+
+
+    // 20 × 20 正方形
+    mask.fillRect(
+
+        mouse.x - BRUSH_SIZE / 2,
+
+        mouse.y - BRUSH_SIZE / 2,
+
+        BRUSH_SIZE,
+
+        BRUSH_SIZE
+
+    );
+
+
+    mask.restore();
+
+}
+
+
+// ======================================================
+// 計算揭露率
+// ======================================================
+
+function calculateReveal() {
+
+    const data =
+        mask.getImageData(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        ).data;
+
+
+    let revealed = 0;
+
+    let total = 0;
+
+
+    // 降低計算量
+    const step = 20;
+
+
+    for (
+        let y = 0;
+        y < HEIGHT;
+        y += step
+    ) {
+
+        for (
+            let x = 0;
+            x < WIDTH;
+            x += step
+        ) {
+
+            const index =
+                (y * WIDTH + x) * 4;
+
+
+            total++;
+
+
+            if (data[index + 3] < 30) {
+                revealed++;
+            }
+
+        }
+
+    }
+
+
+    return (
+        revealed / total * 100
+    );
+
+}
+
+
+// ======================================================
+// 彈幕碰撞
+// ======================================================
+
+function checkCollision(bullet) {
+
+    const half =
+        BRUSH_SIZE / 2;
+
+
+    const closestX =
+        Math.max(
+            mouse.x - half,
+            Math.min(
+                bullet.x,
+                mouse.x + half
+            )
+        );
+
+
+    const closestY =
+        Math.max(
+            mouse.y - half,
+            Math.min(
+                bullet.y,
+                mouse.y + half
+            )
+        );
+
+
+    const dx =
+        bullet.x - closestX;
+
+    const dy =
+        bullet.y - closestY;
+
+
+    return (
+        dx * dx +
+        dy * dy
+    ) <=
+    bullet.radius *
+    bullet.radius;
+
+}
+
+
+// ======================================================
+// 更新遊戲
+// ======================================================
+
+function update() {
+
+    if (!running) {
+        return;
+    }
+
+
+    for (const bullet of bullets) {
+
+        bullet.x += bullet.vx;
+        bullet.y += bullet.vy;
+
+
+        if (
+            checkCollision(bullet)
+        ) {
+
+            hit();
+
+            return;
+
+        }
+
+    }
+
+
+    // 清除飛出畫面的彈幕
+    bullets =
+        bullets.filter(bullet => {
+
+            return (
+                bullet.x > -50 &&
+                bullet.x < WIDTH + 50 &&
+                bullet.y > -50 &&
+                bullet.y < HEIGHT + 50
+            );
+
+        });
+
+
+    // 補充新的彈幕
+    const target =
+        levels[currentLevel].bullets;
+
+
+    while (
+        bullets.length < target
+    ) {
+
+        createBullet();
+
+    }
+
+
+    const reveal =
+        calculateReveal();
+
+
+    revealText.textContent =
+        `REVEAL ${Math.floor(reveal)}%`;
+
+
+    // 80% 通關
+    if (reveal >= 80) {
+
+        clearLevel(reveal);
+
+    }
+
+}
+
+
+// ======================================================
+// 繪圖
+// ======================================================
+
+function draw() {
+
+    ctx.clearRect(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+
+    // 底圖
+    if (imageReady) {
+
+        ctx.drawImage(
+            image,
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+
+    }
+
+
+    // 黑色遮罩
+    ctx.drawImage(
+        maskCanvas,
+        0,
+        0
+    );
+
+
+    // 彈幕
+    for (const bullet of bullets) {
+
+        ctx.fillStyle =
+            bullet.color;
+
+        ctx.fillRect(
+
+            bullet.x - bullet.radius,
+
+            bullet.y - bullet.radius,
+
+            bullet.radius * 2,
+
+            bullet.radius * 2
+
+        );
+
+    }
+
+
+    // 玩家 20×20 畫筆
+    if (
+        mouseInside &&
+        running
+    ) {
+
+        ctx.strokeStyle =
+            "white";
+
+        ctx.lineWidth = 2;
+
+        ctx.strokeRect(
+
+            mouse.x - BRUSH_SIZE / 2,
+
+            mouse.y - BRUSH_SIZE / 2,
+
+            BRUSH_SIZE,
+
+            BRUSH_SIZE
+
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// 撞到彈幕
+// ======================================================
+
+function hit() {
+
+    running = false;
+
+
+    message.innerHTML =
+        "HIT!<small>Press R to retry</small>";
+
+}
+
+
+// ======================================================
+// 關卡完成
+// ======================================================
+
+function clearLevel(reveal) {
+
+    running = false;
+
+
+    if (
+        currentLevel ===
+        levels.length - 1
+    ) {
+
+        gameFinished = true;
+
+
+        message.innerHTML =
+            reveal >= 99.9
+                ? "PERFECT CLEAR!"
+                : "SHOWUP COMPLETE!";
+
+
+        return;
+
+    }
+
+
+    const perfect =
+        reveal >= 99.9
+            ? "<small>PERFECT!</small>"
+            : "<small>LEVEL CLEAR</small>";
+
+
+    message.innerHTML =
+        `LEVEL ${currentLevel + 1} CLEAR!`
+        + perfect;
+
+
+    setTimeout(() => {
+
+        message.innerHTML = "";
+
+        loadLevel(
+            currentLevel + 1
+        );
+
+        running = true;
+
+    }, 1600);
+
+}
+
+
+// ======================================================
+// 開始
+// ======================================================
+
+function startGame() {
+
+    gameFinished = false;
+
+    message.innerHTML = "";
+
+    loadLevel(0);
+
+    running = true;
+
+}
+
+
+// ======================================================
+// R：重新開始目前關卡
+// ======================================================
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key.toLowerCase() === "r"
+        ) {
+
+            if (!running) {
+
+                message.innerHTML = "";
+
+                loadLevel(
+                    currentLevel
+                );
+
+                running = true;
+
+            }
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// START
+// ======================================================
+
+startButton.addEventListener(
+    "click",
+    () => {
+
+        startButton.style.display =
+            "none";
+
+        startGame();
+
+    }
+);
+
+
+// ======================================================
+// 主迴圈
+// ======================================================
+
+function loop() {
+
+    update();
+
+    draw();
+
+    requestAnimationFrame(loop);
+
+}
+
+
+resetMask();
+
+loop();
+
+</script>
+
+</body>
+</html>
