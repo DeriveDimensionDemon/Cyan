@@ -40,7 +40,6 @@ body {
         sans-serif;
 
     overflow: hidden;
-
 }
 
 
@@ -76,12 +75,7 @@ body {
     box-shadow:
         0 4px 18px rgba(0, 0, 0, 0.28);
 
-    /*
-       隱藏瀏覽器原生滑鼠游標。
-       遊戲自己的方框＋十字會負責顯示位置。
-    */
-
-    cursor: none;
+    cursor: crosshair;
 
     user-select: none;
 
@@ -831,7 +825,7 @@ canvas {
 
 
     <!-- =================================================
-         CANVAS
+         GAME CANVAS
          ================================================= -->
 
     <canvas id="canvas"></canvas>
@@ -1092,31 +1086,8 @@ canvas.height = HEIGHT;
 // =====================================================
 // GAME SETTINGS
 // =====================================================
-//
-// ★ 最容易調整的地方
-//
-// BRUSH_SIZE
-// = 50×50 實際擦除範圍
-//
-// CROSSHAIR_SIZE
-// = 十字準心總長度
-//
-// COLLISION_SIZE
-// = 十字碰撞判定範圍
-//
-// CROSSHAIR_THICKNESS
-// = 十字線粗細
-//
-// =====================================================
 
 const BRUSH_SIZE = 50;
-
-const CROSSHAIR_SIZE = 70;
-
-const COLLISION_SIZE = 20;
-
-const CROSSHAIR_THICKNESS = 2;
-
 
 const BULLET_WIDTH = 190;
 
@@ -1272,6 +1243,10 @@ const levels = [
 
 // =====================================================
 // LEVEL -1
+//
+// 黑偷偷加碼的隱藏關。
+// 背景直接使用第六張福利圖。
+// GAME OVER = 真正破關。
 // =====================================================
 
 const hiddenLevel = {
@@ -1396,7 +1371,7 @@ let bullets = [];
 
 
 // =====================================================
-// GALLERY
+// GALLERY STATE
 // =====================================================
 
 const galleryImages = [
@@ -1498,6 +1473,8 @@ game.addEventListener(
 
 // =====================================================
 // RETRY
+//
+// R / 滑鼠左鍵
 // =====================================================
 
 function retryLevel() {
@@ -1556,6 +1533,8 @@ game.addEventListener(
 
 // =====================================================
 // ERASE
+//
+// 50x50 square brush
 // =====================================================
 
 function eraseBetween(
@@ -1899,6 +1878,10 @@ function calculateReveal() {
     }
 
 
+    /*
+       保證不會再出現 NaN。
+    */
+
     if (total <= 0) {
 
         return 0;
@@ -1916,73 +1899,28 @@ function calculateReveal() {
 // =====================================================
 // COLLISION
 // =====================================================
-//
-// ★ 只改這裡的 COLLISION_SIZE
-// 就可以改碰撞箱大小。
-//
-// 10 = 非常寬鬆
-// 20 = 目前設定
-// 30 = 普通
-// 40 = 比較難
-//
-// =====================================================
 
 function checkCollision(bullet) {
 
     const half =
-        COLLISION_SIZE / 2;
-
-
-    const thickness =
-        CROSSHAIR_THICKNESS / 2;
-
-
-    /*
-       橫向十字線
-    */
-
-    const horizontalHit =
-
-        mouse.x + half >
-            bullet.x &&
-
-        mouse.x - half <
-            bullet.x +
-            bullet.width &&
-
-        mouse.y + thickness >
-            bullet.y &&
-
-        mouse.y - thickness <
-            bullet.y +
-            bullet.height;
-
-
-    /*
-       垂直十字線
-    */
-
-    const verticalHit =
-
-        mouse.x + thickness >
-            bullet.x &&
-
-        mouse.x - thickness <
-            bullet.x +
-            bullet.width &&
-
-        mouse.y + half >
-            bullet.y &&
-
-        mouse.y - half <
-            bullet.y +
-            bullet.height;
+        BRUSH_SIZE / 2;
 
 
     return (
 
-        horizontalHit ||
-        verticalHit
+        mouse.x + half >
+        bullet.x &&
+
+        mouse.x - half <
+        bullet.x +
+        bullet.width &&
+
+        mouse.y + half >
+        bullet.y &&
+
+        mouse.y - half <
+        bullet.y +
+        bullet.height
 
     );
 
@@ -1990,7 +1928,7 @@ function checkCollision(bullet) {
 
 
 // =====================================================
-// LOAD LEVEL
+// LOAD NORMAL LEVEL
 // =====================================================
 
 function loadLevel(index) {
@@ -2063,6 +2001,7 @@ function enterHiddenLevel() {
 
 
     imageReady = false;
+
 
     image.src =
         hiddenLevel.image;
@@ -2189,6 +2128,10 @@ function update() {
         }%`;
 
 
+    /*
+       正式關卡超過 80% 才過關。
+    */
+
     if (
 
         !hiddenMode &&
@@ -2290,7 +2233,8 @@ function draw() {
 
 
     /*
-       黑色遮罩
+       黑色遮罩。
+       擦掉的地方變透明。
     */
 
     ctx.drawImage(
@@ -2303,10 +2247,6 @@ function draw() {
     );
 
 
-    /*
-       彈幕
-    */
-
     for (
         const bullet of bullets
     ) {
@@ -2317,15 +2257,7 @@ function draw() {
 
 
     /*
-       ================================================
-       自訂滑鼠視覺
-       ================================================
-
-       1. 50×50 方形筆刷輪廓
-       2. 70px 十字準心
-
-       瀏覽器原生游標已經用 cursor:none 隱藏。
-       ================================================
+       50x50 方形擦除區域。
     */
 
     if (
@@ -2335,10 +2267,6 @@ function draw() {
         running
 
     ) {
-
-        /*
-           50×50 筆刷方框
-        */
 
         ctx.strokeStyle =
             "white";
@@ -2355,75 +2283,9 @@ function draw() {
             BRUSH_SIZE / 2,
 
             BRUSH_SIZE,
-
             BRUSH_SIZE
 
         );
-
-
-        /*
-           十字準心
-        */
-
-        ctx.strokeStyle =
-            "white";
-
-        ctx.lineWidth =
-            CROSSHAIR_THICKNESS;
-
-
-        ctx.beginPath();
-
-
-        /*
-           Horizontal
-        */
-
-        ctx.moveTo(
-
-            mouse.x -
-            CROSSHAIR_SIZE / 2,
-
-            mouse.y
-
-        );
-
-
-        ctx.lineTo(
-
-            mouse.x +
-            CROSSHAIR_SIZE / 2,
-
-            mouse.y
-
-        );
-
-
-        /*
-           Vertical
-        */
-
-        ctx.moveTo(
-
-            mouse.x,
-
-            mouse.y -
-            CROSSHAIR_SIZE / 2
-
-        );
-
-
-        ctx.lineTo(
-
-            mouse.x,
-
-            mouse.y +
-            CROSSHAIR_SIZE / 2
-
-        );
-
-
-        ctx.stroke();
 
     }
 
@@ -2468,7 +2330,8 @@ function clearLevel() {
 
 
     /*
-       第五關完成後進入 LEVEL -1
+       第五關完成：
+       進入 LEVEL -1
     */
 
     if (
@@ -2537,6 +2400,8 @@ function clearLevel() {
 
 // =====================================================
 // LEVEL -1 GAME OVER
+//
+// ★ GAME OVER = 真正破關
 // =====================================================
 
 function hiddenGameOver() {
@@ -2549,6 +2414,11 @@ function hiddenGameOver() {
     message.innerHTML =
         "GAME OVER";
 
+
+    /*
+       GAME OVER 後稍微停一下，
+       再顯示 BONUS。
+    */
 
     setTimeout(
 
@@ -2569,6 +2439,9 @@ function hiddenGameOver() {
 
 // =====================================================
 // SHOW BONUS
+//
+// ★ 顯示 6.jpg
+// ★ 1.8 秒後自動進 Gallery
 // =====================================================
 
 function showBonus() {
@@ -2580,6 +2453,11 @@ function showBonus() {
     bonusImage.src =
         "secret/6.jpg";
 
+
+    /*
+       不需要玩家點。
+       自動進入 Gallery。
+    */
 
     setTimeout(
 
@@ -2621,8 +2499,7 @@ function buildGallery() {
                 document.createElement("img");
 
 
-            img.src =
-                src;
+            img.src = src;
 
             img.alt =
                 `Gallery ${index + 1}`;
