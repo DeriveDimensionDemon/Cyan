@@ -778,25 +778,24 @@ function update() {
 
 
     // 移動彈幕
-    for (const bullet of bullets) {
+   for (const bullet of bullets) {
 
-        bullet.x += bullet.vx;
+    ctx.strokeStyle = bullet.color;
 
-        bullet.y += bullet.vy;
+    ctx.lineWidth = 3;
 
+    ctx.font = "26px Arial";
 
-        // 撞到玩家
-        if (
-            checkCollision(bullet)
-        ) {
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
-            hit();
+    ctx.strokeText(
+        "♡",
+        bullet.x,
+        bullet.y
+    );
 
-            return;
-
-        }
-
-    }
+}
 
 
     // 移除飛出畫面的彈幕
