@@ -14,6 +14,10 @@
 
 <style>
 
+/* =====================================================
+   BASIC
+   ===================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -71,6 +75,11 @@ body {
 
     box-shadow:
         0 4px 18px rgba(0, 0, 0, 0.28);
+
+    /*
+       隱藏瀏覽器原生滑鼠游標。
+       遊戲自己的方框＋十字會負責顯示位置。
+    */
 
     cursor: none;
 
@@ -792,162 +801,194 @@ canvas {
 <div id="game">
 
 
-<div id="startScreen">
+    <!-- =================================================
+         START
+         ================================================= -->
 
-    <div id="startTitle">
-        SHOWUP
-    </div>
+    <div id="startScreen">
 
-    <div id="startNote">
+        <div id="startTitle">
+            SHOWUP
+        </div>
 
-        Move the mouse to reveal the image.<br>
+        <div id="startNote">
 
-        Avoid the messages.<br>
+            Move the mouse to reveal the image.<br>
 
-        <strong>
-            Reveal more than 80% to proceed.
-        </strong>
+            Avoid the messages.<br>
 
-    </div>
+            <strong>
+                Reveal more than 80% to proceed.
+            </strong>
 
-    <button id="startButton">
-        PLAY SHOWUP
-    </button>
+        </div>
 
-</div>
+        <button id="startButton">
+            PLAY SHOWUP
+        </button>
 
-
-<canvas id="canvas"></canvas>
-
-
-<div id="ui">
-
-    <span id="levelText">
-        LEVEL 1 / 5
-    </span>
-
-    <span id="revealText">
-        REVEAL 0%
-    </span>
-
-</div>
-
-
-<div id="message"></div>
-
-
-<div id="bonus">
-
-    <div id="bonusTitle">
-        BONUS IMAGE UNLOCKED
-    </div>
-
-    <img
-        id="bonusImage"
-        src="secret/6.jpg"
-        alt="Bonus"
-    >
-
-</div>
-
-
-<div id="gallery">
-
-    <div id="galleryHeader">
-        UNLOCKED GALLERY
     </div>
 
 
-    <div id="galleryGrid"></div>
+    <!-- =================================================
+         CANVAS
+         ================================================= -->
+
+    <canvas id="canvas"></canvas>
 
 
-    <div id="galleryViewer">
+    <!-- =================================================
+         UI
+         ================================================= -->
+
+    <div id="ui">
+
+        <span id="levelText">
+            LEVEL 1 / 5
+        </span>
+
+        <span id="revealText">
+            REVEAL 0%
+        </span>
+
+    </div>
+
+
+    <!-- =================================================
+         MESSAGE
+         ================================================= -->
+
+    <div id="message"></div>
+
+
+    <!-- =================================================
+         BONUS
+         ================================================= -->
+
+    <div id="bonus">
+
+        <div id="bonusTitle">
+            BONUS IMAGE UNLOCKED
+        </div>
 
         <img
-            id="galleryImage"
-            src=""
-            alt="Gallery Image"
+            id="bonusImage"
+            src="secret/6.jpg"
+            alt="Bonus"
         >
 
+    </div>
 
-        <div id="galleryCounter">
-            1 / 6
+
+    <!-- =================================================
+         GALLERY
+         ================================================= -->
+
+    <div id="gallery">
+
+        <div id="galleryHeader">
+            UNLOCKED GALLERY
         </div>
 
 
-        <button
-            id="galleryPrev"
-            class="galleryNav"
-        >
-            ‹
-        </button>
+        <div id="galleryGrid"></div>
 
 
-        <button
-            id="galleryNext"
-            class="galleryNav"
-        >
-            ›
-        </button>
+        <div id="galleryViewer">
+
+            <img
+                id="galleryImage"
+                src=""
+                alt="Gallery Image"
+            >
 
 
-        <button id="galleryClose">
-            CLOSE
-        </button>
+            <div id="galleryCounter">
+                1 / 6
+            </div>
 
-
-        <div id="galleryFooter">
 
             <button
-                id="galleryBack"
-                class="galleryButton"
+                id="galleryPrev"
+                class="galleryNav"
             >
-                GALLERY
+                ‹
             </button>
+
+
+            <button
+                id="galleryNext"
+                class="galleryNav"
+            >
+                ›
+            </button>
+
+
+            <button id="galleryClose">
+                CLOSE
+            </button>
+
+
+            <div id="galleryFooter">
+
+                <button
+                    id="galleryBack"
+                    class="galleryButton"
+                >
+                    GALLERY
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
+
+    <!-- =================================================
+         FINAL
+         ================================================= -->
+
+    <div id="finalScreen">
+
+        <h1>
+            THANKS FOR PLAYING
+        </h1>
+
+        <p>
+            SHOWUP COMPLETE
+        </p>
+
+        <p>
+            All six images have been unlocked.
+        </p>
+
+
+        <button
+            id="openGalleryButton"
+            class="finalButton"
+        >
+            OPEN GALLERY
+        </button>
+
+
+        <a
+            class="finalButton"
+            href="secret/ddd-showup-bonus.zip"
+            download
+        >
+            DOWNLOAD REWARD PACK
+        </a>
+
+    </div>
+
+
 </div>
 
 
-<div id="finalScreen">
-
-    <h1>
-        THANKS FOR PLAYING
-    </h1>
-
-    <p>
-        SHOWUP COMPLETE
-    </p>
-
-    <p>
-        All six images have been unlocked.
-    </p>
-
-
-    <button
-        id="openGalleryButton"
-        class="finalButton"
-    >
-        OPEN GALLERY
-    </button>
-
-
-    <a
-        class="finalButton"
-        href="secret/ddd-showup-bonus.zip"
-        download
-    >
-        DOWNLOAD REWARD PACK
-    </a>
-
-</div>
-
-
-</div>
-
+<!-- =====================================================
+     OFFICIAL WEBSITE
+     ===================================================== -->
 
 <div class="siteFooter">
 
@@ -1052,30 +1093,27 @@ canvas.height = HEIGHT;
 // GAME SETTINGS
 // =====================================================
 //
-// ★ 這三個數字是之後最容易調整的地方
+// ★ 最容易調整的地方
 //
 // BRUSH_SIZE
-// = 實際擦除圖片的方形大小
+// = 50×50 實際擦除範圍
 //
 // CROSSHAIR_SIZE
-// = 畫面上十字準心的總長度
+// = 十字準心總長度
 //
 // COLLISION_SIZE
-// = 實際碰撞判定的十字大小
+// = 十字碰撞判定範圍
 //
-// 目前：
-//
-// 擦除       50 × 50
-// 十字       70 px
-// 碰撞       20 px
+// CROSSHAIR_THICKNESS
+// = 十字線粗細
 //
 // =====================================================
 
 const BRUSH_SIZE = 50;
 
-const CROSSHAIR_SIZE = 30;
+const CROSSHAIR_SIZE = 70;
 
-const COLLISION_SIZE = 30;
+const COLLISION_SIZE = 20;
 
 const CROSSHAIR_THICKNESS = 2;
 
@@ -1090,6 +1128,10 @@ const BULLET_HEIGHT = 42;
 // =====================================================
 
 const levels = [
+
+    // -------------------------------------------------
+    // 1 蒼
+    // -------------------------------------------------
 
     {
 
@@ -1113,6 +1155,10 @@ const levels = [
     },
 
 
+    // -------------------------------------------------
+    // 2 金
+    // -------------------------------------------------
+
     {
 
         image: "secret/2.jpg",
@@ -1135,6 +1181,10 @@ const levels = [
     },
 
 
+    // -------------------------------------------------
+    // 3 紅
+    // -------------------------------------------------
+
     {
 
         image: "secret/3.jpg",
@@ -1156,6 +1206,10 @@ const levels = [
 
     },
 
+
+    // -------------------------------------------------
+    // 4 白
+    // -------------------------------------------------
 
     {
 
@@ -1180,6 +1234,10 @@ const levels = [
 
     },
 
+
+    // -------------------------------------------------
+    // 5 四姊妹
+    // -------------------------------------------------
 
     {
 
@@ -1859,18 +1917,13 @@ function calculateReveal() {
 // COLLISION
 // =====================================================
 //
-// ★ 這裡就是「碰撞箱大小」
+// ★ 只改這裡的 COLLISION_SIZE
+// 就可以改碰撞箱大小。
 //
-// COLLISION_SIZE = 20
-//
-// 想更寬鬆：
-// 10 / 15
-//
-// 想正常：
-// 20 / 25
-//
-// 想變難：
-// 30 / 40
+// 10 = 非常寬鬆
+// 20 = 目前設定
+// 30 = 普通
+// 40 = 比較難
 //
 // =====================================================
 
@@ -1884,9 +1937,9 @@ function checkCollision(bullet) {
         CROSSHAIR_THICKNESS / 2;
 
 
-    // -------------------------------------------------
-    // Horizontal crosshair
-    // -------------------------------------------------
+    /*
+       橫向十字線
+    */
 
     const horizontalHit =
 
@@ -1905,9 +1958,9 @@ function checkCollision(bullet) {
             bullet.height;
 
 
-    // -------------------------------------------------
-    // Vertical crosshair
-    // -------------------------------------------------
+    /*
+       垂直十字線
+    */
 
     const verticalHit =
 
@@ -2010,7 +2063,6 @@ function enterHiddenLevel() {
 
 
     imageReady = false;
-
 
     image.src =
         hiddenLevel.image;
@@ -2237,6 +2289,10 @@ function draw() {
     }
 
 
+    /*
+       黑色遮罩
+    */
+
     ctx.drawImage(
 
         maskCanvas,
@@ -2247,6 +2303,10 @@ function draw() {
     );
 
 
+    /*
+       彈幕
+    */
+
     for (
         const bullet of bullets
     ) {
@@ -2256,105 +2316,122 @@ function draw() {
     }
 
 
-  // -------------------------------------------------
-// 筆刷方框 + 十字準心
-// -------------------------------------------------
+    /*
+       ================================================
+       自訂滑鼠視覺
+       ================================================
 
-if (
+       1. 50×50 方形筆刷輪廓
+       2. 70px 十字準心
 
-    mouseInside &&
+       瀏覽器原生游標已經用 cursor:none 隱藏。
+       ================================================
+    */
 
-    running
+    if (
 
-) {
+        mouseInside &&
 
-    // =============================================
-    // 50 × 50 筆刷輪廓
-    // =============================================
+        running
 
-    ctx.strokeStyle =
-        "white";
+    ) {
 
-    ctx.lineWidth = 2;
+        /*
+           50×50 筆刷方框
+        */
 
+        ctx.strokeStyle =
+            "white";
 
-    ctx.strokeRect(
-
-        mouse.x -
-        BRUSH_SIZE / 2,
-
-        mouse.y -
-        BRUSH_SIZE / 2,
-
-        BRUSH_SIZE,
-
-        BRUSH_SIZE
-
-    );
+        ctx.lineWidth = 2;
 
 
-    // =============================================
-    // 十字準心
-    // =============================================
+        ctx.strokeRect(
 
-    ctx.strokeStyle =
-        "white";
+            mouse.x -
+            BRUSH_SIZE / 2,
 
-    ctx.lineWidth =
-        CROSSHAIR_THICKNESS;
+            mouse.y -
+            BRUSH_SIZE / 2,
 
-    ctx.beginPath();
+            BRUSH_SIZE,
 
+            BRUSH_SIZE
 
-    // Horizontal
-
-    ctx.moveTo(
-
-        mouse.x -
-        CROSSHAIR_SIZE / 2,
-
-        mouse.y
-
-    );
-
-    ctx.lineTo(
-
-        mouse.x +
-        CROSSHAIR_SIZE / 2,
-
-        mouse.y
-
-    );
+        );
 
 
-    // Vertical
+        /*
+           十字準心
+        */
 
-    ctx.moveTo(
+        ctx.strokeStyle =
+            "white";
 
-        mouse.x,
-
-        mouse.y -
-        CROSSHAIR_SIZE / 2
-
-    );
-
-    ctx.lineTo(
-
-        mouse.x,
-
-        mouse.y +
-        CROSSHAIR_SIZE / 2
-
-    );
+        ctx.lineWidth =
+            CROSSHAIR_THICKNESS;
 
 
-    ctx.stroke();
+        ctx.beginPath();
+
+
+        /*
+           Horizontal
+        */
+
+        ctx.moveTo(
+
+            mouse.x -
+            CROSSHAIR_SIZE / 2,
+
+            mouse.y
+
+        );
+
+
+        ctx.lineTo(
+
+            mouse.x +
+            CROSSHAIR_SIZE / 2,
+
+            mouse.y
+
+        );
+
+
+        /*
+           Vertical
+        */
+
+        ctx.moveTo(
+
+            mouse.x,
+
+            mouse.y -
+            CROSSHAIR_SIZE / 2
+
+        );
+
+
+        ctx.lineTo(
+
+            mouse.x,
+
+            mouse.y +
+            CROSSHAIR_SIZE / 2
+
+        );
+
+
+        ctx.stroke();
+
+    }
 
 }
 
 
 // =====================================================
-// GAME OVER
+// NORMAL GAME OVER
 // =====================================================
 
 function normalGameOver() {
@@ -2389,6 +2466,10 @@ function clearLevel() {
 
     running = false;
 
+
+    /*
+       第五關完成後進入 LEVEL -1
+    */
 
     if (
 
@@ -2540,7 +2621,8 @@ function buildGallery() {
                 document.createElement("img");
 
 
-            img.src = src;
+            img.src =
+                src;
 
             img.alt =
                 `Gallery ${index + 1}`;
@@ -2640,7 +2722,7 @@ function closeGallery() {
 
 
 // =====================================================
-// OPEN IMAGE
+// OPEN GALLERY IMAGE
 // =====================================================
 
 function openGalleryImage(index) {
@@ -2658,7 +2740,7 @@ function openGalleryImage(index) {
 
 
 // =====================================================
-// UPDATE IMAGE
+// UPDATE GALLERY IMAGE
 // =====================================================
 
 function updateGalleryImage() {
@@ -2863,7 +2945,9 @@ document.addEventListener(
             event.key.toLowerCase();
 
 
-        // R = retry
+        /*
+           R = retry
+        */
 
         if (key === "r") {
 
@@ -2872,7 +2956,9 @@ document.addEventListener(
         }
 
 
-        // B = gallery
+        /*
+           B = Gallery
+        */
 
         if (
 
@@ -2887,12 +2973,18 @@ document.addEventListener(
         }
 
 
-        // ESC
+        /*
+           ESC
+        */
 
         if (
             event.key === "Escape"
         ) {
 
+
+            /*
+               Viewer → Gallery
+            */
 
             if (
 
@@ -2908,6 +3000,10 @@ document.addEventListener(
             }
 
 
+            /*
+               Gallery → Thanks
+            */
+
             if (
 
                 gallery.style.display ===
@@ -2921,6 +3017,10 @@ document.addEventListener(
 
             }
 
+
+            /*
+               Bonus → Gallery
+            */
 
             if (
 
@@ -2938,7 +3038,9 @@ document.addEventListener(
         }
 
 
-        // Gallery arrows
+        /*
+           Gallery 左右鍵
+        */
 
         if (
 
