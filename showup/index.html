@@ -72,7 +72,7 @@ body {
     box-shadow:
         0 4px 18px rgba(0, 0, 0, 0.28);
 
-    cursor: crosshair;
+    cursor: none;
 
     user-select: none;
 
@@ -2256,74 +2256,99 @@ function draw() {
     }
 
 
-    // -------------------------------------------------
+  // -------------------------------------------------
+// 筆刷方框 + 十字準心
+// -------------------------------------------------
+
+if (
+
+    mouseInside &&
+
+    running
+
+) {
+
+    // =============================================
+    // 50 × 50 筆刷輪廓
+    // =============================================
+
+    ctx.strokeStyle =
+        "white";
+
+    ctx.lineWidth = 2;
+
+
+    ctx.strokeRect(
+
+        mouse.x -
+        BRUSH_SIZE / 2,
+
+        mouse.y -
+        BRUSH_SIZE / 2,
+
+        BRUSH_SIZE,
+
+        BRUSH_SIZE
+
+    );
+
+
+    // =============================================
     // 十字準心
-    // -------------------------------------------------
+    // =============================================
 
-    if (
+    ctx.strokeStyle =
+        "white";
 
-        mouseInside &&
+    ctx.lineWidth =
+        CROSSHAIR_THICKNESS;
 
-        running
-
-    ) {
-
-        ctx.strokeStyle =
-            "white";
-
-        ctx.lineWidth =
-            CROSSHAIR_THICKNESS;
-
-        ctx.beginPath();
+    ctx.beginPath();
 
 
-        // Horizontal
+    // Horizontal
 
-        ctx.moveTo(
+    ctx.moveTo(
 
-            mouse.x -
-            CROSSHAIR_SIZE / 2,
+        mouse.x -
+        CROSSHAIR_SIZE / 2,
 
-            mouse.y
+        mouse.y
 
-        );
+    );
 
+    ctx.lineTo(
 
-        ctx.lineTo(
+        mouse.x +
+        CROSSHAIR_SIZE / 2,
 
-            mouse.x +
-            CROSSHAIR_SIZE / 2,
+        mouse.y
 
-            mouse.y
-
-        );
-
-
-        // Vertical
-
-        ctx.moveTo(
-
-            mouse.x,
-
-            mouse.y -
-            CROSSHAIR_SIZE / 2
-
-        );
+    );
 
 
-        ctx.lineTo(
+    // Vertical
 
-            mouse.x,
+    ctx.moveTo(
 
-            mouse.y +
-            CROSSHAIR_SIZE / 2
+        mouse.x,
 
-        );
+        mouse.y -
+        CROSSHAIR_SIZE / 2
+
+    );
+
+    ctx.lineTo(
+
+        mouse.x,
+
+        mouse.y +
+        CROSSHAIR_SIZE / 2
+
+    );
 
 
-        ctx.stroke();
-
-    }
+    ctx.stroke();
 
 }
 
