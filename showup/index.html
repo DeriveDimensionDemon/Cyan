@@ -144,10 +144,14 @@ canvas {
 // 基本設定
 // ======================================================
 
-const game = document.getElementById("game");
-const canvas = document.getElementById("canvas");
+const game =
+    document.getElementById("game");
 
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.getElementById("canvas");
+
+const ctx =
+    canvas.getContext("2d");
 
 const levelText =
     document.getElementById("levelText");
@@ -166,8 +170,8 @@ const WIDTH = 1280;
 const HEIGHT = 720;
 
 
-// 20 × 20 方形畫筆
-const BRUSH_SIZE = 20;
+// ★ 50 × 50 方形畫筆
+const BRUSH_SIZE = 50;
 
 
 // ======================================================
@@ -240,10 +244,12 @@ image.onload = () => {
 };
 
 image.onerror = () => {
-    message.innerHTML =
-        "IMAGE ERROR<small>找不到 secret/ 圖片</small>";
-};
 
+    message.innerHTML =
+        "IMAGE ERROR" +
+        "<small>找不到 secret/ 圖片</small>";
+
+};
 
 
 // ======================================================
@@ -265,39 +271,167 @@ const mask =
 // ======================================================
 
 const mouse = {
+
     x: WIDTH / 2,
     y: HEIGHT / 2
+
+};
+
+
+// 上一次滑鼠的位置
+const lastMouse = {
+
+    x: WIDTH / 2,
+    y: HEIGHT / 2
+
 };
 
 
 let mouseInside = false;
 
 
-game.addEventListener("mousemove", event => {
+// ======================================================
+// 滑鼠移動
+// ======================================================
 
-    const rect =
-        game.getBoundingClientRect();
+game.addEventListener(
+    "mousemove",
+    event => {
 
-    mouse.x =
-        (event.clientX - rect.left)
-        / rect.width * WIDTH;
+        const rect =
+            game.getBoundingClientRect();
 
-    mouse.y =
-        (event.clientY - rect.top)
-        / rect.height * HEIGHT;
 
-    mouseInside = true;
+        const newX =
+            (event.clientX - rect.left)
+            / rect.width
+            * WIDTH;
 
-    if (running) {
-        eraseMask();
+
+        const newY =
+            (event.clientY - rect.top)
+            / rect.height
+            * HEIGHT;
+
+
+        // 如果遊戲正在進行，
+        // 從上一個位置一路補到新位置
+        if (running) {
+
+            eraseBetween(
+                lastMouse.x,
+                lastMouse.y,
+                newX,
+                newY
+            );
+
+        }
+
+
+        mouse.x = newX;
+        mouse.y = newY;
+
+
+        lastMouse.x = newX;
+        lastMouse.y = newY;
+
+
+        mouseInside = true;
+
+    }
+);
+
+
+game.addEventListener(
+    "mouseleave",
+    () => {
+
+        mouseInside = false;
+
+    }
+);
+
+
+// ======================================================
+// ★ 平滑方形擦除
+// ======================================================
+
+function eraseBetween(
+    x1,
+    y1,
+    x2,
+    y2
+) {
+
+    mask.save();
+
+
+    // 把黑色遮罩擦透明
+    mask.globalCompositeOperation =
+        "destination-out";
+
+
+    mask.fillStyle = "#fff";
+
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    // 每 4px 補一次
+    const step = 4;
+
+
+    const steps =
+        Math.max(
+            1,
+            Math.ceil(distance / step)
+        );
+
+
+    for (
+        let i = 0;
+        i <= steps;
+        i++
+    ) {
+
+        const t =
+            i / steps;
+
+
+        const x =
+            x1 + dx * t;
+
+
+        const y =
+            y1 + dy * t;
+
+
+        mask.fillRect(
+
+            x - BRUSH_SIZE / 2,
+
+            y - BRUSH_SIZE / 2,
+
+            BRUSH_SIZE,
+
+            BRUSH_SIZE
+
+        );
+
     }
 
-});
 
+    mask.restore();
 
-game.addEventListener("mouseleave", () => {
-    mouseInside = false;
-});
+}
 
 
 // ======================================================
@@ -326,29 +460,41 @@ function loadLevel(index) {
 
     currentLevel = index;
 
+
     const level =
         levels[currentLevel];
+
 
     levelText.textContent =
         `LEVEL ${currentLevel + 1} / 5`;
 
+
     revealText.textContent =
         "REVEAL 0%";
 
+
     imageReady = false;
 
-    image.src = level.image;
+
+    image.src =
+        level.image;
+
 
     bullets = [];
 
+
     resetMask();
 
+
+    // 建立彈幕
     for (
         let i = 0;
         i < level.bullets;
         i++
     ) {
+
         createBullet();
+
     }
 
 }
@@ -363,11 +509,16 @@ function createBullet() {
     const level =
         levels[currentLevel];
 
+
     const side =
-        Math.floor(Math.random() * 4);
+        Math.floor(
+            Math.random() * 4
+        );
+
 
     let x;
     let y;
+
     let vx;
     let vy;
 
@@ -376,6 +527,7 @@ function createBullet() {
         level.speed;
 
 
+    // 左
     if (side === 0) {
 
         x = -20;
@@ -392,6 +544,7 @@ function createBullet() {
     }
 
 
+    // 右
     else if (side === 1) {
 
         x = WIDTH + 20;
@@ -408,6 +561,7 @@ function createBullet() {
     }
 
 
+    // 上
     else if (side === 2) {
 
         x =
@@ -424,6 +578,7 @@ function createBullet() {
     }
 
 
+    // 下
     else {
 
         x =
@@ -447,7 +602,8 @@ function createBullet() {
     const color =
         colors[
             Math.floor(
-                Math.random() * colors.length
+                Math.random() *
+                colors.length
             )
         ];
 
@@ -478,7 +634,10 @@ function resetMask() {
     mask.globalCompositeOperation =
         "source-over";
 
-    mask.fillStyle = "#000";
+
+    mask.fillStyle =
+        "#000";
+
 
     mask.fillRect(
         0,
@@ -486,40 +645,6 @@ function resetMask() {
         WIDTH,
         HEIGHT
     );
-
-}
-
-
-// ======================================================
-// 擦除遮罩
-// ======================================================
-
-function eraseMask() {
-
-    mask.save();
-
-    mask.globalCompositeOperation =
-        "destination-out";
-
-
-    mask.fillStyle = "#fff";
-
-
-    // 20 × 20 正方形
-    mask.fillRect(
-
-        mouse.x - BRUSH_SIZE / 2,
-
-        mouse.y - BRUSH_SIZE / 2,
-
-        BRUSH_SIZE,
-
-        BRUSH_SIZE
-
-    );
-
-
-    mask.restore();
 
 }
 
@@ -544,7 +669,8 @@ function calculateReveal() {
     let total = 0;
 
 
-    // 降低計算量
+    // 每 20px 檢查一次
+    // 減少計算量
     const step = 20;
 
 
@@ -567,8 +693,13 @@ function calculateReveal() {
             total++;
 
 
-            if (data[index + 3] < 30) {
+            // Alpha 幾乎透明
+            if (
+                data[index + 3] < 30
+            ) {
+
                 revealed++;
+
             }
 
         }
@@ -577,7 +708,9 @@ function calculateReveal() {
 
 
     return (
-        revealed / total * 100
+        revealed /
+        total *
+        100
     );
 
 }
@@ -593,6 +726,8 @@ function checkCollision(bullet) {
         BRUSH_SIZE / 2;
 
 
+    // 把彈幕圓心限制到
+    // 畫筆方形範圍附近
     const closestX =
         Math.max(
             mouse.x - half,
@@ -615,6 +750,7 @@ function checkCollision(bullet) {
 
     const dx =
         bullet.x - closestX;
+
 
     const dy =
         bullet.y - closestY;
@@ -641,12 +777,15 @@ function update() {
     }
 
 
+    // 移動彈幕
     for (const bullet of bullets) {
 
         bullet.x += bullet.vx;
+
         bullet.y += bullet.vy;
 
 
+        // 撞到玩家
         if (
             checkCollision(bullet)
         ) {
@@ -660,21 +799,23 @@ function update() {
     }
 
 
-    // 清除飛出畫面的彈幕
+    // 移除飛出畫面的彈幕
     bullets =
-        bullets.filter(bullet => {
+        bullets.filter(
+            bullet => {
 
-            return (
-                bullet.x > -50 &&
-                bullet.x < WIDTH + 50 &&
-                bullet.y > -50 &&
-                bullet.y < HEIGHT + 50
-            );
+                return (
+                    bullet.x > -50 &&
+                    bullet.x < WIDTH + 50 &&
+                    bullet.y > -50 &&
+                    bullet.y < HEIGHT + 50
+                );
 
-        });
+            }
+        );
 
 
-    // 補充新的彈幕
+    // 補回彈幕
     const target =
         levels[currentLevel].bullets;
 
@@ -688,6 +829,7 @@ function update() {
     }
 
 
+    // 計算揭露率
     const reveal =
         calculateReveal();
 
@@ -720,7 +862,10 @@ function draw() {
     );
 
 
+    // --------------------------------------------------
     // 底圖
+    // --------------------------------------------------
+
     if (imageReady) {
 
         ctx.drawImage(
@@ -734,7 +879,10 @@ function draw() {
     }
 
 
+    // --------------------------------------------------
     // 黑色遮罩
+    // --------------------------------------------------
+
     ctx.drawImage(
         maskCanvas,
         0,
@@ -742,11 +890,15 @@ function draw() {
     );
 
 
+    // --------------------------------------------------
     // 彈幕
+    // --------------------------------------------------
+
     for (const bullet of bullets) {
 
         ctx.fillStyle =
             bullet.color;
+
 
         ctx.fillRect(
 
@@ -763,7 +915,10 @@ function draw() {
     }
 
 
-    // 玩家 20×20 畫筆
+    // --------------------------------------------------
+    // 玩家畫筆
+    // --------------------------------------------------
+
     if (
         mouseInside &&
         running
@@ -772,13 +927,17 @@ function draw() {
         ctx.strokeStyle =
             "white";
 
+
         ctx.lineWidth = 2;
+
 
         ctx.strokeRect(
 
-            mouse.x - BRUSH_SIZE / 2,
+            mouse.x -
+            BRUSH_SIZE / 2,
 
-            mouse.y - BRUSH_SIZE / 2,
+            mouse.y -
+            BRUSH_SIZE / 2,
 
             BRUSH_SIZE,
 
@@ -801,7 +960,8 @@ function hit() {
 
 
     message.innerHTML =
-        "HIT!<small>Press R to retry</small>";
+        "HIT!" +
+        "<small>Press R to retry</small>";
 
 }
 
@@ -815,6 +975,7 @@ function clearLevel(reveal) {
     running = false;
 
 
+    // 最後一關
     if (
         currentLevel ===
         levels.length - 1
@@ -823,10 +984,19 @@ function clearLevel(reveal) {
         gameFinished = true;
 
 
-        message.innerHTML =
-            reveal >= 99.9
-                ? "PERFECT CLEAR!"
-                : "SHOWUP COMPLETE!";
+        if (reveal >= 99.9) {
+
+            message.innerHTML =
+                "PERFECT CLEAR!";
+
+        }
+
+        else {
+
+            message.innerHTML =
+                "SHOWUP COMPLETE!";
+
+        }
 
 
         return;
@@ -845,32 +1015,40 @@ function clearLevel(reveal) {
         + perfect;
 
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        message.innerHTML = "";
+            message.innerHTML = "";
 
-        loadLevel(
-            currentLevel + 1
-        );
 
-        running = true;
+            loadLevel(
+                currentLevel + 1
+            );
 
-    }, 1600);
+
+            running = true;
+
+        },
+        1600
+    );
 
 }
 
 
 // ======================================================
-// 開始
+// 開始遊戲
 // ======================================================
 
 function startGame() {
 
     gameFinished = false;
 
+
     message.innerHTML = "";
 
+
     loadLevel(0);
+
 
     running = true;
 
@@ -893,9 +1071,11 @@ document.addEventListener(
 
                 message.innerHTML = "";
 
+
                 loadLevel(
                     currentLevel
                 );
+
 
                 running = true;
 
@@ -918,6 +1098,7 @@ startButton.addEventListener(
         startButton.style.display =
             "none";
 
+
         startGame();
 
     }
@@ -934,10 +1115,15 @@ function loop() {
 
     draw();
 
+
     requestAnimationFrame(loop);
 
 }
 
+
+// ======================================================
+// 初始化
+// ======================================================
 
 resetMask();
 
