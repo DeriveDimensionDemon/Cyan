@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -11,7 +12,12 @@
 
 <title>SHOWUP</title>
 
+
 <style>
+
+/* =====================================================
+   基本設定
+   ===================================================== */
 
 * {
     box-sizing: border-box;
@@ -35,6 +41,7 @@ body {
         sans-serif;
 
     overflow: hidden;
+
 }
 
 
@@ -50,7 +57,7 @@ body {
 
 
 /* =====================================================
-   遊戲本體
+   遊戲區
    ===================================================== */
 
 #game {
@@ -94,7 +101,7 @@ canvas {
 
 
 /* =====================================================
-   UI
+   左上角 UI
    ===================================================== */
 
 #ui {
@@ -130,7 +137,7 @@ canvas {
 
 
 /* =====================================================
-   GAME OVER / CLEAR
+   訊息
    ===================================================== */
 
 #message {
@@ -172,24 +179,120 @@ canvas {
 
     font-size: 20px;
 
+    line-height: 1.7;
+
+}
+
+
+#message.final {
+
+    pointer-events: auto;
+
 }
 
 
 /* =====================================================
-   START
+   最後下載按鈕
    ===================================================== */
 
-#startButton {
+.downloadButton {
+
+    display: inline-block;
+
+    margin-top: 24px;
+
+    padding: 14px 28px;
+
+    border: 2px solid white;
+
+    background: #111111;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    text-shadow: none;
+
+}
+
+
+.downloadButton:hover {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+/* =====================================================
+   開始畫面
+   ===================================================== */
+
+#startScreen {
 
     position: absolute;
 
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
+    inset: 0;
 
     z-index: 40;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    background: rgba(0, 0, 0, 0.28);
+
+    text-align: center;
+
+}
+
+
+#startTitle {
+
+    margin-bottom: 10px;
+
+    font-size: 48px;
+
+    font-weight: bold;
+
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 3px 10px #000000;
+
+}
+
+
+#startNote {
+
+    margin-bottom: 24px;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    text-shadow:
+        0 2px 6px #000000;
+
+}
+
+
+#startButton {
 
     padding: 14px 32px;
 
@@ -285,8 +388,46 @@ canvas {
 
 <div id="game">
 
+
+    <!-- =================================================
+         開始畫面
+         ================================================= -->
+
+    <div id="startScreen">
+
+        <div id="startTitle">
+            PLAY SHOWUP
+        </div>
+
+        <div id="startNote">
+
+            Move the mouse to reveal the image.<br>
+
+            Avoid the messages.<br>
+
+            <strong>
+                Reveal more than 80% to proceed.
+            </strong>
+
+        </div>
+
+        <button id="startButton">
+            PLAY SHOWUP
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         遊戲 Canvas
+         ================================================= -->
+
     <canvas id="canvas"></canvas>
 
+
+    <!-- =================================================
+         UI
+         ================================================= -->
 
     <div id="ui">
 
@@ -301,13 +442,16 @@ canvas {
     </div>
 
 
+    <!-- =================================================
+         GAME OVER / CLEAR / END
+         ================================================= -->
+
     <div id="message"></div>
 
 
-    <button id="startButton">
-        START SHOWUP
-    </button>
-
+    <!-- =================================================
+         BONUS IMAGE
+         ================================================= -->
 
     <div id="bonus">
 
@@ -322,6 +466,7 @@ canvas {
         >
 
     </div>
+
 
 </div>
 
@@ -350,6 +495,9 @@ const revealText =
 
 const message =
     document.getElementById("message");
+
+const startScreen =
+    document.getElementById("startScreen");
 
 const startButton =
     document.getElementById("startButton");
@@ -380,6 +528,47 @@ const BRUSH_SIZE = 50;
 
 const BULLET_WIDTH = 190;
 const BULLET_HEIGHT = 42;
+
+
+// =====================================================
+// ★★★ CHEAT MODE：SHIFT 無敵 ★★★
+//
+// 按住 SHIFT 時：
+// 滑鼠不會被彈幕撞死。
+//
+// 想移除這個功能時，主要刪除這個區塊，
+// 再刪除 checkCollision() 裡的 shiftInvincible 判定即可。
+// =====================================================
+
+let shiftInvincible = false;
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Shift") {
+
+            shiftInvincible = true;
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    event => {
+
+        if (event.key === "Shift") {
+
+            shiftInvincible = false;
+
+        }
+
+    }
+);
 
 
 // =====================================================
@@ -421,8 +610,6 @@ const levels = [
     {
 
         image: "secret/2.jpg",
-
-        // ★ 金：yellow → orange
 
         colors: ["orange"],
 
@@ -476,15 +663,11 @@ const levels = [
 
         image: "secret/4.jpg",
 
-        // ★ 白：白底
-
         colors: ["white"],
 
         bullets: 16,
 
         speed: 3.9,
-
-        // ★ 白：灰字
 
         textColor: "#696969",
 
@@ -538,9 +721,9 @@ const levels = [
 // =====================================================
 // LEVEL -1
 //
-// 黑偷偷加碼的隱藏關。
-// 注意：這不是第六關。
-// GAME OVER 才是隱藏通關。
+// 黑偷偷加碼放福利的隱藏關。
+// 這不是正式第六關。
+// GAME OVER 才是真正通關。
 // =====================================================
 
 const hiddenLevel = {
@@ -594,11 +777,13 @@ const image =
 
 let imageReady = false;
 
+
 image.onload = () => {
 
     imageReady = true;
 
 };
+
 
 image.onerror = () => {
 
@@ -609,7 +794,6 @@ image.onerror = () => {
         +
 
         "<small>"
-
         +
 
         "找不到圖片"
@@ -632,12 +816,14 @@ const mouse = {
 
 };
 
+
 const lastMouse = {
 
     x: WIDTH / 2,
     y: HEIGHT / 2
 
 };
+
 
 let mouseInside = false;
 
@@ -999,8 +1185,6 @@ function createBullet() {
 
         text: text,
 
-        // ★ 每顆彈幕記錄自己的文字顏色
-
         textColor:
 
             color === "white"
@@ -1019,8 +1203,6 @@ function createBullet() {
 
 // =====================================================
 // 計算揭露率
-//
-// ★ 已修正 NaN 錯誤
 // =====================================================
 
 function calculateReveal() {
@@ -1085,7 +1267,7 @@ function calculateReveal() {
     }
 
 
-    // ★ 不要在 return 後換行
+    // 注意：return 不可以單獨換行。
 
     return (
         revealed / total * 100
@@ -1099,6 +1281,24 @@ function calculateReveal() {
 // =====================================================
 
 function checkCollision(bullet) {
+
+
+    // =================================================
+    // ★★★ SHIFT 無敵判定 ★★★
+    //
+    // 如果要移除 SHIFT 無敵：
+    //
+    // 刪掉下面這兩行即可：
+    //
+    // if (shiftInvincible) return false;
+    // =================================================
+
+    if (shiftInvincible) {
+
+        return false;
+
+    }
+
 
     const half =
         BRUSH_SIZE / 2;
@@ -1126,7 +1326,7 @@ function checkCollision(bullet) {
 
 
 // =====================================================
-// 載入正常關卡
+// 載入正式關卡
 // =====================================================
 
 function loadLevel(index) {
@@ -1226,6 +1426,8 @@ function enterHiddenLevel() {
 
     message.innerHTML = "";
 
+    message.classList.remove("final");
+
 }
 
 
@@ -1236,7 +1438,9 @@ function enterHiddenLevel() {
 function update() {
 
     if (!running) {
+
         return;
+
     }
 
 
@@ -1321,13 +1525,13 @@ function update() {
         }%`;
 
 
-    // LEVEL -1 故意沒有成功條件
+    // 正式關卡：超過 80% 前往下一關
 
     if (
 
         !hiddenMode &&
 
-        reveal >= 80
+        reveal > 80
 
     ) {
 
@@ -1344,9 +1548,6 @@ function update() {
 
 function drawBullet(bullet) {
 
-    // -------------------------------------------------
-    // 背景
-    // -------------------------------------------------
 
     ctx.fillStyle =
         bullet.color;
@@ -1362,10 +1563,6 @@ function drawBullet(bullet) {
 
     );
 
-
-    // -------------------------------------------------
-    // 文字
-    // -------------------------------------------------
 
     ctx.fillStyle =
         bullet.textColor;
@@ -1412,10 +1609,6 @@ function draw() {
     );
 
 
-    // -------------------------------------------------
-    // 底圖
-    // -------------------------------------------------
-
     if (imageReady) {
 
         ctx.drawImage(
@@ -1433,20 +1626,12 @@ function draw() {
     }
 
 
-    // -------------------------------------------------
-    // 遮罩
-    // -------------------------------------------------
-
     ctx.drawImage(
         maskCanvas,
         0,
         0
     );
 
-
-    // -------------------------------------------------
-    // 彈幕
-    // -------------------------------------------------
 
     for (
         const bullet of bullets
@@ -1457,9 +1642,7 @@ function draw() {
     }
 
 
-    // -------------------------------------------------
-    // 50 × 50 方形畫筆
-    // -------------------------------------------------
+    // 50 × 50 方形游標
 
     if (
         mouseInside &&
@@ -1505,7 +1688,9 @@ function normalGameOver() {
 
         +
 
-        "<small>" +
+        "<small>"
+
+        +
 
         "Press R to retry"
 
@@ -1572,11 +1757,9 @@ function clearLevel() {
 
             message.innerHTML = "";
 
-
             loadLevel(
                 currentLevel + 1
             );
-
 
             running = true;
 
@@ -1592,7 +1775,8 @@ function clearLevel() {
 // =====================================================
 // LEVEL -1 GAME OVER
 //
-// ★ GAME OVER = 真正通關
+// 黑的設計：
+// GAME OVER = 真正通關
 // =====================================================
 
 function hiddenGameOver() {
@@ -1640,7 +1824,7 @@ function showBonus() {
 
 
 // =====================================================
-// 關閉 BONUS
+// 關閉 BONUS → 最終破關畫面
 // =====================================================
 
 function closeBonus() {
@@ -1649,19 +1833,38 @@ function closeBonus() {
         "none";
 
 
-    message.innerHTML =
+    message.classList.add("final");
 
-        "SHOWUP COMPLETE"
 
-        +
+    message.innerHTML = `
 
-        "<small>" +
+        THANKS FOR PLAYING
 
-        "Press B to view bonus again"
+        <small>
 
-        +
+            SHOWUP COMPLETE<br>
 
-        "</small>";
+            All six images have been unlocked.
+
+            <br>
+
+            <a
+                class="downloadButton"
+                href="secret/ddd-showup-bonus.zip"
+                download
+            >
+                DOWNLOAD REWARD PACK
+            </a>
+
+            <br>
+
+            <span>
+                Press B to view bonus again
+            </span>
+
+        </small>
+
+    `;
 
 }
 
@@ -1676,7 +1879,7 @@ startButton.addEventListener(
 
     () => {
 
-        startButton.style.display =
+        startScreen.style.display =
             "none";
 
 
@@ -1685,6 +1888,8 @@ startButton.addEventListener(
 
 
         message.innerHTML = "";
+
+        message.classList.remove("final");
 
 
         bonusUnlocked = false;
@@ -1701,6 +1906,50 @@ startButton.addEventListener(
 
 
 // =====================================================
+// R：重新開始目前關卡
+// =====================================================
+
+function retryLevel() {
+
+    if (bonusUnlocked) {
+
+        return;
+
+    }
+
+
+    if (running) {
+
+        return;
+
+    }
+
+
+    message.innerHTML = "";
+
+    message.classList.remove("final");
+
+
+    if (hiddenMode) {
+
+        enterHiddenLevel();
+
+    }
+
+    else {
+
+        loadLevel(
+            currentLevel
+        );
+
+        running = true;
+
+    }
+
+}
+
+
+// =====================================================
 // 鍵盤
 // =====================================================
 
@@ -1714,47 +1963,20 @@ document.addEventListener(
             event.key.toLowerCase();
 
 
-        // -------------------------------------------------
-        // R：重新開始目前關卡
-        // -------------------------------------------------
+        // ---------------------------------------------
+        // R：重新開始
+        // ---------------------------------------------
 
-        if (
+        if (key === "r") {
 
-            key === "r" &&
-
-            !bonusUnlocked
-
-        ) {
-
-            if (!running) {
-
-                message.innerHTML = "";
-
-
-                if (hiddenMode) {
-
-                    enterHiddenLevel();
-
-                }
-
-                else {
-
-                    loadLevel(
-                        currentLevel
-                    );
-
-                    running = true;
-
-                }
-
-            }
+            retryLevel();
 
         }
 
 
-        // -------------------------------------------------
+        // ---------------------------------------------
         // B：重新觀看 BONUS
-        // -------------------------------------------------
+        // ---------------------------------------------
 
         if (
 
@@ -1769,9 +1991,9 @@ document.addEventListener(
         }
 
 
-        // -------------------------------------------------
+        // ---------------------------------------------
         // ESC：離開 BONUS
-        // -------------------------------------------------
+        // ---------------------------------------------
 
         if (
 
