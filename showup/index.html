@@ -41,7 +41,6 @@ body {
         sans-serif;
 
     overflow: hidden;
-
 }
 
 
@@ -101,7 +100,7 @@ canvas {
 
 
 /* =====================================================
-   左上角 UI
+   UI
    ===================================================== */
 
 #ui {
@@ -137,7 +136,7 @@ canvas {
 
 
 /* =====================================================
-   訊息
+   一般訊息
    ===================================================== */
 
 #message {
@@ -184,55 +183,6 @@ canvas {
 }
 
 
-#message.final {
-
-    pointer-events: auto;
-
-}
-
-
-/* =====================================================
-   最後下載按鈕
-   ===================================================== */
-
-.downloadButton {
-
-    display: inline-block;
-
-    margin-top: 24px;
-
-    padding: 14px 28px;
-
-    border: 2px solid white;
-
-    background: #111111;
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    text-shadow: none;
-
-}
-
-
-.downloadButton:hover {
-
-    background: white;
-
-    color: black;
-
-}
-
-
 /* =====================================================
    開始畫面
    ===================================================== */
@@ -264,7 +214,7 @@ canvas {
 
 #startTitle {
 
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 
     font-size: 48px;
 
@@ -296,8 +246,7 @@ canvas {
 
     padding: 14px 32px;
 
-    border:
-        2px solid white;
+    border: 2px solid white;
 
     background: #111111;
 
@@ -322,7 +271,7 @@ canvas {
 
 
 /* =====================================================
-   BONUS
+   BONUS 單張圖片
    ===================================================== */
 
 #bonus {
@@ -378,6 +327,419 @@ canvas {
 
 }
 
+
+/* =====================================================
+   Gallery
+   ===================================================== */
+
+#gallery {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 200;
+
+    display: none;
+
+    background: #111111;
+
+    color: white;
+
+}
+
+
+#galleryHeader {
+
+    position: absolute;
+
+    top: 14px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 205;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 2px 6px #000000;
+
+}
+
+
+#galleryGrid {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 88%;
+
+    height: 76%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    grid-template-rows:
+        repeat(2, 1fr);
+
+    gap: 14px;
+
+}
+
+
+.galleryThumb {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 2px solid #555555;
+
+    background: #000000;
+
+    cursor: pointer;
+
+}
+
+
+.galleryThumb:hover {
+
+    border-color: white;
+
+}
+
+
+.galleryThumb img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+
+.galleryNumber {
+
+    position: absolute;
+
+    left: 8px;
+
+    top: 6px;
+
+    padding: 3px 8px;
+
+    background: rgba(0,0,0,0.65);
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   Gallery 大圖
+   ===================================================== */
+
+#galleryViewer {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 300;
+
+    display: none;
+
+    background: #000000;
+
+}
+
+
+#galleryViewer img {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+#galleryCounter {
+
+    position: absolute;
+
+    top: 16px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 305;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: white;
+
+    text-shadow:
+        0 2px 6px #000000;
+
+}
+
+
+.galleryNav {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    z-index: 310;
+
+    width: 52px;
+
+    height: 70px;
+
+    border: 2px solid white;
+
+    background: rgba(0,0,0,0.55);
+
+    color: white;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+}
+
+
+.galleryNav:hover {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+#galleryPrev {
+
+    left: 18px;
+
+}
+
+
+#galleryNext {
+
+    right: 18px;
+
+}
+
+
+#galleryClose {
+
+    position: absolute;
+
+    right: 18px;
+
+    top: 14px;
+
+    z-index: 310;
+
+    padding: 8px 14px;
+
+    border: 2px solid white;
+
+    background: rgba(0,0,0,0.65);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+#galleryClose:hover {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+/* =====================================================
+   Gallery 底部控制
+   ===================================================== */
+
+#galleryFooter {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 13px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 310;
+
+    display: flex;
+
+    gap: 12px;
+
+}
+
+
+.galleryButton {
+
+    padding: 9px 16px;
+
+    border: 2px solid white;
+
+    background: rgba(0,0,0,0.75);
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.galleryButton:hover {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+/* =====================================================
+   最終破關畫面
+   ===================================================== */
+
+#finalScreen {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    background: #111111;
+
+    color: white;
+
+    text-align: center;
+
+}
+
+
+#finalScreen h1 {
+
+    margin: 0 0 16px 0;
+
+    font-size: 46px;
+
+    letter-spacing: 4px;
+
+}
+
+
+#finalScreen p {
+
+    margin: 5px 0;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+}
+
+
+.finalButton {
+
+    margin-top: 22px;
+
+    padding: 13px 25px;
+
+    border: 2px solid white;
+
+    background: #111111;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.finalButton:hover {
+
+    background: white;
+
+    color: black;
+
+}
+
 </style>
 
 </head>
@@ -396,7 +758,7 @@ canvas {
     <div id="startScreen">
 
         <div id="startTitle">
-            PLAY SHOWUP
+            SHOWUP
         </div>
 
         <div id="startNote">
@@ -419,7 +781,7 @@ canvas {
 
 
     <!-- =================================================
-         遊戲 Canvas
+         Canvas
          ================================================= -->
 
     <canvas id="canvas"></canvas>
@@ -443,14 +805,14 @@ canvas {
 
 
     <!-- =================================================
-         GAME OVER / CLEAR / END
+         GAME OVER / CLEAR
          ================================================= -->
 
     <div id="message"></div>
 
 
     <!-- =================================================
-         BONUS IMAGE
+         BONUS 單張
          ================================================= -->
 
     <div id="bonus">
@@ -464,6 +826,113 @@ canvas {
             src="secret/6.jpg"
             alt="Bonus"
         >
+
+    </div>
+
+
+    <!-- =================================================
+         Gallery
+         ================================================= -->
+
+    <div id="gallery">
+
+        <div id="galleryHeader">
+            UNLOCKED GALLERY
+        </div>
+
+
+        <div id="galleryGrid">
+        </div>
+
+
+        <div id="galleryViewer">
+
+            <img
+                id="galleryImage"
+                src=""
+                alt="Gallery Image"
+            >
+
+
+            <div id="galleryCounter">
+                1 / 6
+            </div>
+
+
+            <button
+                id="galleryPrev"
+                class="galleryNav"
+            >
+                ‹
+            </button>
+
+
+            <button
+                id="galleryNext"
+                class="galleryNav"
+            >
+                ›
+            </button>
+
+
+            <button
+                id="galleryClose"
+            >
+                CLOSE
+            </button>
+
+
+            <div id="galleryFooter">
+
+                <button
+                    id="galleryBack"
+                    class="galleryButton"
+                >
+                    GALLERY
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         最終破關畫面
+         ================================================= -->
+
+    <div id="finalScreen">
+
+        <h1>
+            THANKS FOR PLAYING
+        </h1>
+
+        <p>
+            SHOWUP COMPLETE
+        </p>
+
+        <p>
+            All six images have been unlocked.
+        </p>
+
+
+        <button
+            id="openGalleryButton"
+            class="finalButton"
+        >
+            OPEN GALLERY
+        </button>
+
+
+        <a
+            class="finalButton"
+            href="secret/ddd-showup-bonus.zip"
+            download
+        >
+            DOWNLOAD REWARD PACK
+        </a>
 
     </div>
 
@@ -508,9 +977,42 @@ const bonus =
 const bonusImage =
     document.getElementById("bonusImage");
 
+const gallery =
+    document.getElementById("gallery");
+
+const galleryGrid =
+    document.getElementById("galleryGrid");
+
+const galleryViewer =
+    document.getElementById("galleryViewer");
+
+const galleryImage =
+    document.getElementById("galleryImage");
+
+const galleryCounter =
+    document.getElementById("galleryCounter");
+
+const galleryPrev =
+    document.getElementById("galleryPrev");
+
+const galleryNext =
+    document.getElementById("galleryNext");
+
+const galleryClose =
+    document.getElementById("galleryClose");
+
+const galleryBack =
+    document.getElementById("galleryBack");
+
+const finalScreen =
+    document.getElementById("finalScreen");
+
+const openGalleryButton =
+    document.getElementById("openGalleryButton");
+
 
 // =====================================================
-// 畫布尺寸
+// Canvas
 // =====================================================
 
 const WIDTH = 1280;
@@ -527,17 +1029,21 @@ canvas.height = HEIGHT;
 const BRUSH_SIZE = 50;
 
 const BULLET_WIDTH = 190;
+
 const BULLET_HEIGHT = 42;
 
 
 // =====================================================
-// ★★★ CHEAT MODE：SHIFT 無敵 ★★★
+// ★★★★★ CHEAT MODE ★★★★★
 //
-// 按住 SHIFT 時：
-// 滑鼠不會被彈幕撞死。
+// SHIFT 無敵
 //
-// 想移除這個功能時，主要刪除這個區塊，
-// 再刪除 checkCollision() 裡的 shiftInvincible 判定即可。
+// 按住 SHIFT：
+// 彈幕碰撞無效。
+//
+// 若正式發布時想移除作弊功能，
+// 主要刪除此區塊，並刪除
+// checkCollision() 中的 shiftInvincible 判定。
 // =====================================================
 
 let shiftInvincible = false;
@@ -572,14 +1078,12 @@ document.addEventListener(
 
 
 // =====================================================
-// 五個正式關卡
+// 正式關卡
 // =====================================================
 
 const levels = [
 
-    // -------------------------------------------------
     // 第一關：蒼
-    // -------------------------------------------------
 
     {
 
@@ -603,9 +1107,7 @@ const levels = [
     },
 
 
-    // -------------------------------------------------
     // 第二關：金
-    // -------------------------------------------------
 
     {
 
@@ -629,9 +1131,7 @@ const levels = [
     },
 
 
-    // -------------------------------------------------
     // 第三關：紅
-    // -------------------------------------------------
 
     {
 
@@ -655,9 +1155,7 @@ const levels = [
     },
 
 
-    // -------------------------------------------------
     // 第四關：白
-    // -------------------------------------------------
 
     {
 
@@ -683,9 +1181,7 @@ const levels = [
     },
 
 
-    // -------------------------------------------------
     // 第五關：四姊妹
-    // -------------------------------------------------
 
     {
 
@@ -721,9 +1217,7 @@ const levels = [
 // =====================================================
 // LEVEL -1
 //
-// 黑偷偷加碼放福利的隱藏關。
-// 這不是正式第六關。
-// GAME OVER 才是真正通關。
+// 黑偷偷加碼的隱藏關。
 // =====================================================
 
 const hiddenLevel = {
@@ -755,13 +1249,14 @@ const hiddenLevel = {
 
 
 // =====================================================
-// 遮罩 Canvas
+// Mask Canvas
 // =====================================================
 
 const maskCanvas =
     document.createElement("canvas");
 
 maskCanvas.width = WIDTH;
+
 maskCanvas.height = HEIGHT;
 
 const mask =
@@ -794,6 +1289,7 @@ image.onerror = () => {
         +
 
         "<small>"
+
         +
 
         "找不到圖片"
@@ -812,6 +1308,7 @@ image.onerror = () => {
 const mouse = {
 
     x: WIDTH / 2,
+
     y: HEIGHT / 2
 
 };
@@ -820,6 +1317,7 @@ const mouse = {
 const lastMouse = {
 
     x: WIDTH / 2,
+
     y: HEIGHT / 2
 
 };
@@ -841,6 +1339,24 @@ let hiddenMode = false;
 let bonusUnlocked = false;
 
 let bullets = [];
+
+
+// =====================================================
+// Gallery 狀態
+// =====================================================
+
+const galleryImages = [
+
+    "secret/1.jpg",
+    "secret/2.jpg",
+    "secret/3.jpg",
+    "secret/4.jpg",
+    "secret/5.jpg",
+    "secret/6.jpg"
+
+];
+
+let galleryIndex = 0;
 
 
 // =====================================================
@@ -903,9 +1419,11 @@ game.addEventListener(
 
 
         mouse.x = newX;
+
         mouse.y = newY;
 
         lastMouse.x = newX;
+
         lastMouse.y = newY;
 
         mouseInside = true;
@@ -919,6 +1437,64 @@ game.addEventListener(
     () => {
 
         mouseInside = false;
+
+    }
+);
+
+
+// =====================================================
+// ★ R 或滑鼠左鍵重新開始
+// =====================================================
+
+function retryLevel() {
+
+    if (bonusUnlocked) {
+
+        return;
+
+    }
+
+
+    if (running) {
+
+        return;
+
+    }
+
+
+    message.innerHTML = "";
+
+
+    if (hiddenMode) {
+
+        enterHiddenLevel();
+
+    }
+
+    else {
+
+        loadLevel(currentLevel);
+
+        running = true;
+
+    }
+
+}
+
+
+// =====================================================
+// 滑鼠左鍵
+// =====================================================
+
+game.addEventListener(
+    "mousedown",
+    event => {
+
+        if (event.button === 0) {
+
+            retryLevel();
+
+        }
 
     }
 );
@@ -946,6 +1522,7 @@ function eraseBetween(
 
 
     const dx = x2 - x1;
+
     const dy = y2 - y1;
 
 
@@ -1023,10 +1600,12 @@ function resetMask() {
         "#000000";
 
     mask.fillRect(
+
         0,
         0,
         WIDTH,
         HEIGHT
+
     );
 
 }
@@ -1062,8 +1641,6 @@ function createBullet() {
         level.speed;
 
 
-    // 左
-
     if (side === 0) {
 
         x = -BULLET_WIDTH;
@@ -1081,8 +1658,6 @@ function createBullet() {
 
     }
 
-
-    // 右
 
     else if (side === 1) {
 
@@ -1102,8 +1677,6 @@ function createBullet() {
     }
 
 
-    // 上
-
     else if (side === 2) {
 
         x =
@@ -1121,8 +1694,6 @@ function createBullet() {
 
     }
 
-
-    // 下
 
     else {
 
@@ -1173,12 +1744,15 @@ function createBullet() {
     bullets.push({
 
         x: x,
+
         y: y,
 
         vx: vx,
+
         vy: vy,
 
         width: BULLET_WIDTH,
+
         height: BULLET_HEIGHT,
 
         color: color,
@@ -1192,8 +1766,10 @@ function createBullet() {
                 ? "#696969"
 
                 : (
+
                     level.textColor ||
                     "white"
+
                 )
 
     });
@@ -1209,10 +1785,12 @@ function calculateReveal() {
 
     const data =
         mask.getImageData(
+
             0,
             0,
             WIDTH,
             HEIGHT
+
         ).data;
 
 
@@ -1267,8 +1845,6 @@ function calculateReveal() {
     }
 
 
-    // 注意：return 不可以單獨換行。
-
     return (
         revealed / total * 100
     );
@@ -1277,20 +1853,17 @@ function calculateReveal() {
 
 
 // =====================================================
-// 彈幕碰撞
+// 碰撞
 // =====================================================
 
 function checkCollision(bullet) {
 
 
     // =================================================
-    // ★★★ SHIFT 無敵判定 ★★★
+    // ★ SHIFT 無敵
     //
-    // 如果要移除 SHIFT 無敵：
-    //
-    // 刪掉下面這兩行即可：
-    //
-    // if (shiftInvincible) return false;
+    // 想刪掉作弊功能時：
+    // 刪掉這個 if 區塊即可。
     // =================================================
 
     if (shiftInvincible) {
@@ -1380,7 +1953,7 @@ function loadLevel(index) {
 
 
 // =====================================================
-// 進入 LEVEL -1
+// LEVEL -1
 // =====================================================
 
 function enterHiddenLevel() {
@@ -1426,13 +1999,11 @@ function enterHiddenLevel() {
 
     message.innerHTML = "";
 
-    message.classList.remove("final");
-
 }
 
 
 // =====================================================
-// 更新遊戲
+// 更新
 // =====================================================
 
 function update() {
@@ -1501,7 +2072,9 @@ function update() {
     const target =
 
         hiddenMode
+
             ? hiddenLevel.bullets
+
             : levels[currentLevel].bullets;
 
 
@@ -1525,7 +2098,8 @@ function update() {
         }%`;
 
 
-    // 正式關卡：超過 80% 前往下一關
+    // 正式關卡：
+    // 超過 80% 才進下一關
 
     if (
 
@@ -1547,7 +2121,6 @@ function update() {
 // =====================================================
 
 function drawBullet(bullet) {
-
 
     ctx.fillStyle =
         bullet.color;
@@ -1602,10 +2175,12 @@ function drawBullet(bullet) {
 function draw() {
 
     ctx.clearRect(
+
         0,
         0,
         WIDTH,
         HEIGHT
+
     );
 
 
@@ -1627,9 +2202,12 @@ function draw() {
 
 
     ctx.drawImage(
+
         maskCanvas,
+
         0,
         0
+
     );
 
 
@@ -1642,11 +2220,12 @@ function draw() {
     }
 
 
-    // 50 × 50 方形游標
-
     if (
+
         mouseInside &&
+
         running
+
     ) {
 
         ctx.strokeStyle =
@@ -1692,7 +2271,7 @@ function normalGameOver() {
 
         +
 
-        "Press R to retry"
+        "Press R or click to retry"
 
         +
 
@@ -1710,11 +2289,11 @@ function clearLevel() {
     running = false;
 
 
-    // 第五關通關
-
     if (
+
         currentLevel ===
         levels.length - 1
+
     ) {
 
         message.innerHTML =
@@ -1775,7 +2354,6 @@ function clearLevel() {
 // =====================================================
 // LEVEL -1 GAME OVER
 //
-// 黑的設計：
 // GAME OVER = 真正通關
 // =====================================================
 
@@ -1808,7 +2386,7 @@ function hiddenGameOver() {
 
 
 // =====================================================
-// 顯示 BONUS
+// 顯示第六張 BONUS
 // =====================================================
 
 function showBonus() {
@@ -1824,47 +2402,248 @@ function showBonus() {
 
 
 // =====================================================
-// 關閉 BONUS → 最終破關畫面
+// 建立 Gallery
 // =====================================================
 
-function closeBonus() {
+function buildGallery() {
+
+    galleryGrid.innerHTML = "";
+
+
+    galleryImages.forEach(
+
+        (src, index) => {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "galleryThumb";
+
+
+            const img =
+                document.createElement("img");
+
+
+            img.src = src;
+
+            img.alt =
+                `Gallery ${index + 1}`;
+
+
+            const number =
+                document.createElement("div");
+
+
+            number.className =
+                "galleryNumber";
+
+
+            number.textContent =
+                `${index + 1}`;
+
+
+            item.appendChild(img);
+
+            item.appendChild(number);
+
+
+            item.addEventListener(
+
+                "click",
+
+                () => {
+
+                    openGalleryImage(index);
+
+                }
+
+            );
+
+
+            galleryGrid.appendChild(item);
+
+        }
+
+    );
+
+}
+
+
+// =====================================================
+// 打開 Gallery
+// =====================================================
+
+function openGallery() {
+
+    if (!bonusUnlocked) {
+
+        return;
+
+    }
+
 
     bonus.style.display =
         "none";
 
 
-    message.classList.add("final");
+    finalScreen.style.display =
+        "none";
 
 
-    message.innerHTML = `
+    gallery.style.display =
+        "block";
 
-        THANKS FOR PLAYING
 
-        <small>
+    galleryViewer.style.display =
+        "none";
 
-            SHOWUP COMPLETE<br>
 
-            All six images have been unlocked.
+    buildGallery();
 
-            <br>
+}
 
-            <a
-                class="downloadButton"
-                href="secret/ddd-showup-bonus.zip"
-                download
-            >
-                DOWNLOAD REWARD PACK
-            </a>
 
-            <br>
+// =====================================================
+// 關閉 Gallery
+// =====================================================
 
-            <span>
-                Press B to view bonus again
-            </span>
+function closeGallery() {
 
-        </small>
+    gallery.style.display =
+        "none";
 
-    `;
+
+    galleryViewer.style.display =
+        "none";
+
+
+    finalScreen.style.display =
+        "flex";
+
+}
+
+
+// =====================================================
+// Gallery 看大圖
+// =====================================================
+
+function openGalleryImage(index) {
+
+    galleryIndex = index;
+
+
+    galleryViewer.style.display =
+        "block";
+
+
+    updateGalleryImage();
+
+}
+
+
+// =====================================================
+// Gallery 圖片更新
+// =====================================================
+
+function updateGalleryImage() {
+
+    galleryImage.src =
+        galleryImages[galleryIndex];
+
+
+    galleryCounter.textContent =
+
+        `${galleryIndex + 1} / ${
+            galleryImages.length
+        }`;
+
+}
+
+
+// =====================================================
+// Gallery 上一張
+// =====================================================
+
+function previousGalleryImage() {
+
+    galleryIndex--;
+
+
+    if (
+        galleryIndex < 0
+    ) {
+
+        galleryIndex =
+            galleryImages.length - 1;
+
+    }
+
+
+    updateGalleryImage();
+
+}
+
+
+// =====================================================
+// Gallery 下一張
+// =====================================================
+
+function nextGalleryImage() {
+
+    galleryIndex++;
+
+
+    if (
+
+        galleryIndex >=
+        galleryImages.length
+
+    ) {
+
+        galleryIndex = 0;
+
+    }
+
+
+    updateGalleryImage();
+
+}
+
+
+// =====================================================
+// 關閉 Gallery 大圖
+// =====================================================
+
+function closeGalleryViewer() {
+
+    galleryViewer.style.display =
+        "none";
+
+}
+
+
+// =====================================================
+// 最終破關畫面
+// =====================================================
+
+function showFinalScreen() {
+
+    bonus.style.display =
+        "none";
+
+
+    gallery.style.display =
+        "none";
+
+
+    galleryViewer.style.display =
+        "none";
+
+
+    finalScreen.style.display =
+        "flex";
 
 }
 
@@ -1887,9 +2666,15 @@ startButton.addEventListener(
             "none";
 
 
-        message.innerHTML = "";
+        gallery.style.display =
+            "none";
 
-        message.classList.remove("final");
+
+        finalScreen.style.display =
+            "none";
+
+
+        message.innerHTML = "";
 
 
         bonusUnlocked = false;
@@ -1906,47 +2691,91 @@ startButton.addEventListener(
 
 
 // =====================================================
-// R：重新開始目前關卡
+// BONUS 圖片點擊
+//
+// 點 BONUS 圖片 → 進入完整 Gallery
 // =====================================================
 
-function retryLevel() {
+bonus.addEventListener(
 
-    if (bonusUnlocked) {
+    "click",
 
-        return;
+    () => {
 
-    }
-
-
-    if (running) {
-
-        return;
+        openGallery();
 
     }
 
-
-    message.innerHTML = "";
-
-    message.classList.remove("final");
+);
 
 
-    if (hiddenMode) {
+// =====================================================
+// Gallery 按鈕
+// =====================================================
 
-        enterHiddenLevel();
+openGalleryButton.addEventListener(
 
-    }
+    "click",
 
-    else {
+    () => {
 
-        loadLevel(
-            currentLevel
-        );
-
-        running = true;
+        openGallery();
 
     }
 
-}
+);
+
+
+galleryClose.addEventListener(
+
+    "click",
+
+    () => {
+
+        closeGallery();
+
+    }
+
+);
+
+
+galleryBack.addEventListener(
+
+    "click",
+
+    () => {
+
+        closeGalleryViewer();
+
+    }
+
+);
+
+
+galleryPrev.addEventListener(
+
+    "click",
+
+    () => {
+
+        previousGalleryImage();
+
+    }
+
+);
+
+
+galleryNext.addEventListener(
+
+    "click",
+
+    () => {
+
+        nextGalleryImage();
+
+    }
+
+);
 
 
 // =====================================================
@@ -1964,7 +2793,7 @@ document.addEventListener(
 
 
         // ---------------------------------------------
-        // R：重新開始
+        // R：重試
         // ---------------------------------------------
 
         if (key === "r") {
@@ -1975,7 +2804,7 @@ document.addEventListener(
 
 
         // ---------------------------------------------
-        // B：重新觀看 BONUS
+        // B：打開 Gallery
         // ---------------------------------------------
 
         if (
@@ -1986,24 +2815,93 @@ document.addEventListener(
 
         ) {
 
-            showBonus();
+            openGallery();
 
         }
 
 
         // ---------------------------------------------
-        // ESC：離開 BONUS
+        // ESC
+        // ---------------------------------------------
+
+        if (
+            key === "escape"
+        ) {
+
+
+            // 大圖 → Gallery
+
+            if (
+
+                galleryViewer.style.display ===
+                "block"
+
+            ) {
+
+                closeGalleryViewer();
+
+                return;
+
+            }
+
+
+            // Gallery → 最終畫面
+
+            if (
+
+                gallery.style.display ===
+                "block"
+
+            ) {
+
+                closeGallery();
+
+                return;
+
+            }
+
+
+            // BONUS → Gallery
+
+            if (
+
+                bonus.style.display ===
+                "block"
+
+            ) {
+
+                openGallery();
+
+                return;
+
+            }
+
+        }
+
+
+        // ---------------------------------------------
+        // Gallery 左右鍵
         // ---------------------------------------------
 
         if (
 
-            key === "escape" &&
-
-            bonusUnlocked
+            galleryViewer.style.display ===
+            "block"
 
         ) {
 
-            closeBonus();
+            if (event.key === "ArrowLeft") {
+
+                previousGalleryImage();
+
+            }
+
+
+            if (event.key === "ArrowRight") {
+
+                nextGalleryImage();
+
+            }
 
         }
 
