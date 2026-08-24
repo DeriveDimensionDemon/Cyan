@@ -170,8 +170,20 @@ const WIDTH = 1280;
 const HEIGHT = 720;
 
 
-// ★ 50 × 50 方形畫筆
+// ======================================================
+// 玩家畫筆
+// ======================================================
+
+// ★ 50 × 50 方形
 const BRUSH_SIZE = 50;
+
+
+// ======================================================
+// 彈幕尺寸
+// ======================================================
+
+const BULLET_WIDTH = 170;
+const BULLET_HEIGHT = 38;
 
 
 // ======================================================
@@ -180,44 +192,118 @@ const BRUSH_SIZE = 50;
 
 const levels = [
 
+    // --------------------------------------------------
+    // 1：蒼
+    // --------------------------------------------------
+
     {
         image: "secret/1.jpg",
+
         colors: ["cyan"],
+
         bullets: 10,
-        speed: 3.0
+
+        speed: 3.0,
+
+        messages: [
+            "♡ 我愛妳",
+            "♡ 多留一下嘛",
+            "♡ 晚上要做什麼？",
+            "♡ 有空嗎？"
+        ]
     },
+
+
+    // --------------------------------------------------
+    // 2：金
+    // --------------------------------------------------
 
     {
         image: "secret/2.jpg",
+
         colors: ["yellow"],
+
         bullets: 12,
-        speed: 3.3
+
+        speed: 3.3,
+
+        messages: [
+            "♡ 陪我一下？",
+            "♡ 在忙嗎？",
+            "♡ 過來嘛",
+            "♡ 我等妳喔"
+        ]
     },
+
+
+    // --------------------------------------------------
+    // 3：紅
+    // --------------------------------------------------
 
     {
         image: "secret/3.jpg",
+
         colors: ["red"],
+
         bullets: 14,
-        speed: 3.6
+
+        speed: 3.6,
+
+        messages: [
+            "♡ 看我這邊",
+            "♡ 別跑呀",
+            "♡ 抓到妳了",
+            "♡ 陪我玩嘛"
+        ]
     },
+
+
+    // --------------------------------------------------
+    // 4：白
+    // --------------------------------------------------
 
     {
         image: "secret/4.jpg",
+
         colors: ["white"],
+
         bullets: 16,
-        speed: 3.9
+
+        speed: 3.9,
+
+        messages: [
+            "♡ 要休息了嗎？",
+            "♡ 再一下下",
+            "♡ 明天見",
+            "♡ 晚安"
+        ]
     },
+
+
+    // --------------------------------------------------
+    // 5：四姊妹
+    // --------------------------------------------------
 
     {
         image: "secret/5.jpg",
+
         colors: [
             "cyan",
             "yellow",
             "red",
             "white"
         ],
+
         bullets: 20,
-        speed: 4.3
+
+        speed: 4.3,
+
+        messages: [
+            "♡ 我們都在喔",
+            "♡ 一起來嘛",
+            "♡ 找到妳了",
+            "♡ 不要走呀"
+        ]
     }
 
 ];
@@ -239,9 +325,13 @@ const image = new Image();
 
 let imageReady = false;
 
+
 image.onload = () => {
+
     imageReady = true;
+
 };
+
 
 image.onerror = () => {
 
@@ -278,7 +368,6 @@ const mouse = {
 };
 
 
-// 上一次滑鼠的位置
 const lastMouse = {
 
     x: WIDTH / 2,
@@ -314,15 +403,16 @@ game.addEventListener(
             * HEIGHT;
 
 
-        // 如果遊戲正在進行，
-        // 從上一個位置一路補到新位置
         if (running) {
 
             eraseBetween(
+
                 lastMouse.x,
                 lastMouse.y,
+
                 newX,
                 newY
+
             );
 
         }
@@ -353,7 +443,7 @@ game.addEventListener(
 
 
 // ======================================================
-// ★ 平滑方形擦除
+// 方形擦除
 // ======================================================
 
 function eraseBetween(
@@ -366,7 +456,6 @@ function eraseBetween(
     mask.save();
 
 
-    // 把黑色遮罩擦透明
     mask.globalCompositeOperation =
         "destination-out";
 
@@ -385,14 +474,15 @@ function eraseBetween(
         );
 
 
-    // 每 4px 補一次
     const step = 4;
 
 
     const steps =
         Math.max(
             1,
-            Math.ceil(distance / step)
+            Math.ceil(
+                distance / step
+            )
         );
 
 
@@ -486,7 +576,6 @@ function loadLevel(index) {
     resetMask();
 
 
-    // 建立彈幕
     for (
         let i = 0;
         i < level.bullets;
@@ -501,7 +590,7 @@ function loadLevel(index) {
 
 
 // ======================================================
-// 建立彈幕
+// 建立訊息彈幕
 // ======================================================
 
 function createBullet() {
@@ -527,13 +616,17 @@ function createBullet() {
         level.speed;
 
 
-    // 左
+    // ----------------------------------------------
+    // 從左邊
+    // ----------------------------------------------
+
     if (side === 0) {
 
-        x = -20;
+        x = -BULLET_WIDTH;
 
         y =
-            Math.random() * HEIGHT;
+            Math.random() *
+            HEIGHT;
 
         vx = speed;
 
@@ -544,13 +637,17 @@ function createBullet() {
     }
 
 
-    // 右
+    // ----------------------------------------------
+    // 從右邊
+    // ----------------------------------------------
+
     else if (side === 1) {
 
-        x = WIDTH + 20;
+        x = WIDTH;
 
         y =
-            Math.random() * HEIGHT;
+            Math.random() *
+            HEIGHT;
 
         vx = -speed;
 
@@ -561,13 +658,17 @@ function createBullet() {
     }
 
 
-    // 上
+    // ----------------------------------------------
+    // 從上面
+    // ----------------------------------------------
+
     else if (side === 2) {
 
         x =
-            Math.random() * WIDTH;
+            Math.random() *
+            WIDTH;
 
-        y = -20;
+        y = -BULLET_HEIGHT;
 
         vx =
             (Math.random() - 0.5)
@@ -578,13 +679,17 @@ function createBullet() {
     }
 
 
-    // 下
+    // ----------------------------------------------
+    // 從下面
+    // ----------------------------------------------
+
     else {
 
         x =
-            Math.random() * WIDTH;
+            Math.random() *
+            WIDTH;
 
-        y = HEIGHT + 20;
+        y = HEIGHT;
 
         vx =
             (Math.random() - 0.5)
@@ -595,15 +700,28 @@ function createBullet() {
     }
 
 
-    const colors =
-        level.colors;
-
+    // ----------------------------------------------
+    // 顏色
+    // ----------------------------------------------
 
     const color =
-        colors[
+        level.colors[
             Math.floor(
                 Math.random() *
-                colors.length
+                level.colors.length
+            )
+        ];
+
+
+    // ----------------------------------------------
+    // 訊息
+    // ----------------------------------------------
+
+    const text =
+        level.messages[
+            Math.floor(
+                Math.random() *
+                level.messages.length
             )
         ];
 
@@ -616,9 +734,12 @@ function createBullet() {
         vx: vx,
         vy: vy,
 
-        radius: 8,
+        width: BULLET_WIDTH,
+        height: BULLET_HEIGHT,
 
-        color: color
+        color: color,
+
+        text: text
 
     });
 
@@ -669,8 +790,6 @@ function calculateReveal() {
     let total = 0;
 
 
-    // 每 20px 檢查一次
-    // 減少計算量
     const step = 20;
 
 
@@ -693,7 +812,6 @@ function calculateReveal() {
             total++;
 
 
-            // Alpha 幾乎透明
             if (
                 data[index + 3] < 30
             ) {
@@ -726,25 +844,29 @@ function checkCollision(bullet) {
         BRUSH_SIZE / 2;
 
 
-    // 把彈幕圓心限制到
-    // 畫筆方形範圍附近
     const closestX =
         Math.max(
+
             mouse.x - half,
+
             Math.min(
                 bullet.x,
                 mouse.x + half
             )
+
         );
 
 
     const closestY =
         Math.max(
+
             mouse.y - half,
+
             Math.min(
                 bullet.y,
                 mouse.y + half
             )
+
         );
 
 
@@ -759,9 +881,7 @@ function checkCollision(bullet) {
     return (
         dx * dx +
         dy * dy
-    ) <=
-    bullet.radius *
-    bullet.radius;
+    ) <= 0;
 
 }
 
@@ -777,44 +897,52 @@ function update() {
     }
 
 
-    // 移動彈幕
-   for (const bullet of bullets) {
+    for (const bullet of bullets) {
 
-    ctx.strokeStyle = bullet.color;
+        bullet.x += bullet.vx;
 
-    ctx.lineWidth = 3;
-
-    ctx.font = "26px Arial";
-
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.strokeText(
-        "♡",
-        bullet.x,
-        bullet.y
-    );
-
-}
+        bullet.y += bullet.vy;
 
 
-    // 移除飛出畫面的彈幕
+        if (
+            checkCollision(bullet)
+        ) {
+
+            hit();
+
+            return;
+
+        }
+
+    }
+
+
+    // 移除離開畫面的彈幕
     bullets =
         bullets.filter(
             bullet => {
 
                 return (
-                    bullet.x > -50 &&
-                    bullet.x < WIDTH + 50 &&
-                    bullet.y > -50 &&
-                    bullet.y < HEIGHT + 50
+
+                    bullet.x >
+                    -BULLET_WIDTH - 50 &&
+
+                    bullet.x <
+                    WIDTH + 50 &&
+
+                    bullet.y >
+                    -BULLET_HEIGHT - 50 &&
+
+                    bullet.y <
+                    HEIGHT + 50
+
                 );
 
             }
         );
 
 
-    // 補回彈幕
+    // 補充彈幕
     const target =
         levels[currentLevel].bullets;
 
@@ -828,7 +956,6 @@ function update() {
     }
 
 
-    // 計算揭露率
     const reveal =
         calculateReveal();
 
@@ -837,12 +964,80 @@ function update() {
         `REVEAL ${Math.floor(reveal)}%`;
 
 
-    // 80% 通關
     if (reveal >= 80) {
 
         clearLevel(reveal);
 
     }
+
+}
+
+
+// ======================================================
+// 畫出彈幕
+// ======================================================
+
+function drawBullet(bullet) {
+
+    const x =
+        bullet.x;
+
+    const y =
+        bullet.y;
+
+
+    const width =
+        bullet.width;
+
+    const height =
+        bullet.height;
+
+
+    // ----------------------------------------------
+    // 彩色底
+    // ----------------------------------------------
+
+    ctx.fillStyle =
+        bullet.color;
+
+
+    ctx.fillRect(
+        x,
+        y,
+        width,
+        height
+    );
+
+
+    // ----------------------------------------------
+    // 白色文字
+    // ----------------------------------------------
+
+    ctx.fillStyle =
+        "white";
+
+
+    ctx.font =
+        "bold 18px Arial, sans-serif";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    ctx.fillText(
+
+        bullet.text,
+
+        x + width / 2,
+
+        y + height / 2
+
+    );
 
 }
 
@@ -861,26 +1056,30 @@ function draw() {
     );
 
 
-    // --------------------------------------------------
+    // ----------------------------------------------
     // 底圖
-    // --------------------------------------------------
+    // ----------------------------------------------
 
     if (imageReady) {
 
         ctx.drawImage(
+
             image,
+
             0,
             0,
+
             WIDTH,
             HEIGHT
+
         );
 
     }
 
 
-    // --------------------------------------------------
-    // 黑色遮罩
-    // --------------------------------------------------
+    // ----------------------------------------------
+    // 遮罩
+    // ----------------------------------------------
 
     ctx.drawImage(
         maskCanvas,
@@ -889,34 +1088,22 @@ function draw() {
     );
 
 
-    // --------------------------------------------------
+    // ----------------------------------------------
     // 彈幕
-    // --------------------------------------------------
+    // ----------------------------------------------
 
-    for (const bullet of bullets) {
+    for (
+        const bullet of bullets
+    ) {
 
-        ctx.fillStyle =
-            bullet.color;
-
-
-        ctx.fillRect(
-
-            bullet.x - bullet.radius,
-
-            bullet.y - bullet.radius,
-
-            bullet.radius * 2,
-
-            bullet.radius * 2
-
-        );
+        drawBullet(bullet);
 
     }
 
 
-    // --------------------------------------------------
+    // ----------------------------------------------
     // 玩家畫筆
-    // --------------------------------------------------
+    // ----------------------------------------------
 
     if (
         mouseInside &&
@@ -950,7 +1137,7 @@ function draw() {
 
 
 // ======================================================
-// 撞到彈幕
+// 撞擊
 // ======================================================
 
 function hit() {
@@ -966,7 +1153,7 @@ function hit() {
 
 
 // ======================================================
-// 關卡完成
+// 通關
 // ======================================================
 
 function clearLevel(reveal) {
@@ -974,7 +1161,10 @@ function clearLevel(reveal) {
     running = false;
 
 
-    // 最後一關
+    // ----------------------------------------------
+    // 第五關
+    // ----------------------------------------------
+
     if (
         currentLevel ===
         levels.length - 1
@@ -1011,7 +1201,8 @@ function clearLevel(reveal) {
 
     message.innerHTML =
         `LEVEL ${currentLevel + 1} CLEAR!`
-        + perfect;
+        +
+        perfect;
 
 
     setTimeout(
@@ -1055,7 +1246,7 @@ function startGame() {
 
 
 // ======================================================
-// R：重新開始目前關卡
+// R 重玩
 // ======================================================
 
 document.addEventListener(
