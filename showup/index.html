@@ -77,8 +77,8 @@ body {
         0 4px 18px rgba(0, 0, 0, 0.28);
 
     /*
-       隱藏瀏覽器原生滑鼠游標。
-       遊戲自己的方框＋十字會負責顯示位置。
+       遊戲區內隱藏瀏覽器原生游標。
+       使用下方的 customCursor。
     */
 
     cursor: none;
@@ -100,6 +100,122 @@ canvas {
 
     width: 100%;
     height: 100%;
+
+}
+
+
+/* =====================================================
+   CUSTOM CURSOR
+   ===================================================== */
+
+/*
+   客製化游標只存在於遊戲區。
+
+   遊戲區：
+   → 顯示方框＋十字
+
+   離開遊戲區：
+   → 隱藏客製化游標
+   → 恢復正常瀏覽器游標
+*/
+
+#customCursor {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 50px;
+    height: 50px;
+
+    pointer-events: none;
+
+    z-index: 99999;
+
+    display: none;
+
+}
+
+
+/* 50×50 筆刷方框 */
+
+#customCursorBox {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 50px;
+    height: 50px;
+
+    border: 2px solid white;
+
+    transform:
+        translate(-50%, -50%);
+
+}
+
+
+/* 25×25 十字準心 */
+
+#customCursorCross {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 25px;
+    height: 25px;
+
+    transform:
+        translate(-50%, -50%);
+
+}
+
+
+/* 橫線 */
+
+#customCursorCross::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    width: 25px;
+    height: 2px;
+
+    background: white;
+
+    transform:
+        translateY(-50%);
+
+}
+
+
+/* 直線 */
+
+#customCursorCross::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 2px;
+    height: 25px;
+
+    background: white;
+
+    transform:
+        translateX(-50%);
 
 }
 
@@ -779,6 +895,8 @@ canvas {
 
     text-decoration: none;
 
+    cursor: pointer;
+
 }
 
 
@@ -797,6 +915,23 @@ canvas {
 
 <body>
 
+
+<!-- =====================================================
+     CUSTOM CURSOR
+     ===================================================== -->
+
+<div id="customCursor">
+
+    <div id="customCursorBox"></div>
+
+    <div id="customCursorCross"></div>
+
+</div>
+
+
+<!-- =====================================================
+     GAME
+     ===================================================== -->
 
 <div id="game">
 
@@ -1075,6 +1210,9 @@ const finalScreen =
 const openGalleryButton =
     document.getElementById("openGalleryButton");
 
+const customCursor =
+    document.getElementById("customCursor");
+
 
 // =====================================================
 // CANVAS
@@ -1093,19 +1231,16 @@ canvas.height = HEIGHT;
 // GAME SETTINGS
 // =====================================================
 //
-// ★ 最容易調整的地方
+// ★ 這裡是以後最容易調整的地方
 //
 // BRUSH_SIZE
-// = 50×50 實際擦除範圍
+// = 實際擦除範圍
 //
 // CROSSHAIR_SIZE
-// = 十字準心總長度
+// = 十字準心大小
 //
 // COLLISION_SIZE
 // = 十字碰撞判定範圍
-//
-// CROSSHAIR_THICKNESS
-// = 十字線粗細
 //
 // =====================================================
 
@@ -1381,6 +1516,65 @@ let mouseInside = false;
 
 
 // =====================================================
+// CUSTOM CURSOR
+// =====================================================
+
+document.addEventListener(
+
+    "mousemove",
+
+    event => {
+
+        customCursor.style.left =
+            event.clientX + "px";
+
+        customCursor.style.top =
+            event.clientY + "px";
+
+    }
+
+);
+
+
+// =====================================================
+// ENTER GAME AREA
+// =====================================================
+
+game.addEventListener(
+
+    "mouseenter",
+
+    () => {
+
+        customCursor.style.display =
+            "block";
+
+    }
+
+);
+
+
+// =====================================================
+// LEAVE GAME AREA
+// =====================================================
+
+game.addEventListener(
+
+    "mouseleave",
+
+    () => {
+
+        customCursor.style.display =
+            "none";
+
+        mouseInside = false;
+
+    }
+
+);
+
+
+// =====================================================
 // STATE
 // =====================================================
 
@@ -1396,7 +1590,7 @@ let bullets = [];
 
 
 // =====================================================
-// GALLERY
+// GALLERY STATE
 // =====================================================
 
 const galleryImages = [
@@ -1414,11 +1608,13 @@ let galleryIndex = 0;
 
 
 // =====================================================
-// MOUSE MOVE
+// GAME MOUSE MOVE
 // =====================================================
 
 game.addEventListener(
+
     "mousemove",
+
     event => {
 
         const rect =
@@ -1483,16 +1679,7 @@ game.addEventListener(
         mouseInside = true;
 
     }
-);
 
-
-game.addEventListener(
-    "mouseleave",
-    () => {
-
-        mouseInside = false;
-
-    }
 );
 
 
@@ -1541,7 +1728,9 @@ function retryLevel() {
 // =====================================================
 
 game.addEventListener(
+
     "mousedown",
+
     event => {
 
         if (event.button === 0) {
@@ -1551,6 +1740,7 @@ game.addEventListener(
         }
 
     }
+
 );
 
 
@@ -1917,13 +2107,10 @@ function calculateReveal() {
 // COLLISION
 // =====================================================
 //
-// ★ 只改這裡的 COLLISION_SIZE
-// 就可以改碰撞箱大小。
+// ★ 目前 COLLISION_SIZE = 25
 //
-// 10 = 非常寬鬆
-// 20 = 目前設定
-// 30 = 普通
-// 40 = 比較難
+// 想再放水：
+// 25 → 20 → 15 → 10
 //
 // =====================================================
 
@@ -1938,7 +2125,7 @@ function checkCollision(bullet) {
 
 
     /*
-       橫向十字線
+       橫向十字
     */
 
     const horizontalHit =
@@ -1959,7 +2146,7 @@ function checkCollision(bullet) {
 
 
     /*
-       垂直十字線
+       垂直十字
     */
 
     const verticalHit =
@@ -1990,7 +2177,7 @@ function checkCollision(bullet) {
 
 
 // =====================================================
-// LOAD LEVEL
+// LOAD NORMAL LEVEL
 // =====================================================
 
 function loadLevel(index) {
@@ -2259,6 +2446,11 @@ function drawBullet(bullet) {
 // =====================================================
 // DRAW
 // =====================================================
+//
+// 注意：
+// Canvas 不再負責畫滑鼠。
+// 客製化游標由 #customCursor 永久負責。
+// =====================================================
 
 function draw() {
 
@@ -2312,118 +2504,6 @@ function draw() {
     ) {
 
         drawBullet(bullet);
-
-    }
-
-
-    /*
-       ================================================
-       自訂滑鼠視覺
-       ================================================
-
-       1. 50×50 方形筆刷輪廓
-       2. 70px 十字準心
-
-       瀏覽器原生游標已經用 cursor:none 隱藏。
-       ================================================
-    */
-
-    if (
-
-        mouseInside &&
-
-        running
-
-    ) {
-
-        /*
-           50×50 筆刷方框
-        */
-
-        ctx.strokeStyle =
-            "white";
-
-        ctx.lineWidth = 2;
-
-
-        ctx.strokeRect(
-
-            mouse.x -
-            BRUSH_SIZE / 2,
-
-            mouse.y -
-            BRUSH_SIZE / 2,
-
-            BRUSH_SIZE,
-
-            BRUSH_SIZE
-
-        );
-
-
-        /*
-           十字準心
-        */
-
-        ctx.strokeStyle =
-            "white";
-
-        ctx.lineWidth =
-            CROSSHAIR_THICKNESS;
-
-
-        ctx.beginPath();
-
-
-        /*
-           Horizontal
-        */
-
-        ctx.moveTo(
-
-            mouse.x -
-            CROSSHAIR_SIZE / 2,
-
-            mouse.y
-
-        );
-
-
-        ctx.lineTo(
-
-            mouse.x +
-            CROSSHAIR_SIZE / 2,
-
-            mouse.y
-
-        );
-
-
-        /*
-           Vertical
-        */
-
-        ctx.moveTo(
-
-            mouse.x,
-
-            mouse.y -
-            CROSSHAIR_SIZE / 2
-
-        );
-
-
-        ctx.lineTo(
-
-            mouse.x,
-
-            mouse.y +
-            CROSSHAIR_SIZE / 2
-
-        );
-
-
-        ctx.stroke();
 
     }
 
