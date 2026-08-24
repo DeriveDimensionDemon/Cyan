@@ -11,13 +11,11 @@
 
 <title>SHOWUP</title>
 
-
 <style>
 
 * {
     box-sizing: border-box;
 }
-
 
 html,
 body {
@@ -27,9 +25,9 @@ body {
     width: 100%;
     height: 100%;
 
-    background: #000;
+    background: #ffffff;
 
-    color: white;
+    color: #000000;
 
     font-family:
         Arial,
@@ -37,7 +35,6 @@ body {
         sans-serif;
 
     overflow: hidden;
-
 }
 
 
@@ -52,6 +49,10 @@ body {
 }
 
 
+/* =====================================================
+   遊戲本體
+   ===================================================== */
+
 #game {
 
     position: relative;
@@ -62,7 +63,12 @@ body {
 
     overflow: hidden;
 
-    background: #000;
+    background: #000000;
+
+    border: 3px solid #000000;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.28);
 
     cursor: none;
 
@@ -71,6 +77,10 @@ body {
 }
 
 
+/* =====================================================
+   Canvas
+   ===================================================== */
+
 canvas {
 
     position: absolute;
@@ -78,11 +88,14 @@ canvas {
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
 }
 
+
+/* =====================================================
+   UI
+   ===================================================== */
 
 #ui {
 
@@ -98,9 +111,11 @@ canvas {
 
     font-weight: bold;
 
+    color: white;
+
     text-shadow:
-        0 2px 5px #000,
-        0 0 8px #000;
+        0 2px 5px #000000,
+        0 0 8px #000000;
 
     pointer-events: none;
 
@@ -113,6 +128,10 @@ canvas {
 
 }
 
+
+/* =====================================================
+   GAME OVER / CLEAR
+   ===================================================== */
 
 #message {
 
@@ -134,11 +153,13 @@ canvas {
 
     font-weight: bold;
 
+    color: white;
+
     text-align: center;
 
     text-shadow:
-        0 3px 8px #000,
-        0 0 15px #000;
+        0 3px 8px #000000,
+        0 0 15px #000000;
 
     pointer-events: none;
 
@@ -154,12 +175,15 @@ canvas {
 }
 
 
+/* =====================================================
+   START
+   ===================================================== */
+
 #startButton {
 
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     transform:
@@ -172,7 +196,7 @@ canvas {
     border:
         2px solid white;
 
-    background: #111;
+    background: #111111;
 
     color: white;
 
@@ -195,7 +219,7 @@ canvas {
 
 
 /* =====================================================
-   BONUS 顯示層
+   BONUS
    ===================================================== */
 
 #bonus {
@@ -208,7 +232,7 @@ canvas {
 
     display: none;
 
-    background: #000;
+    background: #000000;
 
 }
 
@@ -216,7 +240,6 @@ canvas {
 #bonus img {
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
@@ -243,11 +266,14 @@ canvas {
 
     letter-spacing: 3px;
 
+    color: white;
+
     text-shadow:
-        0 2px 6px #000;
+        0 2px 6px #000000;
+
+    z-index: 101;
 
 }
-
 
 </style>
 
@@ -258,7 +284,6 @@ canvas {
 
 
 <div id="game">
-
 
     <canvas id="canvas"></canvas>
 
@@ -298,7 +323,6 @@ canvas {
 
     </div>
 
-
 </div>
 
 
@@ -306,68 +330,60 @@ canvas {
 
 
 // =====================================================
-// 基本設定
+// DOM
 // =====================================================
 
 const game =
     document.getElementById("game");
 
-
 const canvas =
     document.getElementById("canvas");
-
 
 const ctx =
     canvas.getContext("2d");
 
-
 const levelText =
     document.getElementById("levelText");
-
 
 const revealText =
     document.getElementById("revealText");
 
-
 const message =
     document.getElementById("message");
-
 
 const startButton =
     document.getElementById("startButton");
 
-
 const bonus =
     document.getElementById("bonus");
-
 
 const bonusImage =
     document.getElementById("bonusImage");
 
 
-const WIDTH = 1280;
+// =====================================================
+// 畫布尺寸
+// =====================================================
 
+const WIDTH = 1280;
 const HEIGHT = 720;
+
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
 
 // =====================================================
-// 玩家畫筆
+// 遊戲設定
 // =====================================================
 
 const BRUSH_SIZE = 50;
 
-
-// =====================================================
-// 彈幕尺寸
-// =====================================================
-
 const BULLET_WIDTH = 190;
-
 const BULLET_HEIGHT = 42;
 
 
 // =====================================================
-// 五個正常關卡
+// 五個正式關卡
 // =====================================================
 
 const levels = [
@@ -380,9 +396,7 @@ const levels = [
 
         image: "secret/1.jpg",
 
-        colors: [
-            "cyan"
-        ],
+        colors: ["cyan"],
 
         bullets: 10,
 
@@ -391,11 +405,8 @@ const levels = [
         messages: [
 
             "♡ 我愛妳",
-
             "♡ 多留一下嘛",
-
             "♡ 晚上要做什麼？",
-
             "♡ 有空嗎？"
 
         ]
@@ -411,9 +422,9 @@ const levels = [
 
         image: "secret/2.jpg",
 
-        colors: [
-            "yellow"
-        ],
+        // ★ 金：yellow → orange
+
+        colors: ["orange"],
 
         bullets: 12,
 
@@ -422,11 +433,8 @@ const levels = [
         messages: [
 
             "♡ 要我陪妳？",
-
             "♡ 晚..晚餐吃了嗎？",
-
             "♡ 哼！",
-
             "♡ 知道啦！"
 
         ]
@@ -442,9 +450,7 @@ const levels = [
 
         image: "secret/3.jpg",
 
-        colors: [
-            "red"
-        ],
+        colors: ["red"],
 
         bullets: 14,
 
@@ -453,11 +459,8 @@ const levels = [
         messages: [
 
             "♡ 妳被擊中的機率計算中",
-
             "♡ 嗯？剛剛說什麼？",
-
             "♡ 別碰那裡...！",
-
             "♡ 誰設計這款遊戲的？！"
 
         ]
@@ -473,22 +476,23 @@ const levels = [
 
         image: "secret/4.jpg",
 
-        colors: [
-            "white"
-        ],
+        // ★ 白：白底
+
+        colors: ["white"],
 
         bullets: 16,
 
         speed: 3.9,
 
+        // ★ 白：灰字
+
+        textColor: "#696969",
+
         messages: [
 
             "♡ 妳有看到蒼嗎？",
-
             "♡ ．．．",
-
             "♡ 沒事。",
-
             "♡ 呃？"
 
         ]
@@ -507,11 +511,8 @@ const levels = [
         colors: [
 
             "cyan",
-
-            "yellow",
-
+            "orange",
             "red",
-
             "white"
 
         ],
@@ -523,11 +524,8 @@ const levels = [
         messages: [
 
             "♡ 我們都在喔",
-
             "♡ 一起來嘛",
-
             "♡ 找到妳了",
-
             "♡ 不要走呀"
 
         ]
@@ -538,10 +536,11 @@ const levels = [
 
 
 // =====================================================
-// -1 隱藏關
+// LEVEL -1
 //
-// 黑偷偷加碼的關卡。
-// 這不是第六關。
+// 黑偷偷加碼的隱藏關。
+// 注意：這不是第六關。
+// GAME OVER 才是隱藏通關。
 // =====================================================
 
 const hiddenLevel = {
@@ -558,14 +557,13 @@ const hiddenLevel = {
 
     speed: 7.2,
 
+    textColor: "white",
+
     messages: [
 
         "⁇ 還要繼續玩嗎？",
-
         "⁇ 哼哼...",
-
         "⁇ 已經玩到這兒了呢...",
-
         "⁇ 不夠滿意嗎？"
 
     ]
@@ -574,14 +572,17 @@ const hiddenLevel = {
 
 
 // =====================================================
-// Canvas
+// 遮罩 Canvas
 // =====================================================
 
-canvas.width =
-    WIDTH;
+const maskCanvas =
+    document.createElement("canvas");
 
-canvas.height =
-    HEIGHT;
+maskCanvas.width = WIDTH;
+maskCanvas.height = HEIGHT;
+
+const mask =
+    maskCanvas.getContext("2d");
 
 
 // =====================================================
@@ -591,61 +592,33 @@ canvas.height =
 const image =
     new Image();
 
+let imageReady = false;
 
-let imageReady =
-    false;
+image.onload = () => {
 
+    imageReady = true;
 
-image.onload =
-    () => {
+};
 
-        imageReady = true;
+image.onerror = () => {
 
-    };
+    message.innerHTML =
 
+        "IMAGE ERROR"
 
-image.onerror =
-    () => {
+        +
 
-        message.innerHTML =
+        "<small>"
 
-            "IMAGE ERROR"
+        +
 
-            +
+        "找不到圖片"
 
-            "<small>" +
+        +
 
-            "找不到圖片"
+        "</small>";
 
-            +
-
-            "</small>";
-
-    };
-
-
-// =====================================================
-// 遮罩
-// =====================================================
-
-const maskCanvas =
-    document.createElement(
-        "canvas"
-    );
-
-
-maskCanvas.width =
-    WIDTH;
-
-
-maskCanvas.height =
-    HEIGHT;
-
-
-const mask =
-    maskCanvas.getContext(
-        "2d"
-    );
+};
 
 
 // =====================================================
@@ -655,47 +628,33 @@ const mask =
 const mouse = {
 
     x: WIDTH / 2,
-
     y: HEIGHT / 2
 
 };
-
 
 const lastMouse = {
 
     x: WIDTH / 2,
-
     y: HEIGHT / 2
 
 };
 
-
-let mouseInside =
-    false;
+let mouseInside = false;
 
 
 // =====================================================
 // 遊戲狀態
 // =====================================================
 
-let currentLevel =
-    0;
+let currentLevel = 0;
 
+let running = false;
 
-let running =
-    false;
+let hiddenMode = false;
 
+let bonusUnlocked = false;
 
-let hiddenMode =
-    false;
-
-
-let gameFinished =
-    false;
-
-
-let bonusUnlocked =
-    false;
+let bullets = [];
 
 
 // =====================================================
@@ -703,9 +662,7 @@ let bonusUnlocked =
 // =====================================================
 
 game.addEventListener(
-
     "mousemove",
-
     event => {
 
         const rect =
@@ -749,11 +706,9 @@ game.addEventListener(
             eraseBetween(
 
                 lastMouse.x,
-
                 lastMouse.y,
 
                 newX,
-
                 newY
 
             );
@@ -761,41 +716,25 @@ game.addEventListener(
         }
 
 
-        mouse.x =
-            newX;
+        mouse.x = newX;
+        mouse.y = newY;
 
+        lastMouse.x = newX;
+        lastMouse.y = newY;
 
-        mouse.y =
-            newY;
-
-
-        lastMouse.x =
-            newX;
-
-
-        lastMouse.y =
-            newY;
-
-
-        mouseInside =
-            true;
+        mouseInside = true;
 
     }
-
 );
 
 
 game.addEventListener(
-
     "mouseleave",
-
     () => {
 
-        mouseInside =
-            false;
+        mouseInside = false;
 
     }
-
 );
 
 
@@ -806,63 +745,42 @@ game.addEventListener(
 function eraseBetween(
 
     x1,
-
     y1,
-
     x2,
-
     y2
 
 ) {
 
-
     mask.save();
-
 
     mask.globalCompositeOperation =
         "destination-out";
 
-
-    mask.fillStyle =
-        "#fff";
+    mask.fillStyle = "#ffffff";
 
 
-    const dx =
-        x2 - x1;
-
-
-    const dy =
-        y2 - y1;
+    const dx = x2 - x1;
+    const dy = y2 - y1;
 
 
     const distance =
 
         Math.sqrt(
-
             dx * dx +
-
             dy * dy
-
         );
 
 
-    const step =
-        4;
+    const step = 4;
 
 
     const steps =
 
         Math.max(
-
             1,
-
             Math.ceil(
-
-                distance /
-                step
-
+                distance / step
             )
-
         );
 
 
@@ -875,7 +793,6 @@ function eraseBetween(
         i++
 
     ) {
-
 
         const t =
             i / steps;
@@ -891,14 +808,10 @@ function eraseBetween(
 
         mask.fillRect(
 
-            x -
-            BRUSH_SIZE / 2,
-
-            y -
-            BRUSH_SIZE / 2,
+            x - BRUSH_SIZE / 2,
+            y - BRUSH_SIZE / 2,
 
             BRUSH_SIZE,
-
             BRUSH_SIZE
 
         );
@@ -917,25 +830,17 @@ function eraseBetween(
 
 function resetMask() {
 
-
     mask.globalCompositeOperation =
         "source-over";
 
-
     mask.fillStyle =
-        "#000";
-
+        "#000000";
 
     mask.fillRect(
-
         0,
-
         0,
-
         WIDTH,
-
         HEIGHT
-
     );
 
 }
@@ -945,36 +850,25 @@ function resetMask() {
 // 建立彈幕
 // =====================================================
 
-let bullets = [];
-
-
 function createBullet() {
-
 
     const level =
 
         hiddenMode
-
             ? hiddenLevel
-
             : levels[currentLevel];
 
 
     const side =
 
         Math.floor(
-
             Math.random() * 4
-
         );
 
 
     let x;
-
     let y;
-
     let vx;
-
     let vy;
 
 
@@ -983,129 +877,81 @@ function createBullet() {
 
 
     // 左
+
     if (side === 0) {
 
-
-        x =
-            -BULLET_WIDTH;
-
+        x = -BULLET_WIDTH;
 
         y =
+            Math.random() * HEIGHT;
 
-            Math.random() *
-            HEIGHT;
-
-
-        vx =
-            speed;
-
+        vx = speed;
 
         vy =
 
             (
-                Math.random() -
-                0.5
-            )
-
-            *
-
-            speed;
+                Math.random() - 0.5
+            ) * speed;
 
     }
 
 
     // 右
+
     else if (side === 1) {
 
-
-        x =
-            WIDTH;
-
+        x = WIDTH;
 
         y =
+            Math.random() * HEIGHT;
 
-            Math.random() *
-            HEIGHT;
-
-
-        vx =
-            -speed;
-
+        vx = -speed;
 
         vy =
 
             (
-                Math.random() -
-                0.5
-            )
-
-            *
-
-            speed;
+                Math.random() - 0.5
+            ) * speed;
 
     }
 
 
     // 上
+
     else if (side === 2) {
 
-
         x =
+            Math.random() * WIDTH;
 
-            Math.random() *
-            WIDTH;
-
-
-        y =
-            -BULLET_HEIGHT;
-
+        y = -BULLET_HEIGHT;
 
         vx =
 
             (
-                Math.random() -
-                0.5
-            )
+                Math.random() - 0.5
+            ) * speed;
 
-            *
-
-            speed;
-
-
-        vy =
-            speed;
+        vy = speed;
 
     }
 
 
     // 下
+
     else {
 
-
         x =
+            Math.random() * WIDTH;
 
-            Math.random() *
-            WIDTH;
-
-
-        y =
-            HEIGHT;
-
+        y = HEIGHT;
 
         vx =
 
             (
-                Math.random() -
-                0.5
-            )
+                Math.random() - 0.5
+            ) * speed;
 
-            *
-
-            speed;
-
-
-        vy =
-            -speed;
+        vy = -speed;
 
     }
 
@@ -1141,24 +987,30 @@ function createBullet() {
     bullets.push({
 
         x: x,
-
         y: y,
 
         vx: vx,
-
         vy: vy,
 
-        width:
-            BULLET_WIDTH,
+        width: BULLET_WIDTH,
+        height: BULLET_HEIGHT,
 
-        height:
-            BULLET_HEIGHT,
+        color: color,
 
-        color:
-            color,
+        text: text,
 
-        text:
-            text
+        // ★ 每顆彈幕記錄自己的文字顏色
+
+        textColor:
+
+            color === "white"
+
+                ? "#696969"
+
+                : (
+                    level.textColor ||
+                    "white"
+                )
 
     });
 
@@ -1167,48 +1019,78 @@ function createBullet() {
 
 // =====================================================
 // 計算揭露率
+//
+// ★ 已修正 NaN 錯誤
 // =====================================================
 
 function calculateReveal() {
 
-    const data = mask.getImageData(
-        0,
-        0,
-        WIDTH,
-        HEIGHT
-    ).data;
+    const data =
+        mask.getImageData(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        ).data;
+
 
     let revealed = 0;
+
     let total = 0;
 
     const step = 20;
 
+
     for (
+
         let y = 0;
+
         y < HEIGHT;
+
         y += step
+
     ) {
 
         for (
+
             let x = 0;
+
             x < WIDTH;
+
             x += step
+
         ) {
 
             const index =
-                (y * WIDTH + x) * 4;
+
+                (
+                    y * WIDTH +
+                    x
+                ) * 4;
+
 
             total++;
 
-            if (data[index + 3] < 30) {
+
+            if (
+                data[index + 3] < 30
+            ) {
+
                 revealed++;
+
             }
+
         }
+
     }
+
+
+    // ★ 不要在 return 後換行
 
     return (
         revealed / total * 100
     );
+
 }
 
 
@@ -1216,10 +1098,7 @@ function calculateReveal() {
 // 彈幕碰撞
 // =====================================================
 
-function checkCollision(
-    bullet
-) {
-
+function checkCollision(bullet) {
 
     const half =
         BRUSH_SIZE / 2;
@@ -1252,13 +1131,9 @@ function checkCollision(
 
 function loadLevel(index) {
 
+    hiddenMode = false;
 
-    hiddenMode =
-        false;
-
-
-    currentLevel =
-        index;
+    currentLevel = index;
 
 
     const level =
@@ -1276,17 +1151,13 @@ function loadLevel(index) {
         "REVEAL 0%";
 
 
-    imageReady =
-        false;
-
+    imageReady = false;
 
     image.src =
         level.image;
 
 
-    bullets =
-        [];
-
+    bullets = [];
 
     resetMask();
 
@@ -1309,26 +1180,14 @@ function loadLevel(index) {
 
 
 // =====================================================
-// 進入 -1
+// 進入 LEVEL -1
 // =====================================================
 
 function enterHiddenLevel() {
 
+    hiddenMode = true;
 
-    hiddenMode =
-        true;
-
-
-    running =
-        true;
-
-
-    imageReady =
-        false;
-
-
-    bullets =
-        [];
+    running = true;
 
 
     levelText.textContent =
@@ -1339,12 +1198,13 @@ function enterHiddenLevel() {
         "REVEAL 0%";
 
 
-    // -1 不換福利圖
-    // 仍然使用第五關圖片作為被遮住的背景
+    imageReady = false;
 
     image.src =
         hiddenLevel.image;
 
+
+    bullets = [];
 
     resetMask();
 
@@ -1364,23 +1224,19 @@ function enterHiddenLevel() {
     }
 
 
-    message.innerHTML =
-        "";
+    message.innerHTML = "";
 
 }
 
 
 // =====================================================
-// 更新
+// 更新遊戲
 // =====================================================
 
 function update() {
 
-
     if (!running) {
-
         return;
-
     }
 
 
@@ -1390,40 +1246,26 @@ function update() {
 
     ) {
 
+        bullet.x += bullet.vx;
 
-        bullet.x +=
-            bullet.vx;
-
-
-        bullet.y +=
-            bullet.vy;
+        bullet.y += bullet.vy;
 
 
         if (
-
-            checkCollision(
-                bullet
-            )
-
+            checkCollision(bullet)
         ) {
-
 
             if (hiddenMode) {
 
-                // =====================================
-                // 黑的隱藏規則：
-                //
-                // GAME OVER = 真正通關
-                // =====================================
-
                 hiddenGameOver();
-
-                return;
 
             }
 
+            else {
 
-            normalGameOver();
+                normalGameOver();
+
+            }
 
             return;
 
@@ -1438,20 +1280,16 @@ function update() {
             bullet =>
 
                 bullet.x >
-                -BULLET_WIDTH -
-                100 &&
+                -BULLET_WIDTH - 100 &&
 
                 bullet.x <
-                WIDTH +
-                100 &&
+                WIDTH + 100 &&
 
                 bullet.y >
-                -BULLET_HEIGHT -
-                100 &&
+                -BULLET_HEIGHT - 100 &&
 
                 bullet.y <
-                HEIGHT +
-                100
+                HEIGHT + 100
 
         );
 
@@ -1459,17 +1297,12 @@ function update() {
     const target =
 
         hiddenMode
-
             ? hiddenLevel.bullets
-
             : levels[currentLevel].bullets;
 
 
     while (
-
-        bullets.length <
-        target
-
+        bullets.length < target
     ) {
 
         createBullet();
@@ -1488,8 +1321,7 @@ function update() {
         }%`;
 
 
-    // -1 故意不判定成功
-    // 就算擦到 100% 也不結束
+    // LEVEL -1 故意沒有成功條件
 
     if (
 
@@ -1510,14 +1342,11 @@ function update() {
 // 畫彈幕
 // =====================================================
 
-function drawBullet(
-    bullet
-) {
+function drawBullet(bullet) {
 
-
-    // -----------------------------------------------
+    // -------------------------------------------------
     // 背景
-    // -----------------------------------------------
+    // -------------------------------------------------
 
     ctx.fillStyle =
         bullet.color;
@@ -1526,29 +1355,24 @@ function drawBullet(
     ctx.fillRect(
 
         bullet.x,
-
         bullet.y,
 
         bullet.width,
-
         bullet.height
 
     );
 
 
-    // -----------------------------------------------
+    // -------------------------------------------------
     // 文字
-    //
-    // 正常關：白字
-    // -1：白字
-    // -----------------------------------------------
+    // -------------------------------------------------
 
     ctx.fillStyle =
-        "white";
+        bullet.textColor;
 
 
     ctx.font =
-        "bold 18px Arial, sans-serif";
+        "bold 18px Arial, 'Noto Sans TC', sans-serif";
 
 
     ctx.textAlign =
@@ -1580,37 +1404,28 @@ function drawBullet(
 
 function draw() {
 
-
     ctx.clearRect(
-
         0,
-
         0,
-
         WIDTH,
-
         HEIGHT
-
     );
 
 
-    // -----------------------------------------------
+    // -------------------------------------------------
     // 底圖
-    // -----------------------------------------------
+    // -------------------------------------------------
 
     if (imageReady) {
-
 
         ctx.drawImage(
 
             image,
 
             0,
-
             0,
 
             WIDTH,
-
             HEIGHT
 
         );
@@ -1618,57 +1433,43 @@ function draw() {
     }
 
 
-    // -----------------------------------------------
+    // -------------------------------------------------
     // 遮罩
-    // -----------------------------------------------
+    // -------------------------------------------------
 
     ctx.drawImage(
-
         maskCanvas,
-
         0,
-
         0
-
     );
 
 
-    // -----------------------------------------------
+    // -------------------------------------------------
     // 彈幕
-    // -----------------------------------------------
+    // -------------------------------------------------
 
     for (
-
         const bullet of bullets
-
     ) {
 
-        drawBullet(
-            bullet
-        );
+        drawBullet(bullet);
 
     }
 
 
-    // -----------------------------------------------
-    // 玩家方形畫筆
-    // -----------------------------------------------
+    // -------------------------------------------------
+    // 50 × 50 方形畫筆
+    // -------------------------------------------------
 
     if (
-
         mouseInside &&
-
         running
-
     ) {
-
 
         ctx.strokeStyle =
             "white";
 
-
-        ctx.lineWidth =
-            2;
+        ctx.lineWidth = 2;
 
 
         ctx.strokeRect(
@@ -1680,7 +1481,6 @@ function draw() {
             BRUSH_SIZE / 2,
 
             BRUSH_SIZE,
-
             BRUSH_SIZE
 
         );
@@ -1691,14 +1491,12 @@ function draw() {
 
 
 // =====================================================
-// 一般關卡 GAME OVER
+// 一般 GAME OVER
 // =====================================================
 
 function normalGameOver() {
 
-
-    running =
-        false;
+    running = false;
 
 
     message.innerHTML =
@@ -1724,18 +1522,15 @@ function normalGameOver() {
 
 function clearLevel() {
 
+    running = false;
 
-    running =
-        false;
 
+    // 第五關通關
 
     if (
-
         currentLevel ===
         levels.length - 1
-
     ) {
-
 
         message.innerHTML =
 
@@ -1743,13 +1538,7 @@ function clearLevel() {
 
             +
 
-            "<small>" +
-
-            "..."
-
-            +
-
-            "</small>";
+            "<small>...</small>";
 
 
         setTimeout(
@@ -1781,19 +1570,15 @@ function clearLevel() {
 
         () => {
 
-            message.innerHTML =
-                "";
+            message.innerHTML = "";
 
 
             loadLevel(
-
                 currentLevel + 1
-
             );
 
 
-            running =
-                true;
+            running = true;
 
         },
 
@@ -1805,25 +1590,19 @@ function clearLevel() {
 
 
 // =====================================================
-// -1 GAME OVER
+// LEVEL -1 GAME OVER
 //
-// ★ 真正的秘密通關
+// ★ GAME OVER = 真正通關
 // =====================================================
 
 function hiddenGameOver() {
 
+    running = false;
 
-    running =
-        false;
-
-
-    bonusUnlocked =
-        true;
+    bonusUnlocked = true;
 
 
-    // 先停一下
     message.innerHTML =
-
         "GAME OVER";
 
 
@@ -1831,13 +1610,9 @@ function hiddenGameOver() {
 
         () => {
 
-
-            message.innerHTML =
-                "";
-
+            message.innerHTML = "";
 
             showBonus();
-
 
         },
 
@@ -1854,7 +1629,6 @@ function hiddenGameOver() {
 
 function showBonus() {
 
-
     bonus.style.display =
         "block";
 
@@ -1862,48 +1636,14 @@ function showBonus() {
     bonusImage.src =
         "secret/6.jpg";
 
-
-    bonusImage.onload =
-        () => {
-
-            bonus.style.display =
-                "block";
-
-        };
-
-
-    bonusImage.onerror =
-        () => {
-
-            bonus.style.display =
-                "none";
-
-
-            message.innerHTML =
-
-                "BONUS UNLOCKED!"
-
-                +
-
-                "<small>" +
-
-                "找不到 secret/6.jpg"
-
-                +
-
-                "</small>";
-
-        };
-
 }
 
 
 // =====================================================
-// 關閉 BONUS / 回到標題
+// 關閉 BONUS
 // =====================================================
 
 function closeBonus() {
-
 
     bonus.style.display =
         "none";
@@ -1927,7 +1667,7 @@ function closeBonus() {
 
 
 // =====================================================
-// START
+// 開始遊戲
 // =====================================================
 
 startButton.addEventListener(
@@ -1935,7 +1675,6 @@ startButton.addEventListener(
     "click",
 
     () => {
-
 
         startButton.style.display =
             "none";
@@ -1945,23 +1684,16 @@ startButton.addEventListener(
             "none";
 
 
-        message.innerHTML =
-            "";
+        message.innerHTML = "";
 
 
-        gameFinished =
-            false;
-
-
-        bonusUnlocked =
-            false;
+        bonusUnlocked = false;
 
 
         loadLevel(0);
 
 
-        running =
-            true;
+        running = true;
 
     }
 
@@ -1978,14 +1710,13 @@ document.addEventListener(
 
     event => {
 
-
         const key =
             event.key.toLowerCase();
 
 
-        // ---------------------------------------------
-        // R：重玩
-        // ---------------------------------------------
+        // -------------------------------------------------
+        // R：重新開始目前關卡
+        // -------------------------------------------------
 
         if (
 
@@ -1995,12 +1726,9 @@ document.addEventListener(
 
         ) {
 
-
             if (!running) {
 
-
-                message.innerHTML =
-                    "";
+                message.innerHTML = "";
 
 
                 if (hiddenMode) {
@@ -2015,9 +1743,7 @@ document.addEventListener(
                         currentLevel
                     );
 
-
-                    running =
-                        true;
+                    running = true;
 
                 }
 
@@ -2026,9 +1752,9 @@ document.addEventListener(
         }
 
 
-        // ---------------------------------------------
-        // B：再次觀看 BONUS
-        // ---------------------------------------------
+        // -------------------------------------------------
+        // B：重新觀看 BONUS
+        // -------------------------------------------------
 
         if (
 
@@ -2043,13 +1769,13 @@ document.addEventListener(
         }
 
 
-        // ---------------------------------------------
+        // -------------------------------------------------
         // ESC：離開 BONUS
-        // ---------------------------------------------
+        // -------------------------------------------------
 
         if (
 
-            key === "Escape" &&
+            key === "escape" &&
 
             bonusUnlocked
 
@@ -2070,8 +1796,6 @@ document.addEventListener(
 
 resetMask();
 
-loop();
-
 
 // =====================================================
 // 主迴圈
@@ -2079,19 +1803,16 @@ loop();
 
 function loop() {
 
-
     update();
-
 
     draw();
 
-
-    requestAnimationFrame(
-        loop
-    );
+    requestAnimationFrame(loop);
 
 }
 
+
+loop();
 
 </script>
 
