@@ -430,8 +430,10 @@
   game.addEventListener('pointermove',e=>{if(!playing)return;if(e.pointerType==='mouse'){moveTo(e.clientX);return;}if(dragging)moveTo(e.clientX);});
   game.addEventListener('pointerup',()=>dragging=false);
   game.addEventListener('pointercancel',()=>dragging=false);
-  start.addEventListener('click',reset);
-  window.addEventListener('resize',resize);
+game.addEventListener('click', () => {
+  if (!playing) reset();
+});
+ window.addEventListener('resize',resize);
   resize();updateHud();
 })();
 </script>
