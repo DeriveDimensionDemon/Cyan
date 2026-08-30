@@ -3,17 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>她是不是說謊了｜跨維測謊器（無效果擔保）</title>
+<title>DidSheLying?｜她是不是說謊了</title>
 <style>
 *{box-sizing:border-box}
+html,body{
+  width:100%;height:100%;margin:0;
+}
 body{
-  margin:0; min-height:100vh; background:#101217; color:#e9edf5;
+  min-height:100svh;
+  background:#101217;
+  color:#e9edf5;
   font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
-  display:flex; justify-content:center; align-items:center; padding:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:12px;
+  overflow:hidden;
 }
 .app{
-  width:min(680px,100%); background:#181b22; border:1px solid #343945;
-  border-radius:22px; padding:28px; box-shadow:0 20px 60px #0008;
+  width:min(680px,100%);
+  height:min(900px,calc(100svh - 24px));
+  background:#181b22;
+  border:1px solid #343945;
+  border-radius:22px;
+  padding:28px 28px 58px;
+  box-shadow:0 20px 60px #0008;
+  position:relative;
+  overflow:hidden;
 }
 h1{margin:0 0 6px;font-size:30px;letter-spacing:1px}
 .sub{color:#9da5b5;margin-bottom:24px}
@@ -22,7 +38,7 @@ h1{margin:0 0 6px;font-size:30px;letter-spacing:1px}
   padding:12px 14px;line-height:1.6;margin:14px 0 22px;
 }
 button{
-  width:100%; border:0; border-radius:13px; padding:15px 18px;
+  width:100%;border:0;border-radius:13px;padding:15px 18px;
   background:#e8edf7;color:#12151b;font-size:16px;font-weight:700;cursor:pointer;
 }
 button:hover{filter:brightness(1.08)}
@@ -53,6 +69,52 @@ canvas{width:100%;height:100%}
 .judgement{font-size:18px;margin:24px 0 8px}
 .disclaimer{font-size:12px;color:#747d8c;line-height:1.7;margin-top:24px}
 .small{font-size:12px;color:#70798a;margin-top:12px}
+.footer{
+  position:absolute;
+  left:28px;right:28px;bottom:14px;
+  text-align:center;
+  color:#737c8c;
+  font-size:11px;
+  line-height:1.3;
+  white-space:nowrap;
+}
+.footer a{color:#8e9bb0;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+@media (max-width:700px){
+  body{
+    padding:0;
+  }
+  .app{
+    width:min(100vw, calc(100svh * 9 / 16));
+    height:min(100svh, calc(100vw * 16 / 9));
+    aspect-ratio:9 / 16;
+    border-radius:0;
+    border-left:1px solid #343945;
+    border-right:1px solid #343945;
+    padding:24px 20px 52px;
+  }
+  h1{font-size:27px}
+  .sub{margin-bottom:18px}
+  .note{margin:12px 0 18px}
+  .wavebox{height:190px;margin:17px 0}
+  .percent{font-size:58px}
+  .label{margin-bottom:18px}
+  .judgement{margin:20px 0 8px}
+  .disclaimer{font-size:11px;line-height:1.55;margin-top:18px}
+  .footer{left:20px;right:20px;bottom:12px;font-size:10px}
+}
+
+@media (max-height:700px) and (min-width:701px){
+  .app{
+    padding:20px 24px 54px;
+  }
+  .wavebox{height:175px;margin:14px 0}
+  .prompt{margin:10px 0}
+  .percent{font-size:56px}
+  .judgement{margin:16px 0 8px}
+  .disclaimer{margin-top:16px;font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -102,6 +164,11 @@ canvas{width:100%;height:100%}
     </div>
   </section>
 
+  <div class="footer">
+    © 2026 Derive Dimension Demon ·
+    <a href="https://derivedimensiondemon.wordpress.com/" target="_blank" rel="noopener">Official Website</a>｜
+    <a href="https://derivedimensiondemon.wordpress.com/terms/" target="_blank" rel="noopener">Terms</a>
+  </div>
 </div>
 
 <script>
