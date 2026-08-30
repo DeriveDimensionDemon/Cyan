@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>她是不是說謊了｜跨維測謊器（不保證效果）</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; background:#101217; color:#e9edf5;
+  font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
+  display:flex; justify-content:center; align-items:center; padding:20px;
+}
+.app{
+  width:min(680px,100%); background:#181b22; border:1px solid #343945;
+  border-radius:22px; padding:28px; box-shadow:0 20px 60px #0008;
+}
+h1{margin:0 0 6px;font-size:30px;letter-spacing:1px}
+.sub{color:#9da5b5;margin-bottom:24px}
+.note{
+  font-size:13px;color:#858d9c;background:#11141a;border-radius:12px;
+  padding:12px 14px;line-height:1.6;margin:14px 0 22px;
+}
+button{
+  width:100%; border:0; border-radius:13px; padding:15px 18px;
+  background:#e8edf7;color:#12151b;font-size:16px;font-weight:700;cursor:pointer;
+}
+button:hover{filter:brightness(1.08)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none}
+.screen{text-align:center}
+.wavebox{
+  height:210px;background:#0d1015;border:1px solid #303541;border-radius:16px;
+  margin:20px 0;position:relative;overflow:hidden;
+}
+canvas{width:100%;height:100%}
+.prompt{color:#c8cfdb;line-height:1.7;margin:15px 0}
+.status{font-family:monospace;color:#8fdbff;min-height:24px}
+.result-title{font-size:18px;color:#aab3c3}
+.percent{font-size:64px;font-weight:800;margin:4px 0 0}
+.label{font-size:21px;margin-bottom:22px}
+.spectrum{
+  height:22px;border-radius:99px;overflow:hidden;
+  background:linear-gradient(90deg,#e54b4b 0 25%,#e99a43 25% 50%,#ead64a 50% 75%,#74e47b 75% 100%);
+  position:relative;box-shadow:0 0 18px #0008;
+}
+.marker{
+  position:absolute;top:-7px;width:4px;height:36px;background:white;
+  box-shadow:0 0 8px #fff;transform:translateX(-2px);
+}
+.scale{display:flex;justify-content:space-between;font-size:12px;color:#87909f;margin-top:7px}
+.scaleLabels{display:flex;justify-content:space-between;font-size:12px;margin-top:4px}
+.judgement{font-size:18px;margin:24px 0 8px}
+.disclaimer{font-size:12px;color:#747d8c;line-height:1.7;margin-top:24px}
+.small{font-size:12px;color:#70798a;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <section id="home" class="screen">
+    <h1>她是不是說謊了？</h1>
+    <div class="sub">當面拆穿測謊器</div>
+    <div class="note">
+      ※ 純屬娛樂，不保證可信度。<br>
+      ※ 技術由隨機惡魔進行擔保。<br>
+      ※ 本程式不負責保障結果。
+    </div>
+    <button id="start">開始跨維測謊</button>
+    <div class="small">CROSS-DIMENSIONAL POLYGRAPH™</div>
+  </section>
+
+  <section id="test" class="screen hidden">
+    <div class="result-title">CROSS-DIMENSIONAL POLYGRAPH</div>
+    <div class="prompt">
+      請在現在說出要測謊的內容，<br>
+      或於心中默想。
+    </div>
+    <div class="wavebox"><canvas id="canvas"></canvas></div>
+    <div id="status" class="status">等待跨維訊號……</div>
+    <button id="finish" disabled>完成並看結果</button>
+  </section>
+
+  <section id="result" class="screen hidden">
+    <div class="result-title">測謊結果</div>
+    <div class="percent"><span id="score">45</span>%</div>
+    <div class="label">真話指數</div>
+
+    <div class="spectrum">
+      <div id="marker" class="marker"></div>
+    </div>
+    <div class="scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+    <div class="scaleLabels"><span>低</span><span>普</span><span>佳</span><span>最佳</span></div>
+
+    <div id="judgement" class="judgement"></div>
+    <button id="again">重新測量</button>
+
+    <div class="disclaimer">
+      ※ 本測謊器沒有任何科學依據。<br>
+      ※ 測量結果可能受到隨機惡魔、使用者表情、天氣、宇宙背景輻射，以及作者心情影響。<br>
+      ※ 如對結果不滿，請重新測量。
+    </div>
+  </section>
+
+</div>
+
+<script>
+const home=document.getElementById("home");
+const test=document.getElementById("test");
+const result=document.getElementById("result");
+const start=document.getElementById("start");
+const finish=document.getElementById("finish");
+const again=document.getElementById("again");
+const status=document.getElementById("status");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+let raf, running=false, readyTimer;
+
+function resize(){
+  const d=devicePixelRatio||1;
+  canvas.width=canvas.clientWidth*d;
+  canvas.height=canvas.clientHeight*d;
+  ctx.setTransform(d,0,0,d,0,0);
+}
+window.addEventListener("resize",resize);
+
+function drawWave(){
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle="#252b35";ctx.lineWidth=1;
+  for(let y=35;y<h;y+=35){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  ctx.beginPath();
+  for(let x=0;x<w;x++){
+    const t=x*.035+performance.now()*.0025;
+    const y=h/2 + Math.sin(t)*28 + Math.sin(t*2.7)*9 + (Math.random()-.5)*5;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle="#8fdbff";ctx.lineWidth=2;ctx.stroke();
+  if(running) raf=requestAnimationFrame(drawWave);
+}
+
+function show(s){
+  [home,test,result].forEach(x=>x.classList.add("hidden"));
+  s.classList.remove("hidden");
+}
+
+start.onclick=()=>{
+  show(test); resize(); running=true; finish.disabled=true;
+  drawWave();
+  const messages=[
+    "建立跨維連線……",
+    "正在解析精神波動……",
+    "正在連接隨機維度……",
+    "正在詢問隨機惡魔……",
+    "惡魔表示：不知道。",
+    "訊號穩定。大概。"
+  ];
+  let i=0;
+  status.textContent=messages[0];
+  clearInterval(readyTimer);
+  readyTimer=setInterval(()=>{
+    i++;
+    if(i<messages.length) status.textContent=messages[i];
+    else{
+      clearInterval(readyTimer);
+      status.textContent="可以了。請完成測量。";
+      finish.disabled=false;
+    }
+  },650);
+};
+
+finish.onclick=()=>{
+  running=false;cancelAnimationFrame(raf);
+  const score=Math.floor(Math.random()*101);
+  document.getElementById("score").textContent=score;
+  document.getElementById("marker").style.left=score+"%";
+  const j=document.getElementById("judgement");
+  if(score<25) j.textContent="這個謊……有點明顯。";
+  else if(score<50) j.textContent="嗯……妳最好再解釋一下。";
+  else if(score<75) j.textContent="看起來大致可信。";
+  else j.textContent="非常可信。大概吧。";
+  show(result);
+};
+
+again.onclick=()=>start.click();
+</script>
+</body>
+</html>
