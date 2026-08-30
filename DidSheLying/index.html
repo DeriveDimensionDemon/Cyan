@@ -126,15 +126,32 @@ function resize(){
 window.addEventListener("resize",resize);
 
 function heartWaveY(u,base,amp){
+  // 一個真正可辨識的「單線愛心」：
+  // 左半瓣 → 中央凹口 → 右半瓣 → 尖端 → 回到基線
   const p=[
-    [0.00,0.00],[0.08,-0.22],[0.15,-0.70],[0.23,-1.00],
-    [0.30,-0.86],[0.37,-0.40],[0.43,0.02],[0.48,-0.56],
-    [0.55,-0.94],[0.63,-0.76],[0.70,-0.34],[0.76,0.02],
-    [0.82,0.42],[0.90,0.74],[1.00,0.00]
+    [0.00,  0.00],
+    [0.06, -0.05],
+    [0.11, -0.30],
+    [0.17, -0.78],
+    [0.25, -1.00],
+    [0.32, -0.92],
+    [0.38, -0.60],
+    [0.43, -0.15],
+    [0.48, -0.48],
+    [0.53, -0.82],
+    [0.60, -1.00],
+    [0.68, -0.93],
+    [0.75, -0.68],
+    [0.81, -0.28],
+    [0.86,  0.05],
+    [0.91,  0.45],
+    [0.96,  0.78],
+    [1.00,  0.00]
   ];
+
   for(let i=0;i<p.length-1;i++){
-    const a=p[i],b=p[i+1];
-    if(u>=a[0]&&u<=b[0]){
+    const a=p[i], b=p[i+1];
+    if(u>=a[0] && u<=b[0]){
       const t=(u-a[0])/(b[0]-a[0]);
       const e=t*t*(3-2*t);
       return base+(a[1]+(b[1]-a[1])*e)*amp;
@@ -146,29 +163,43 @@ function heartWaveY(u,base,amp){
 function drawWave(){
   const w=canvas.clientWidth,h=canvas.clientHeight;
   ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle="#252b35";ctx.lineWidth=1;
+
+  ctx.strokeStyle="#252b35";
+  ctx.lineWidth=1;
   for(let y=35;y<h;y+=35){
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0,y);
+    ctx.lineTo(w,y);
+    ctx.stroke();
   }
 
-  const base=h*0.68, amp=Math.min(95,h*0.44), cycle=175;
-  const drift=(performance.now()*0.045)%cycle;
+  const base=h*0.76;
+  const amp=Math.min(100,h*0.50);
+  const cycle=210;
+  const drift=(performance.now()*0.042)%cycle;
 
   ctx.beginPath();
+
   for(let x=0;x<=w;x++){
     const u=((x+drift)%cycle)/cycle;
-    const localBase=base+Math.sin((x+performance.now()*0.015)*0.012)*4;
-    const noise=(Math.random()-.5)*2.2;
+    const localBase=base+Math.sin((x+performance.now()*0.012)*0.010)*2.5;
+
+    // 很小的儀器雜訊，只保留手繪/儀器感，不破壞愛心輪廓
+    const noise=(Math.random()-0.5)*1.5;
     const y=heartWaveY(u,localBase,amp)+noise;
-    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+
+    if(x===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
 
-  ctx.strokeStyle="#8fdbff";ctx.lineWidth=2;
-  ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();
+  ctx.strokeStyle="#8fdbff";
+  ctx.lineWidth=2.4;
+  ctx.lineJoin="round";
+  ctx.lineCap="round";
+  ctx.stroke();
 
   if(running) raf=requestAnimationFrame(drawWave);
 }
-
 function show(s){
   [home,test,result].forEach(x=>x.classList.add("hidden"));
   s.classList.remove("hidden");
